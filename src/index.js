@@ -41,6 +41,11 @@ import "./assets/scss/style.scss";
 
 // ** Service Worker
 import * as serviceWorker from "./serviceWorker";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 // ** Lazy load app
 const LazyApp = lazy(() => import("./App"));
@@ -48,20 +53,36 @@ const LazyApp = lazy(() => import("./App"));
 const container = document.getElementById("root");
 const root = createRoot(container);
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 10000, // مدت زمانی که داده‌ها قبل از نیاز به بازخوانی تازگی دارند (به میلی‌ثانیه)
+      cacheTime: 300000, // مدت زمانی که داده‌ها قبل از حذف از کش باقی می‌مانند
+      refetchOnWindowFocus: true, // آیا داده‌ها باید دوباره بارگذاری شوند وقتی پنجره دوباره در مرکز توجه قرار می‌گیرد
+    },
+  },
+});
+
 root.render(
-  <BrowserRouter>
-    <Provider store={store}>
-      <Suspense fallback={<Spinner />}>
-        <ThemeContext>
-          <LazyApp />
-          <Toaster
-            position={themeConfig.layout.toastPosition}
-            toastOptions={{ className: "react-hot-toast" }}
-          />
-        </ThemeContext>
-      </Suspense>
-    </Provider>
-  </BrowserRouter>
+  <>
+    <ToastContainer />
+    <BrowserRouter>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <Suspense fallback={<Spinner />}>
+            <ThemeContext>
+              <LazyApp />
+              <Toaster
+                position={themeConfig.layout.toastPosition}
+                toastOptions={{ className: "react-hot-toast" }}
+              />
+              <ReactQueryDevtools />
+            </ThemeContext>
+          </Suspense>
+        </QueryClientProvider>
+      </Provider>
+    </BrowserRouter>
+  </>
 );
 
 // If you want your app to work offline and load faster, you can change

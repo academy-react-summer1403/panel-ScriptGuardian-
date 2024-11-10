@@ -1,6 +1,6 @@
 // ** React Imports
 import { useSkin } from "@hooks/useSkin";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // ** Icons Imports
 import { Facebook, Twitter, Mail, GitHub } from "react-feather";
@@ -26,11 +26,56 @@ import illustrationsDark from "@src/assets/images/pages/login-v2-dark.svg";
 
 // ** Styles
 import "@styles/react/pages/page-authentication.scss";
+// import toast from "react-hot-toast";
+import { useFormik } from "formik";
 
+import { useLogin } from "../core/services/api/Auth/Login/Login";
+import { validationSchema } from "../core/services/validation/validationSchema/Auth";
+import { setItem } from "../core/services/storage/storage.services";
+import { toast } from "react-toastify";
 const Login = () => {
   const { skin } = useSkin();
 
   const source = skin === "dark" ? illustrationsDark : illustrationsLight;
+
+  const navigate = useNavigate();
+
+  const { mutate: login, isError, data } = useLogin();
+  console.log("this use login Data", data);
+
+  const formik = useFormik({
+    initialValues: {
+      phoneOrGmail: "",
+      password: "",
+      rememberMe: false,
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      login(values, {
+        onSuccess: (data) => {
+          if (data.success) {
+            setItem("token", data.token);
+            setItem("id", data.id);
+            setItem("roles", data.roles);
+            console.log(data.roles, "data roles");
+            const roles = localStorage.getItem("roles");
+            if (roles.includes("Administrator" || "Referee")) {
+              toast.success("ورود با موفقیت انجام شد");
+
+              navigate("/home");
+            } else {
+              toast.error("بدون رول ادمین یا معلم نمی تونید وارد شید  ");
+            }
+          } else {
+            toast.error("ورود ناموفق بود");
+          }
+        },
+        // onError: (error) => {
+
+        // },
+      });
+    },
+  });
 
   return (
     <div className="auth-wrapper auth-cover">
@@ -102,7 +147,7 @@ const Login = () => {
               </g>
             </g>
           </svg>
-          <h2 className="brand-text text-primary ms-1">Vuexy</h2>
+          <h2 className="brand-text text-primary ms-1">اسکریپت گاردین</h2>
         </Link>
         <Col className="d-none d-lg-flex align-items-center p-5" lg="8" sm="12">
           <div className="w-100 d-lg-flex align-items-center justify-content-center px-5">
@@ -116,50 +161,67 @@ const Login = () => {
         >
           <Col className="px-xl-2 mx-auto" sm="8" md="6" lg="12">
             <CardTitle tag="h2" className="fw-bold mb-1">
-              Welcome to Vuexy! 👋
+              به پنل اسکریپت گاردین خوش امدید{" "}
             </CardTitle>
             <CardText className="mb-2">
-              Please sign-in to your account and start the adventure
+              لطفاً وارد حساب کاربری خود شوید و ماجراجویی را آغاز کنید.
             </CardText>
-            <Form
+            <form
               className="auth-login-form mt-2"
-              onSubmit={(e) => e.preventDefault()}
+              // onSubmit={(e) => e.preventDefault()}
+              onSubmit={formik.handleSubmit}
             >
               <div className="mb-1">
                 <Label className="form-label" for="login-email">
-                  Email
+                  ایمیل
                 </Label>
                 <Input
-                  type="email"
-                  id="login-email"
+                  type="text"
+                  id="phoneOrGmail"
+                  name="phoneOrGmail"
                   placeholder="john@example.com"
                   autoFocus
+                  {...formik.getFieldProps("phoneOrGmail")}
                 />
+                {formik.errors.phoneOrGmail && (
+                  <div className="dark:text-red-800 text-red-600 absolute top-[110px] right-11">
+                    {formik.errors.phoneOrGmail}
+                  </div>
+                )}
               </div>
               <div className="mb-1">
                 <div className="d-flex justify-content-between">
                   <Label className="form-label" for="login-password">
-                    Password
+                    رمز عبور
                   </Label>
                   <Link to="/forgot-password">
-                    <small>Forgot Password?</small>
+                    <small> رمز خود را فراموش کردید؟ </small>
                   </Link>
                 </div>
                 <InputPasswordToggle
                   className="input-group-merge"
-                  id="login-password"
+                  id="password"
+                  name="password"
+                  {...formik.getFieldProps("password")}
                 />
+
+                {formik.errors.password && (
+                  <div className="dark:text-red-800 text-red-600 absolute top-[110px] right-11">
+                    {formik.errors.password}
+                  </div>
+                )}
               </div>
               <div className="form-check mb-1">
                 <Input type="checkbox" id="remember-me" />
                 <Label className="form-check-label" for="remember-me">
-                  Remember Me
+                  مرا به خاطر بسپار{" "}
                 </Label>
               </div>
-              <Button tag={Link} to="/" color="primary" block>
+              <Button type="submit" color="primary" block>
                 Sign in
               </Button>
-            </Form>
+            </form>
+
             <p className="text-center mt-2">
               <span className="me-25">New on our platform?</span>
               <Link to="/register">
