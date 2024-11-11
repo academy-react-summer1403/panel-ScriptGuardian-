@@ -67,4 +67,8 @@ export const ApiRoutes = {
 
   //Student Panel Change pass
   PANEL_CHANGE_PASSWORD_URL: "/SharePanel/ChangePassword",
+
+  //panel Admin
+
+  PANEL_GET_ALL_USERS_URL: "/User/UserMannage",
 };
