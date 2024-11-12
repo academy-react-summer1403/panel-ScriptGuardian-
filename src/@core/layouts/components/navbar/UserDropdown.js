@@ -27,6 +27,9 @@ import {
 // ** Default Avatar Image
 import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg";
 import { removeItem } from "../../../../core/services/storage/storage.services";
+import { useGetStudentProfile } from "../../../../core/services/api/Panel/GetProfile";
+
+import NoProfile from "../../../../images/profile.png"
 
 const UserDropdown = () => {
   const navigate = useNavigate();
@@ -35,9 +38,10 @@ const UserDropdown = () => {
     removeItem("token");
     navigate("/login");
   };
-
+  const { data: Information } = useGetStudentProfile();
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
+    {/* TODO */}
       <DropdownToggle
         href="/"
         tag="a"
@@ -45,11 +49,11 @@ const UserDropdown = () => {
         onClick={(e) => e.preventDefault()}
       >
         <div className="user-nav d-sm-flex d-none">
-          <span className="user-name fw-bold">John Doe</span>
-          <span className="user-status">Admin</span>
+          <span className="user-name fw-bold">{Information?.fName} {Information?.lName}</span>
+          <span className="user-status">ادمین</span>
         </div>
         <Avatar
-          img={defaultAvatar}
+          img={Information?.currentPictureAddress && Information?.currentPictureAddress !== "Not-set" ? Information?.currentPictureAddress : NoProfile }
           imgHeight="40"
           imgWidth="40"
           status="online"
@@ -58,9 +62,9 @@ const UserDropdown = () => {
       <DropdownMenu end>
         <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
           <User size={14} className="me-75" />
-          <span className="align-middle">Profile</span>
+          <span className="align-middle">پروفایل</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
+        {/* <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
           <Mail size={14} className="me-75" />
           <span className="align-middle">Inbox</span>
         </DropdownItem>
@@ -88,10 +92,10 @@ const UserDropdown = () => {
         <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
           <HelpCircle size={14} className="me-75" />
           <span className="align-middle">FAQ</span>
-        </DropdownItem>
+        </DropdownItem> */}
         <DropdownItem onClick={handelLogOut}>
           <Power size={14} className="me-75" />
-          <span className="align-middle">Logout</span>
+          <span className="align-middle">خروج</span>
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>
