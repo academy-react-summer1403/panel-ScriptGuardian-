@@ -46,14 +46,17 @@ import {
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
-import { useGetAllUsers } from "../../../core/services/api/Admin/handelUsers";
+import {
+  useGetAllCourses,
+  useGetAllUsers,
+} from "../../../core/services/api/Admin/handelUsers";
 
 import { renderClient, renderRole } from "./columns";
 import { Link } from "react-router-dom";
 
 import Avatar from "@components/avatar";
 import NoProfile from "../../../images/profile.png";
-import { CustomColumns } from "./CustomColumns";
+import { CustomColumns, CustomColumnsForListCourse } from "./CustomColumns";
 import AddNewUserModal from "./AddNewUserModal";
 import ChangeUserModal from "./ChangeUser";
 
@@ -184,7 +187,7 @@ const CustomHeader = ({
               color="primary"
               onClick={toggleSidebar}
             >
-              افزودن کاربر جدید{" "}
+              افزودن دوره جدید{" "}
             </Button>
           </div>
         </Col>
@@ -208,8 +211,8 @@ const UsersList = () => {
   const [sidebarOpen2, setSidebarOpen2] = useState(false);
 
   //Page
-  const { data } = useGetAllUsers({ currentPage, rowsPerPage, searchTerm });
-  const listUser = data?.listUser;
+  const { data } = useGetAllCourses({ currentPage, rowsPerPage, searchTerm });
+  const listUser = data?.courseDtos;
   const totalUser = data?.totalCount;
   console.log(data, "this is a data");
 
@@ -278,7 +281,7 @@ const UsersList = () => {
             pagination
             responsive
             paginationServer
-            columns={CustomColumns(toggleSidebar2)}
+            columns={CustomColumnsForListCourse(toggleSidebar2)}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
             className="react-dataTable"
@@ -298,8 +301,8 @@ const UsersList = () => {
         </div>
       </Card>
 
-      <AddNewUserModal open={sidebarOpen} toggleSidebar={toggleSidebar} />
-      <ChangeUserModal open={sidebarOpen2} toggleSidebar={toggleSidebar2} />
+      {/* <AddNewUserModal open={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <ChangeUserModal open={sidebarOpen2} toggleSidebar={toggleSidebar2} /> */}
     </Fragment>
   );
 };

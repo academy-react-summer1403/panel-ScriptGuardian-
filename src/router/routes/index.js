@@ -27,6 +27,7 @@ const DefaultRoute = "/home";
 
 const Home = lazy(() => import("../../pages/Home"));
 const UsersPage = lazy(() => import("../../pages/UsersPage"));
+const CourseListPage = lazy(() => import("../../pages/CourseListPage"));
 const Login = lazy(() => import("../../pages/Login"));
 const Register = lazy(() => import("../../pages/Register"));
 const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
@@ -49,8 +50,12 @@ const Routes = [
     element: <Sample />,
   },
   {
-    path: "/second-page",
+    path: "/UsersPage",
     element: <UsersPage />,
+  },
+  {
+    path: "/CourseListPage",
+    element: <CourseListPage />,
   },
   {
     path: "/login",

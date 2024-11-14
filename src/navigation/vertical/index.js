@@ -11,7 +11,13 @@ export default [
     id: "UsersPage",
     title: "کاربران",
     icon: <Users size={20} />,
-    navLink: "/second-page",
+    navLink: "/UsersPage",
+  },
+  {
+    id: "CourseListPage",
+    title: "دوره ها",
+    icon: <Users size={20} />,
+    navLink: "/CourseListPage",
   },
   {
     id: "smaplePage",

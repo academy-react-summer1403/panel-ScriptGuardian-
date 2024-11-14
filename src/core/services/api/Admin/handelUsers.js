@@ -49,3 +49,30 @@ export const useAddNewUser = () => {
     },
   });
 };
+
+//get All Courses
+
+const GetAllCourses = async ({ currentPage, rowsPerPage, searchTerm }) => {
+  const AllParams = {
+    PageNumber: currentPage ? currentPage : 1,
+    RowsOfPage: rowsPerPage ? rowsPerPage : 10,
+    Query: searchTerm ? searchTerm : undefined,
+  };
+  try {
+    const response = await http.get(ApiRoutes.PANEL_GET_ALL_COURSES_ADMIN_URL, {
+      params: AllParams,
+    });
+    return response;
+  } catch (error) {
+    console.log("This error For Get GetAllCourses in handelUsers.js ", error);
+    return false;
+  }
+};
+export const useGetAllCourses = ({ currentPage, rowsPerPage, searchTerm }) => {
+  return useQuery({
+    queryKey: ["GetAllCourses", currentPage, rowsPerPage, searchTerm],
+    queryFn: () => {
+      return GetAllCourses({ currentPage, rowsPerPage, searchTerm });
+    },
+  });
+};

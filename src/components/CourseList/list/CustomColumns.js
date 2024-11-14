@@ -1,4 +1,5 @@
 import Avatar from "@components/avatar";
+import default_image from "../../../images/default_image.png";
 import NoProfile from "../../../images/profile.png";
 import { Link } from "react-router-dom";
 import {
@@ -163,7 +164,203 @@ export const CustomColumns = (toggleSidebar2) => [
                 // }}
               >
                 <Archive size={14} className="me-50" />
-                <span className="align-middle" onClick={toggleSidebar2}>ویرایش کاربر</span>
+                <span className="align-middle" onClick={toggleSidebar2}>
+                  ویرایش کاربر
+                </span>
+              </DropdownItem>
+              <DropdownItem
+                tag="a"
+                href="/"
+                className="w-100"
+                // onClick={(e) => {
+                //   e.preventDefault();
+                //   // const params = {}
+                //   // store.dispatch(deleteUser(row.id));
+                //   deleteUserFn.mutate(
+                //     row.id
+                //     // {
+                //     //   onSuccess:()=> {useQueryClient(queryClient)}
+                //     // }
+                //   );
+                // }}
+              >
+                <Trash2 size={14} className="me-50" />
+                <span className="align-middle">حذف کاربر</span>
+              </DropdownItem>
+              <DropdownItem size="sm">
+                <Archive size={14} className="me-50" />
+                <span className="align-middle">دسترسی</span>
+              </DropdownItem>
+              {/* <UserAddRole
+              // modal={modal}
+              // id={row.id}
+              // userName={row.fname + " " + row.lname}
+              // toggleModal={toggleModal}
+              // userRoles={row.role}
+              // refetch={refetch}
+              /> */}
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </div>
+      );
+    },
+  },
+];
+
+export const CustomColumnsForListCourse = (toggleSidebar2) => [
+  // {
+  //   name: " دوره عنوان",
+  //   sortable: true,
+  //   minWidth: "172px",
+  //   sortField: "title",
+  //   selector: (row) => row.title,
+  //   cell: (row) => {
+  //     return (
+  //       <div className="d-flex justify-content-left align-items-center">
+  //         <Avatar
+  //           className="me-1"
+  //           img={
+  //             row.pictureAddress &&
+  //             row.pictureAddress != null &&
+  //             row.pictureAddress !== "Not-set"
+  //               ? row.pictureAddress
+  //               : NoProfile
+  //           }
+  //           width="32"
+  //           height="32"
+  //         />
+  //         <div className="d-flex flex-column">
+  //           <Link
+  //             to={`/users/${row.id}`}
+  //             className="user_name text-truncate text-body"
+  //             // onClick={() => store.dispatch(getUser(row.id))}
+  //           >
+  //             <span className="fw-bolder">
+  //               {row.title} {row.lname}
+  //             </span>
+  //           </Link>
+  //           <small className="text-truncate text-muted mb-0">{row.gmail}</small>
+  //         </div>
+  //       </div>
+  //     );
+  //   },
+  // },
+
+  {
+    name: "عنوان دوره",
+    minWidth: "250px",
+    sortable: (row) => row.courseName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          {row.avatar === "" ? (
+            <Avatar color={`light`} content={row.full_name} initials />
+          ) : (
+            <Avatar
+              img={
+                row?.tumbImageAddress && row?.tumbImageAddress !== "Not-set"
+                  ? row?.tumbImageAddress
+                  : default_image
+              }
+            />
+          )}
+          <div className="user-info text-truncate ms-1">
+            <span className="d-block fw-bold text-truncate">{row.title}</span>
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    name: "نام استاد",
+    sortable: true,
+    minWidth: "172px",
+    sortField: "userRoles",
+    selector: (row) => row.fullName,
+    cell: (row) => {
+      return (
+        <>
+          <span className="text-truncate text-capitalize align-middle">
+            {row.fullName}
+          </span>
+        </>
+      );
+    },
+  },
+
+  {
+    name: "قیمت ",
+    sortable: true,
+    minWidth: "172px",
+    sortField: "userRoles",
+    selector: (row) => row.cost,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">{row.cost}</h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "وضعیت ",
+    sortable: true,
+    minWidth: "172px",
+    sortField: "userRoles",
+    selector: (row) => row.isActive,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.isActive ? "light-primary" : "light-danger"}
+              className="me-1"
+            >
+              {row.isActive ? "فعال" : "غیرفعال"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "اقدامات",
+    minWidth: "100px",
+
+    cell: (row) => {
+      return (
+        <div className="column-action">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="div" className="btn btn-sm">
+              <MoreVertical size={14} className="cursor-pointer" />
+            </DropdownToggle>
+            <DropdownMenu>
+              {/* <DropdownItem
+                tag={Link}
+                className="w-100"
+                to={`${row.id}`}
+                // onClick={() => store.dispatch(getUser(row.id))}
+              >
+                <FileText size={14} className="me-50" />
+                <span className="align-middle">جزئیات کاربر</span>
+              </DropdownItem> */}
+              <DropdownItem
+                tag="a"
+                // href="/"
+                className="w-100"
+                // onClick={(e) => {
+                //   e.preventDefault();
+                //   dispatch(dispatch(toggleEditSidebar));
+                //   setData2(row);
+                // }}
+              >
+                <Archive size={14} className="me-50" />
+                <span className="align-middle" onClick={toggleSidebar2}>
+                  ویرایش کاربر
+                </span>
               </DropdownItem>
               <DropdownItem
                 tag="a"
