@@ -185,3 +185,32 @@ export const useDeleteCommentCourse = () => {
     },
   });
 };
+
+//handel News
+
+//GetAll News
+
+const GetAllNewsList = async ({ currentPage, rowsPerPage, searchTerm }) => {
+  const AllParams = {
+    PageNumber: currentPage ? currentPage : 1,
+    RowsOfPage: rowsPerPage ? rowsPerPage : 10,
+    Query: searchTerm ? searchTerm : undefined,
+  };
+  try {
+    const response = await http.get(ApiRoutes.PANEL_GET_ALL_NEWS_ADMIN_URL, {
+      params: AllParams,
+    });
+    return response;
+  } catch (error) {
+    console.log("This error For Get GetAllNewsList in handelUsers.js ", error);
+    return false;
+  }
+};
+export const useGetAllNewsList = ({ currentPage, rowsPerPage, searchTerm }) => {
+  return useQuery({
+    queryKey: ["GetAllNewsList", currentPage, rowsPerPage, searchTerm],
+    queryFn: () => {
+      return GetAllNewsList({ currentPage, rowsPerPage, searchTerm });
+    },
+  });
+};

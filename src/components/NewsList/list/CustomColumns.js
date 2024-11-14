@@ -581,3 +581,144 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
     },
   },
 ];
+
+export const CustomColumnsForListNews = (toggleSidebar2) => [
+  {
+    name: "عنوان خبر",
+    minWidth: "350px",
+    sortable: (row) => row.courseName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          {row.avatar === "" ? (
+            <Avatar color={`light`} content={row.full_name} initials />
+          ) : (
+            <Avatar
+              img={
+                row?.currentImageAddressTumb &&
+                row?.currentImageAddressTumb !== "Not-set"
+                  ? row?.currentImageAddressTumb
+                  : default_image
+              }
+            />
+          )}
+          <div className="user-info text-truncate ms-1">
+            <span className="d-block fw-bold text-truncate">
+              {row.title.length > 20
+                ? row.title.substring(0, 20) + "..."
+                : row.title}
+            </span>
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    name: "نام نویسنده خبر",
+    sortable: true,
+    minWidth: "172px",
+    sortField: "userRoles",
+    selector: (row) => row.addUserFullName,
+    cell: (row) => {
+      return (
+        <>
+          <span className="text-truncate text-capitalize align-middle">
+            {row.addUserFullName}
+          </span>
+        </>
+      );
+    },
+  },
+
+  {
+    name: "دسته بندی خبر ",
+    sortable: true,
+    minWidth: "272px",
+    sortField: "userRoles",
+    selector: (row) => row.cost,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            {row.newsCatregoryName}
+          </h5>
+        </>
+      );
+    },
+  },
+
+  {
+    name: "اقدامات",
+    minWidth: "100px",
+
+    cell: (row) => {
+      return (
+        <div className="column-action">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="div" className="btn btn-sm">
+              <MoreVertical size={14} className="cursor-pointer" />
+            </DropdownToggle>
+            <DropdownMenu>
+              {/* <DropdownItem
+                tag={Link}
+                className="w-100"
+                to={`${row.id}`}
+                // onClick={() => store.dispatch(getUser(row.id))}
+              >
+                <FileText size={14} className="me-50" />
+                <span className="align-middle">جزئیات کاربر</span>
+              </DropdownItem> */}
+              <DropdownItem
+                tag="a"
+                // href="/"
+                className="w-100"
+                // onClick={(e) => {
+                //   e.preventDefault();
+                //   dispatch(dispatch(toggleEditSidebar));
+                //   setData2(row);
+                // }}
+              >
+                <Archive size={14} className="me-50" />
+                <span className="align-middle" onClick={toggleSidebar2}>
+                  ویرایش کاربر
+                </span>
+              </DropdownItem>
+              <DropdownItem
+                tag="a"
+                href="/"
+                className="w-100"
+                // onClick={(e) => {
+                //   e.preventDefault();
+                //   // const params = {}
+                //   // store.dispatch(deleteUser(row.id));
+                //   deleteUserFn.mutate(
+                //     row.id
+                //     // {
+                //     //   onSuccess:()=> {useQueryClient(queryClient)}
+                //     // }
+                //   );
+                // }}
+              >
+                <Trash2 size={14} className="me-50" />
+                <span className="align-middle">حذف کاربر</span>
+              </DropdownItem>
+              <DropdownItem size="sm">
+                <Archive size={14} className="me-50" />
+                <span className="align-middle">دسترسی</span>
+              </DropdownItem>
+              {/* <UserAddRole
+              // modal={modal}
+              // id={row.id}
+              // userName={row.fname + " " + row.lname}
+              // toggleModal={toggleModal}
+              // userRoles={row.role}
+              // refetch={refetch}
+              /> */}
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </div>
+      );
+    },
+  },
+];

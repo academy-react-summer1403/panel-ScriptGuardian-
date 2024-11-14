@@ -29,7 +29,22 @@ export default [
         id: "AllComments",
         title: "همه ی نظرها",
         icon: <Circle size={12} />,
-        navLink: "/Comments",
+        navLink: "/CommentsListPage",
+      },
+    ],
+  },
+
+  {
+    id: "NewsListPage",
+    title: "اخبار",
+    icon: <Airplay size={20} />,
+    // navLink: "/sample",
+    children: [
+      {
+        id: "AllNewsListPage",
+        title: "همه ی خبر ها",
+        icon: <Circle size={12} />,
+        navLink: "/NewsListPage",
       },
     ],
   },
