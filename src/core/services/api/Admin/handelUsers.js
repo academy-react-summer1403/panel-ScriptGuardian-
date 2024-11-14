@@ -76,3 +76,112 @@ export const useGetAllCourses = ({ currentPage, rowsPerPage, searchTerm }) => {
     },
   });
 };
+
+//get All Comments
+
+const GetAllCommentsList = async ({ currentPage, rowsPerPage, searchTerm }) => {
+  const AllParams = {
+    PageNumber: currentPage ? currentPage : 1,
+    RowsOfPage: rowsPerPage ? rowsPerPage : 10,
+    Query: searchTerm ? searchTerm : undefined,
+  };
+  try {
+    const response = await http.get(
+      ApiRoutes.PANEL_GET_ALL_COMMENTS_ADMIN_URL,
+      {
+        params: AllParams,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log("This error For Get GetAllCourses in handelUsers.js ", error);
+    return false;
+  }
+};
+export const useGetAllCommentsList = ({
+  currentPage,
+  rowsPerPage,
+  searchTerm,
+}) => {
+  return useQuery({
+    queryKey: ["GetAllCommentsList", currentPage, rowsPerPage, searchTerm],
+    queryFn: () => {
+      return GetAllCommentsList({ currentPage, rowsPerPage, searchTerm });
+    },
+  });
+};
+
+//accept Comment
+
+const AcceptCommentCourse = async (user) => {
+  console.log("this is AcceptCommentCourse", user);
+  try {
+    const response = await http.post(
+      `${ApiRoutes.PANEL_ACCEPT_COMMENTS_ADMIN_URL}CommentCourseId=${user}`
+    );
+    console.log(response.message, "this response AcceptCommentCourse");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useAcceptCommentCourse = () => {
+  return useMutation({
+    mutationKey: ["AcceptCommentCourse"],
+    mutationFn: (data) => {
+      console.log("this is user AcceptCommentCourse =", data);
+      return AcceptCommentCourse(data);
+    },
+  });
+};
+
+//Not Accept Comment
+
+const DontAcceptCommentCourse = async (user) => {
+  console.log("this is DontAcceptCommentCourse", user);
+  try {
+    const response = await http.post(
+      `${ApiRoutes.PANEL_NOT_ACCEPT_COMMENTS_ADMIN_URL}CommentCourseId=${user}`
+    );
+    console.log(response.message, "this response DontAcceptCommentCourse");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useDontAcceptCommentCourse = () => {
+  return useMutation({
+    mutationKey: ["DontAcceptCommentCourse"],
+    mutationFn: (data) => {
+      console.log("this is user DontAcceptCommentCourse =", data);
+      return DontAcceptCommentCourse(data);
+    },
+  });
+};
+
+//Delete User Comment
+
+const DeleteCommentCourse = async (user) => {
+  console.log("this is DeleteCommentCourse", user);
+  try {
+    const response = await http.delete(
+      `${ApiRoutes.PANEL_DELETE_COMMENTS_ADMIN_URL}CourseCommandId=${user}`
+    );
+    console.log(response.message, "this response DeleteCommentCourse");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useDeleteCommentCourse = () => {
+  return useMutation({
+    mutationKey: ["DeleteCommentCourse"],
+    mutationFn: (data) => {
+      console.log("this is user DeleteCommentCourse =", data);
+      return DeleteCommentCourse(data);
+    },
+  });
+};

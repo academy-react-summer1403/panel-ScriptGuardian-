@@ -20,16 +20,16 @@ export default [
     navLink: "/CourseListPage",
   },
   {
-    id: "smaplePage",
-    title: "Sample Page",
+    id: "Comments",
+    title: "نظرات",
     icon: <Airplay size={20} />,
     // navLink: "/sample",
     children: [
       {
-        id: "invoiceList",
-        title: "List",
+        id: "AllComments",
+        title: "همه ی نظرها",
         icon: <Circle size={12} />,
-        navLink: "/apps/invoice/list",
+        navLink: "/Comments",
       },
     ],
   },
