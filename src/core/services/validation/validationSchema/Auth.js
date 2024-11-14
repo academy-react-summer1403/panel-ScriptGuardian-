@@ -58,3 +58,6 @@ export const validationRegisterFinish = Yup.object().shape({
     .matches(/^[0-9]+$/, "فقط اعداد مجاز است")
     .required("شماره تلفن الزامی است"),
 });
+
+
+
