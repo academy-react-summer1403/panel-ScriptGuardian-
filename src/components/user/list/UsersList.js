@@ -1,8 +1,18 @@
 // ** User List Component
 import Table from "./Table";
-
+import { Fragment, useState } from "react";
 // ** Reactstrap Imports
-import { Row, Col } from "reactstrap";
+import {
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardBody,
+  Label,
+} from "reactstrap";
+import Select from "react-select";
+import { selectThemeColors } from "@utils";
 
 // ** Custom Components
 import StatsHorizontal from "@components/widgets/stats/StatsHorizontal";
@@ -15,8 +25,60 @@ import "@styles/react/apps/app-users.scss";
 import { useGetAllUsers } from "../../../core/services/api/Admin/handelUsers";
 
 const UsersList = () => {
-  const { data } = useGetAllUsers({ currentPage: null, rowsPerPage: null });
+  const [currentStatus, setCurrentStatus] = useState({
+    value: true,
+    label: "فعال",
+  });
+
+  const [currentRole, setCurrentRole] = useState({
+    value: "",
+    label: "همه ی نقش ها",
+  });
+
+  const { data } = useGetAllUsers({
+    currentPage: null,
+    rowsPerPage: null,
+    IsActiveUser: currentStatus.value,
+    roleId: currentRole.value,
+  });
   const totalUser = data?.totalCount;
+  const roles = data?.roles;
+
+  const statusOptions = () => {
+    return [
+      {
+        value: true,
+        label: "فعال",
+      },
+      {
+        value: false,
+        label: "غیرفعال",
+      },
+    ];
+  };
+
+  const RolesOptions = () => {
+    const staticOption = {
+      value: undefined, // ID یا مقدار مشخص
+      label: "همه‌ی نقش‌ها", // نام نمایش داده شده برای گزینه‌ی ثابت
+    };
+
+    // اگر data.roles وجود دارد از آن مپ می‌زنیم، وگرنه آرایه‌ی خالی برمی‌گردانیم
+    // return data?.roles
+    //   ? data.roles.map((role) => ({
+    //       value: role.id, // یا هر خاصیتی که نقش را یکتا تعریف می‌کند
+    //       label: role.roleName, // نام نمایش داده شده در سلکت
+    //     }))
+    return data?.roles
+      ? [
+          staticOption,
+          ...data.roles.map((role) => ({
+            value: role.id, // آیتم‌های مپ‌شده
+            label: role.roleName, // نام نقش
+          })),
+        ]
+      : [];
+  };
 
   return (
     <div className="app-user-list">
@@ -54,7 +116,46 @@ const UsersList = () => {
           />
         </Col> */}
       </Row>
-      <Table />
+
+      <Card>
+        <CardHeader>
+          <CardTitle tag="h4">فیلترها</CardTitle>
+        </CardHeader>
+        <CardBody>
+          <Row>
+            <Col md="4">
+              <Label for="role-select">نقش</Label>
+              <Select
+                isClearable={false}
+                value={currentRole}
+                options={RolesOptions(data)}
+                className="react-select"
+                classNamePrefix="select"
+                theme={selectThemeColors}
+                onChange={(data) => {
+                  setCurrentRole(data);
+                }}
+              />
+            </Col>
+
+            <Col md="4">
+              <Label for="status-select">وضعیت</Label>
+              <Select
+                theme={selectThemeColors}
+                isClearable={false}
+                className="react-select"
+                classNamePrefix="select"
+                options={statusOptions()}
+                value={currentStatus}
+                onChange={(data) => {
+                  setCurrentStatus(data);
+                }}
+              />
+            </Col>
+          </Row>
+        </CardBody>
+      </Card>
+      <Table currentStatus={currentStatus} currentRole={currentRole} />
     </div>
   );
 };

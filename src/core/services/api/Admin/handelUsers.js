@@ -2,11 +2,19 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import http from "../../../interceptors/interceptors";
 import { ApiRoutes } from "../ApiRoutes/ApiRoutes";
 
-const GetAllUsers = async ({ currentPage, rowsPerPage, searchTerm }) => {
+const GetAllUsers = async ({
+  currentPage,
+  rowsPerPage,
+  searchTerm,
+  IsActiveUser,
+  roleId,
+}) => {
   const AllParams = {
     PageNumber: currentPage ? currentPage : 1,
     RowsOfPage: rowsPerPage ? rowsPerPage : 10,
     Query: searchTerm ? searchTerm : undefined,
+    IsActiveUser: IsActiveUser,
+    roleId: roleId ? roleId : undefined,
   };
   try {
     const response = await http.get(ApiRoutes.PANEL_GET_ALL_USERS_URL, {
@@ -18,11 +26,30 @@ const GetAllUsers = async ({ currentPage, rowsPerPage, searchTerm }) => {
     return false;
   }
 };
-export const useGetAllUsers = ({ currentPage, rowsPerPage, searchTerm }) => {
+export const useGetAllUsers = ({
+  currentPage,
+  rowsPerPage,
+  searchTerm,
+  IsActiveUser,
+  roleId,
+}) => {
   return useQuery({
-    queryKey: ["GetAllUsers", currentPage, rowsPerPage, searchTerm],
+    queryKey: [
+      "GetAllUsers",
+      currentPage,
+      rowsPerPage,
+      searchTerm,
+      IsActiveUser,
+      roleId,
+    ],
     queryFn: () => {
-      return GetAllUsers({ currentPage, rowsPerPage, searchTerm });
+      return GetAllUsers({
+        currentPage,
+        rowsPerPage,
+        searchTerm,
+        IsActiveUser,
+        roleId,
+      });
     },
   });
 };

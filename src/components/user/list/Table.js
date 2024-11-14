@@ -193,7 +193,7 @@ const CustomHeader = ({
   );
 };
 
-const UsersList = () => {
+const UsersList = ({ currentStatus, currentRole }) => {
   //API
 
   const store = useSelector((state) => state.users);
@@ -208,7 +208,13 @@ const UsersList = () => {
   const [sidebarOpen2, setSidebarOpen2] = useState(false);
 
   //Page
-  const { data } = useGetAllUsers({ currentPage, rowsPerPage, searchTerm });
+  const { data } = useGetAllUsers({
+    currentPage,
+    rowsPerPage,
+    searchTerm,
+    IsActiveUser: currentStatus.value,
+    roleId: currentRole.value,
+  });
   const listUser = data?.listUser;
   const totalUser = data?.totalCount;
   console.log(data, "this is a data");
