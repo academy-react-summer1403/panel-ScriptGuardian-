@@ -63,12 +63,6 @@ const UsersList = () => {
       label: "همه‌ی نقش‌ها", // نام نمایش داده شده برای گزینه‌ی ثابت
     };
 
-    // اگر data.roles وجود دارد از آن مپ می‌زنیم، وگرنه آرایه‌ی خالی برمی‌گردانیم
-    // return data?.roles
-    //   ? data.roles.map((role) => ({
-    //       value: role.id, // یا هر خاصیتی که نقش را یکتا تعریف می‌کند
-    //       label: role.roleName, // نام نمایش داده شده در سلکت
-    //     }))
     return data?.roles
       ? [
           staticOption,

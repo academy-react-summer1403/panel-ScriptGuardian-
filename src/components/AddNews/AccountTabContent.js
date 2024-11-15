@@ -25,6 +25,10 @@ import {
 // ** Utils
 import { selectThemeColors } from "@utils";
 import { useGetAllCateGoryList } from "../../core/services/api/Admin/handelUsers";
+import { useCreateNews } from "../../core/services/api/Admin/handelCreateNews";
+import { useFormik } from "formik";
+import { validationSchema } from "../../core/services/validation/validationSchema/Auth";
+import { validationForCreateNews } from "../../core/services/validation/AdminPanel";
 
 // const currencyOptions = [
 //   { label: "USD" },
@@ -35,15 +39,43 @@ import { useGetAllCateGoryList } from "../../core/services/api/Admin/handelUsers
 
 const AccountTabs = () => {
   // ** API
-
+  //TODO
   const { data } = useGetAllCateGoryList();
 
+  const [currentRole, setCurrentRole] = useState({
+    value: "",
+    label: " لطفا یک دسته بندی انتخاب کنید",
+  });
+
+  const { mutate: createNews } = useCreateNews();
+
+  // ** USE Formik
+  const formik = useFormik({
+    initialValues: {
+      Title: "",
+      GoogleTitle: "",
+      GoogleDescribe: "",
+      MiniDescribe: "",
+      Describe: "",
+      Keyword: "",
+      IsSlider: false,
+      NewsCatregoryId: currentRole?.value,
+      Image: "",
+    },
+    // validationSchema: validationForCreateNews,
+    onSubmit: (values) => {
+      const formData = new FormData();
+      for (const key in values) {
+        formData.append(key, values[key]);
+      }
+      createNews(formData);
+    },
+  });
   // تبدیل داده‌ها به فرمت قابل استفاده در کامپوننت Select
   const options = data?.map((item) => ({
     value: item?.id,
     label: item?.categoryName,
   }));
-  
 
   console.log("data of cate", data);
   // ** Hooks
@@ -123,41 +155,150 @@ const AccountTabs = () => {
               </div>
             </div>
           </div> */}
-          <Form className="mt-2 pt-50" onSubmit={handleSubmit(onSubmit)}>
+          <form className="mt-2 pt-50" onSubmit={formik.handleSubmit}>
             <Row>
               <Col sm="6" className="mb-1">
-                <Label className="form-label" for="firstName">
-                  First Name
+                <Label className="form-label" for="Title">
+                  عنوان خبر{" "}
                 </Label>
-                <Controller
-                  name="firstName"
-                  control={control}
-                  render={({ field }) => (
-                    <Input
-                      id="firstName"
-                      placeholder="John"
-                      invalid={errors.firstName && true}
-                      {...field}
-                    />
-                  )}
+
+                <Input
+                  id="Title"
+                  placeholder="عنوان را وارد کنید"
+                  {...formik.getFieldProps("Title")}
                 />
-                {errors && errors.firstName && (
-                  <FormFeedback>Please enter a valid First Name</FormFeedback>
+
+                {formik.errors.Title && (
+                  <div className="text-danger top-0 end-0 me-3">
+                    {formik.errors.Title}
+                  </div>
+                )}
+              </Col>
+              <Col sm="6" className="mb-1">
+                <Label className="form-label" for="GoogleTitle">
+                  عنوان گوگل{" "}
+                </Label>
+
+                <Input
+                  id="GoogleTitle"
+                  placeholder="عنوان  گوگل را وارد کنید"
+                  {...formik.getFieldProps("GoogleTitle")}
+                />
+
+                {formik.errors.GoogleTitle && (
+                  <div className="text-danger top-0 end-0 me-3">
+                    {formik.errors.GoogleTitle}
+                  </div>
                 )}
               </Col>
 
+              <Col sm="6" className="mb-1">
+                <Label className="form-label" for="GoogleDescribe">
+                  توضیحات گوگل{" "}
+                </Label>
+
+                <Input
+                  id="GoogleDescribe"
+                  placeholder="توضیحات  گوگل را وارد کنید"
+                  {...formik.getFieldProps("GoogleDescribe")}
+                />
+
+                {formik.errors.GoogleDescribe && (
+                  <div className="text-danger top-0 end-0 me-3">
+                    {formik.errors.GoogleDescribe}
+                  </div>
+                )}
+              </Col>
+
+              <Col sm="6" className="mb-1">
+                <Label className="form-label" for="MiniDescribe">
+                  توضیحات کوتاه{" "}
+                </Label>
+
+                <Input
+                  id="MiniDescribe"
+                  placeholder="توضیحات  کوتاه را وارد کنید"
+                  {...formik.getFieldProps("MiniDescribe")}
+                />
+
+                {formik.errors.MiniDescribe && (
+                  <div className="text-danger top-0 end-0 me-3">
+                    {formik.errors.MiniDescribe}
+                  </div>
+                )}
+              </Col>
+
+              <Col sm="6" className="mb-1">
+                <Label className="form-label" for="Describe">
+                  توضیحات{" "}
+                </Label>
+
+                <Input
+                  id="Describe"
+                  placeholder="توضیحات   را وارد کنید"
+                  {...formik.getFieldProps("Describe")}
+                />
+
+                {formik.errors.Describe && (
+                  <div className="text-danger top-0 end-0 me-3">
+                    {formik.errors.Describe}
+                  </div>
+                )}
+              </Col>
+
+              <Col sm="6" className="mb-1">
+                <Label className="form-label" for="Keyword">
+                  کلمه کلیدی{" "}
+                </Label>
+
+                <Input
+                  id="Keyword"
+                  placeholder="کلمه کلیدی را وارد کنید"
+                  {...formik.getFieldProps("Keyword")}
+                />
+
+                {formik.errors.Keyword && (
+                  <div className="text-danger top-0 end-0 me-3">
+                    {formik.errors.Keyword}
+                  </div>
+                )}
+              </Col>
+
+              <Col sm="6" className="mb-1">
+                <Label className="form-label" for="Image">
+                  تصویر{" "}
+                </Label>
+
+                <Input
+                  id="Image"
+                  placeholder="تصویر  را وارد کنید"
+                  {...formik.getFieldProps("Image")}
+                />
+
+                {formik.errors.Image && (
+                  <div className="text-danger top-0 end-0 me-3">
+                    {formik.errors.Image}
+                  </div>
+                )}
+              </Col>
               <Col sm="6" className="mb-1">
                 <Label className="form-label" for="currency">
                   دسته بندی خبر
                 </Label>
                 <Select
-                  id="currency"
+                  id="NewsCatregoryId"
                   isClearable={false}
                   className="react-select"
                   classNamePrefix="select"
                   options={options}
                   theme={selectThemeColors}
-                  defaultValue={options}
+                  value={options?.find(
+                    (option) => option.value === formik.values.NewsCatregoryId
+                  )} // پیدا کردن گزینه مناسب
+                  onChange={(data) => {
+                    formik.setFieldValue("NewsCatregoryId", data?.value || ""); // مقدار فرمیک به‌روزرسانی می‌شود
+                    setCurrentRole(data);
+                  }}
                 />
               </Col>
               <Col className="mt-2" sm="12">
@@ -169,7 +310,7 @@ const AccountTabs = () => {
                 </Button>
               </Col>
             </Row>
-          </Form>
+          </form>
         </CardBody>
       </Card>
     </Fragment>
