@@ -301,8 +301,8 @@ const UsersList = () => {
         </div>
       </Card>
 
-      {/* <AddNewUserModal open={sidebarOpen} toggleSidebar={toggleSidebar} />
-      <ChangeUserModal open={sidebarOpen2} toggleSidebar={toggleSidebar2} /> */}
+      {/* <AddNewUserModal open={sidebarOpen} toggleSidebar={toggleSidebar} /> */}
+      {/* <ChangeUserModal open={sidebarOpen2} toggleSidebar={toggleSidebar2} /> */}
     </Fragment>
   );
 };

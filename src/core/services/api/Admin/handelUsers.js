@@ -54,6 +54,34 @@ export const useGetAllUsers = ({
   });
 };
 
+//UserDetails
+
+const GetAllUsersDetailsAdmin = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_USERS_URL}${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllUsersDetailsAdmin in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllUsersDetailsAdmin = (id) => {
+  return useQuery({
+    queryKey: ["GetAllUsersDetailsAdmin"],
+    queryFn: () => {
+      return GetAllUsersDetailsAdmin(id);
+    },
+  });
+};
+
+
+
+
 //Add
 
 const AddNewUser = async (user) => {

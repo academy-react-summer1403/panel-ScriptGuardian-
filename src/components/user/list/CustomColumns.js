@@ -43,7 +43,7 @@ export const CustomColumns = (toggleSidebar2) => [
           />
           <div className="d-flex flex-column">
             <Link
-              to={`/users/${row.id}`}
+              to={`/UsersPage/${row.id}`}
               className="user_name text-truncate text-body"
               // onClick={() => store.dispatch(getUser(row.id))}
             >
@@ -163,7 +163,9 @@ export const CustomColumns = (toggleSidebar2) => [
                 // }}
               >
                 <Archive size={14} className="me-50" />
-                <span className="align-middle" onClick={toggleSidebar2}>ویرایش کاربر</span>
+                <span className="align-middle" onClick={toggleSidebar2}>
+                  ویرایش کاربر
+                </span>
               </DropdownItem>
               <DropdownItem
                 tag="a"

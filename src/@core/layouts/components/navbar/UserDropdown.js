@@ -26,22 +26,31 @@ import {
 
 // ** Default Avatar Image
 import defaultAvatar from "@src/assets/images/portrait/small/avatar-s-11.jpg";
-import { removeItem } from "../../../../core/services/storage/storage.services";
+import {
+  getItem,
+  removeItem,
+} from "../../../../core/services/storage/storage.services";
 import { useGetStudentProfile } from "../../../../core/services/api/Panel/GetProfile";
 
-import NoProfile from "../../../../images/profile.png"
+import NoProfile from "../../../../images/profile.png";
 
 const UserDropdown = () => {
   const navigate = useNavigate();
 
   const handelLogOut = () => {
     removeItem("token");
+    removeItem("id");
     navigate("/login");
   };
+
   const { data: Information } = useGetStudentProfile();
+  const userId = getItem("id");
+  const handelGoToUserDetails = () => {
+    navigate(`UsersPage/${userId}`);
+  };
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
-    {/* TODO */}
+      {/* TODO */}
       <DropdownToggle
         href="/"
         tag="a"
@@ -49,11 +58,18 @@ const UserDropdown = () => {
         onClick={(e) => e.preventDefault()}
       >
         <div className="user-nav d-sm-flex d-none">
-          <span className="user-name fw-bold">{Information?.fName} {Information?.lName}</span>
+          <span className="user-name fw-bold">
+            {Information?.fName} {Information?.lName}
+          </span>
           <span className="user-status">ادمین</span>
         </div>
         <Avatar
-          img={Information?.currentPictureAddress && Information?.currentPictureAddress !== "Not-set" ? Information?.currentPictureAddress : NoProfile }
+          img={
+            Information?.currentPictureAddress &&
+            Information?.currentPictureAddress !== "Not-set"
+              ? Information?.currentPictureAddress
+              : NoProfile
+          }
           imgHeight="40"
           imgWidth="40"
           status="online"
@@ -62,7 +78,9 @@ const UserDropdown = () => {
       <DropdownMenu end>
         <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
           <User size={14} className="me-75" />
-          <span className="align-middle">پروفایل</span>
+          <span className="align-middle" onClick={handelGoToUserDetails}>
+            پروفایل
+          </span>
         </DropdownItem>
         {/* <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
           <Mail size={14} className="me-75" />
