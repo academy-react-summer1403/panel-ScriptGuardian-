@@ -32,6 +32,7 @@ const CourseListPage = lazy(() => import("../../pages/CourseListPage"));
 const CourseDetailPage = lazy(() => import("../../pages/CourseDetailPage"));
 const CommentListPage = lazy(() => import("../../pages/CommentListPage"));
 const NewsListPage = lazy(() => import("../../pages/NewsListPage.js"));
+const AddNewsPage = lazy(() => import("../../pages/AddNewsPage"));
 const Login = lazy(() => import("../../pages/Login"));
 const Register = lazy(() => import("../../pages/Register"));
 const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
@@ -76,6 +77,10 @@ const Routes = [
   {
     path: "/NewsListPage",
     element: <NewsListPage />,
+  },
+  {
+    path: "/AddNewsPage",
+    element: <AddNewsPage />,
   },
   {
     path: "/login",

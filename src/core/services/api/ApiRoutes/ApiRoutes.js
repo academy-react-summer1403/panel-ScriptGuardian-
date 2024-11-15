@@ -82,4 +82,5 @@ export const ApiRoutes = {
   PANEL_DELETE_COMMENTS_ADMIN_URL: "/Course/DeleteCourseComment?",
 
   PANEL_GET_ALL_NEWS_ADMIN_URL: "/News/AdminNewsFilterList",
+  PANEL_GET_CATEGORY_NEWS_ADMIN_URL: "/News/GetListNewsCategory",
 };

@@ -53,6 +53,13 @@ export default [
         icon: <Circle size={12} />,
         navLink: "/NewsListPage",
       },
+
+      {
+        id: "AddNewsPage",
+        title: "اضافه کردن خبر جدید",
+        icon: <Circle size={12} />,
+        navLink: "/AddNewsPage",
+      },
     ],
   },
 ];

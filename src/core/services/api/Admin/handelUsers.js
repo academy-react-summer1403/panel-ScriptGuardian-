@@ -293,3 +293,28 @@ export const useGetAllNewsList = ({ currentPage, rowsPerPage, searchTerm }) => {
     },
   });
 };
+
+//Get  CateGory News List
+
+const GetAllCateGoryList = async () => {
+  try {
+    const response = await http.get(
+      ApiRoutes.PANEL_GET_CATEGORY_NEWS_ADMIN_URL
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllCateGoryList in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllCateGoryList = () => {
+  return useQuery({
+    queryKey: ["GetAllCateGoryList"],
+    queryFn: () => {
+      return GetAllCateGoryList();
+    },
+  });
+};
