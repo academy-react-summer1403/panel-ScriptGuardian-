@@ -32,6 +32,9 @@ const CourseListPage = lazy(() => import("../../pages/CourseListPage"));
 const CourseDetailPage = lazy(() => import("../../pages/CourseDetailPage"));
 const CommentListPage = lazy(() => import("../../pages/CommentListPage"));
 const NewsListPage = lazy(() => import("../../pages/NewsListPage.js"));
+const AddNewsCateGoryPage = lazy(() =>
+  import("../../pages/AddNewsCateGoryPage")
+);
 const AddNewsPage = lazy(() => import("../../pages/AddNewsPage"));
 const Login = lazy(() => import("../../pages/Login"));
 const Register = lazy(() => import("../../pages/Register"));
@@ -73,6 +76,10 @@ const Routes = [
   {
     path: "/CommentsListPage",
     element: <CommentListPage />,
+  },
+  {
+    path: "/AddNewsCateGoryPage",
+    element: <AddNewsCateGoryPage />,
   },
   {
     path: "/NewsListPage",

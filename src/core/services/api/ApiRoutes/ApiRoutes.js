@@ -84,4 +84,5 @@ export const ApiRoutes = {
   PANEL_GET_ALL_NEWS_ADMIN_URL: "/News/AdminNewsFilterList",
   PANEL_GET_CATEGORY_NEWS_ADMIN_URL: "/News/GetListNewsCategory",
   PANEL_CREATE_NEWS_ADMIN_URL: "/News/CreateNews",
+  PANEL_CREATE_NEWS_CATEGORY_ADMIN_URL: "/News/CreateNewsCategory",
 };

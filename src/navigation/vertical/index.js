@@ -60,6 +60,12 @@ export default [
         icon: <Circle size={12} />,
         navLink: "/AddNewsPage",
       },
+      {
+        id: "AddNewsCateGoryPage",
+        title: "اضافه کردن دسته بندی جدید",
+        icon: <Circle size={12} />,
+        navLink: "/AddNewsCateGoryPage",
+      },
     ],
   },
 ];
