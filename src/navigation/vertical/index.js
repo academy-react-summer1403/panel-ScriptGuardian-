@@ -14,10 +14,17 @@ export default [
     navLink: "/UsersPage",
   },
   {
-    id: "CourseListPage",
+    id: "Course",
     title: "دوره ها",
     icon: <Users size={20} />,
-    navLink: "/CourseListPage",
+    children: [
+      {
+        id: "CourseListPage",
+        title: "همه ی  دوره",
+        icon: <Circle size={12} />,
+        navLink: "/CourseListPage",
+      },
+    ],
   },
   {
     id: "Comments",

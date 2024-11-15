@@ -1,7 +1,7 @@
 import Avatar from "@components/avatar";
 import default_image from "../../../images/default_image.png";
 import NoProfile from "../../../images/profile.png";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
   Archive,
   Database,
@@ -265,7 +265,12 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
             />
           )}
           <div className="user-info text-truncate ms-1">
-            <span className="d-block fw-bold text-truncate">{row.title}</span>
+            <NavLink
+              className="d-block fw-bold text-truncate"
+              to={`/CourseListPage/${row.courseId}`}
+            >
+              {row.title}
+            </NavLink>
           </div>
         </div>
       );

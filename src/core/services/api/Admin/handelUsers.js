@@ -79,9 +79,6 @@ export const useGetAllUsersDetailsAdmin = (id) => {
   });
 };
 
-
-
-
 //Add
 
 const AddNewUser = async (user) => {
@@ -128,6 +125,33 @@ export const useGetAllCourses = ({ currentPage, rowsPerPage, searchTerm }) => {
     queryKey: ["GetAllCourses", currentPage, rowsPerPage, searchTerm],
     queryFn: () => {
       return GetAllCourses({ currentPage, rowsPerPage, searchTerm });
+    },
+  });
+};
+
+//Course Details
+
+//UserDetails
+
+const GetAllCourseDetailsAdmin = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_COURSE_URL}${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllCourseDetailsAdmin in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllCourseDetailsAdmin = (id) => {
+  return useQuery({
+    queryKey: ["GetAllCourseDetailsAdmin"],
+    queryFn: () => {
+      return GetAllCourseDetailsAdmin(id);
     },
   });
 };
