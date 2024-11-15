@@ -156,6 +156,31 @@ export const useGetAllCourseDetailsAdmin = (id) => {
   });
 };
 
+//News Details
+
+const GetAllNewsDetailsAdmin = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_NEWS_URL}${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllNewsDetailsAdmin in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllNewsDetailsAdmin = (id) => {
+  return useQuery({
+    queryKey: ["GetAllNewsDetailsAdmin"],
+    queryFn: () => {
+      return GetAllNewsDetailsAdmin(id);
+    },
+  });
+};
+
 //get All Comments
 
 const GetAllCommentsList = async ({ currentPage, rowsPerPage, searchTerm }) => {

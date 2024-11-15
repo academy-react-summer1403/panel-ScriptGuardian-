@@ -38,6 +38,7 @@ const AddNewsCateGoryPage = lazy(() =>
 const AddNewsPage = lazy(() => import("../../pages/AddNewsPage"));
 const Login = lazy(() => import("../../pages/Login"));
 const Register = lazy(() => import("../../pages/Register"));
+const NewsDetailsPage = lazy(() => import("../../pages/NewsDetailsPage"));
 const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
 const Error = lazy(() => import("../../pages/Error"));
 const Sample = lazy(() => import("../../pages/Sample"));
@@ -80,6 +81,10 @@ const Routes = [
   {
     path: "/AddNewsCateGoryPage",
     element: <AddNewsCateGoryPage />,
+  },
+  {
+    path: "/NewsListPage/:id",
+    element: <NewsDetailsPage />,
   },
   {
     path: "/NewsListPage",

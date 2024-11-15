@@ -1,7 +1,7 @@
 import Avatar from "@components/avatar";
 import default_image from "../../../images/default_image.png";
 import NoProfile from "../../../images/profile.png";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
   Archive,
   Check,
@@ -603,11 +603,14 @@ export const CustomColumnsForListNews = (toggleSidebar2) => [
             />
           )}
           <div className="user-info text-truncate ms-1">
-            <span className="d-block fw-bold text-truncate">
+            <NavLink
+              to={`/NewsListPage/${row?.id}`}
+              className="d-block  fw-bold text-truncate"
+            >
               {row.title.length > 20
                 ? row.title.substring(0, 20) + "..."
                 : row.title}
-            </span>
+            </NavLink>
           </div>
         </div>
       );

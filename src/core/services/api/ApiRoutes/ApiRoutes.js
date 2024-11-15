@@ -75,6 +75,7 @@ export const ApiRoutes = {
   PANEL_ADD_NEW_USER_URL: "/User/CreateUser",
   PANEL_GET_ALL_COURSES_ADMIN_URL: "/Course/CourseList",
   PANEL_GET_DETAILS_COURSE_URL: "/Course/",
+  PANEL_GET_DETAILS_NEWS_URL: "/News/",
   PANEL_GET_ALL_COMMENTS_ADMIN_URL: "/Course/CommentManagment",
 
   PANEL_ACCEPT_COMMENTS_ADMIN_URL: "/Course/AcceptCourseComment?",
