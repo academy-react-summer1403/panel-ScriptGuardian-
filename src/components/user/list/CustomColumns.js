@@ -153,6 +153,7 @@ export const CustomColumns = (toggleSidebar2) => [
                 <span className="align-middle">جزئیات کاربر</span>
               </DropdownItem> */}
               <DropdownItem
+               onClick={toggleSidebar2}
                 tag="a"
                 // href="/"
                 className="w-100"
@@ -163,7 +164,7 @@ export const CustomColumns = (toggleSidebar2) => [
                 // }}
               >
                 <Archive size={14} className="me-50" />
-                <span className="align-middle" onClick={toggleSidebar2}>
+                <span className="align-middle">
                   ویرایش کاربر
                 </span>
               </DropdownItem>

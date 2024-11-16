@@ -1,275 +1,272 @@
-// ** React Import
-import { useState } from "react";
+// ** React Imports
+import { Fragment, useState } from "react";
 
-// ** Custom Components
-import Sidebar from "@components/sidebar";
+// ** Reactstrap Imports
+import {
+  Card,
+  Row,
+  Col,
+  Modal,
+  Input,
+  Label,
+  Button,
+  CardBody,
+  CardText,
+  CardTitle,
+  ModalBody,
+  ModalHeader,
+  FormFeedback,
+} from "reactstrap";
+
+// ** Third Party Components
+import Select from "react-select";
+import { User, Check, X } from "react-feather";
+import { useForm, Controller } from "react-hook-form";
 
 // ** Utils
 import { selectThemeColors } from "@utils";
 
-// ** Third Party Components
-import Select from "react-select";
-import classnames from "classnames";
-import { useForm, Controller } from "react-hook-form";
+// ** Styles
+import "@styles/react/libs/react-select/_react-select.scss";
 
-// ** Reactstrap Imports
-import { Button, Label, FormText, Form, Input } from "reactstrap";
-
-// ** Store & Actions
-// import { addUser } from '../store'
-import { useDispatch } from "react-redux";
-import { useAddNewUser } from "../../../core/services/api/Admin/handelUsers";
-import { useFormik } from "formik";
-import { toast } from "react-toastify";
-import { validationSchemaForAddNewUser } from "../../../core/services/validation/AdminPanel";
-import { useQueryClient } from "@tanstack/react-query";
-
-const defaultValues = {
-  email: "",
-  contact: "",
-  company: "",
-  fullName: "",
-  username: "",
-  country: null,
-};
-
-const countryOptions = [
-  { label: "Australia", value: "Australia" },
-  { label: "Bangladesh", value: "Bangladesh" },
-  { label: "Belarus", value: "Belarus" },
-  { label: "Brazil", value: "Brazil" },
-  { label: "Canada", value: "Canada" },
-  { label: "China", value: "China" },
-  { label: "France", value: "France" },
-  { label: "Germany", value: "Germany" },
-  { label: "India", value: "India" },
-  { label: "Indonesia", value: "Indonesia" },
-  { label: "Israel", value: "Israel" },
-  { label: "Italy", value: "Italy" },
-  { label: "Japan", value: "Japan" },
-  { label: "Korea", value: "Korea" },
-  { label: "Mexico", value: "Mexico" },
-  { label: "Philippines", value: "Philippines" },
-  { label: "Russia", value: "Russia" },
-  { label: "South", value: "South" },
-  { label: "Thailand", value: "Thailand" },
-  { label: "Turkey", value: "Turkey" },
-  { label: "Ukraine", value: "Ukraine" },
-  { label: "United Arab Emirates", value: "United Arab Emirates" },
-  { label: "United Kingdom", value: "United Kingdom" },
-  { label: "United States", value: "United States" },
+const statusOptions = [
+  { value: "active", label: "Active" },
+  { value: "inactive", label: "Inactive" },
+  { value: "suspended", label: "Suspended" },
 ];
 
-const checkIsValid = (data) => {
-  return Object.values(data).every((field) =>
-    typeof field === "object" ? field !== null : field.length > 0
-  );
+const countryOptions = [
+  { value: "uk", label: "UK" },
+  { value: "usa", label: "USA" },
+  { value: "france", label: "France" },
+  { value: "russia", label: "Russia" },
+  { value: "canada", label: "Canada" },
+];
+
+const languageOptions = [
+  { value: "english", label: "English" },
+  { value: "spanish", label: "Spanish" },
+  { value: "french", label: "French" },
+  { value: "german", label: "German" },
+  { value: "dutch", label: "Dutch" },
+];
+
+const defaultValues = {
+  firstName: "Bob",
+  lastName: "Barton",
+  username: "bob.dev",
 };
 
 const ChangeUserModal = ({ open, toggleSidebar }) => {
-  // ** States
-  const [data, setData] = useState(null);
-  const [plan, setPlan] = useState("basic");
-  const [role, setRole] = useState("subscriber");
-
-  // ** Store Vars
-  const dispatch = useDispatch();
-
-  // ** Vars
+  // ** Hooks
   const {
     control,
-    setValue,
     setError,
+    handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues });
 
-  //API
-  const queryClient = useQueryClient();
-
-  const { mutate: addUser } = useAddNewUser();
-
-  const formik = useFormik({
-    initialValues: {
-      lastName: "",
-      firstName: "",
-      gmail: "",
-      password: "",
-      phoneNumber: "",
-      isStudent: false,
-      isTeacher: false,
-    },
-    validationSchema: validationSchemaForAddNewUser,
-    onSubmit: (values) => {
-      addUser(values, {
-        onSuccess: (data) => {
-          if (data.success) {
-            queryClient.invalidateQueries("GetAllUsers");
-
-            toast.success("کاربر با موفقیت اضافه شد");
-            toggleSidebar();
-          }
-        },
-        // onError: (error) => {
-
-        // },
-      });
-    },
-  });
-
-  const handleSidebarClosed = () => {
-    for (const key in defaultValues) {
-      setValue(key, "");
+  const onSubmit = (data) => {
+    if (Object.values(data).every((field) => field.length > 0)) {
+      return null;
+    } else {
+      for (const key in data) {
+        if (data[key].length === 0) {
+          setError(key, {
+            type: "manual",
+          });
+        }
+      }
     }
-    setRole("subscriber");
-    setPlan("basic");
   };
 
   return (
-    <Sidebar
-      size="lg"
-      open={open}
-      title="تغییر کاربر"
-      headerClassName="mb-1"
-      contentClassName="pt-0"
-      toggleSidebar={toggleSidebar}
-      onClosed={handleSidebarClosed}
-    >
-      <form onSubmit={formik.handleSubmit}>
-        <div className="mb-1">
-          <Label className="form-label" for="firstName">
-            نام<span className="text-danger">*</span>
-          </Label>
-
-          <Input
-            id="firstName"
-            name="firstName"
-            placeholder="نام کاربر را وارد کنید"
-            {...formik.getFieldProps("firstName")}
-          />
-          {formik.errors.firstName && (
-            <div className="text-danger top-0 end-0 me-3">
-              {formik.errors.firstName}
-            </div>
-          )}
-        </div>
-
-        <div className="mb-1">
-          <Label className="form-label" for="lastName">
-            نام خانوادگی<span className="text-danger">*</span>
-          </Label>
-
-          <Input
-            id="firstName"
-            name="firstName"
-            placeholder="نام کاربر را وارد کنید"
-            {...formik.getFieldProps("lastName")}
-          />
-          {formik.errors.lastName && (
-            <div className="text-danger top-0 end-0 me-3">
-              {formik.errors.lastName}
-            </div>
-          )}
-        </div>
-
-        <div className="mb-1">
-          <Label className="form-label" for="lastName">
-            جمیل<span className="text-danger">*</span>
-          </Label>
-
-          <Input
-            id="firstName"
-            name="firstName"
-            placeholder="نام کاربر را وارد کنید"
-            {...formik.getFieldProps("gmail")}
-          />
-          {formik.errors.gmail && (
-            <div className="text-danger top-0 end-0 me-3">
-              {formik.errors.gmail}
-            </div>
-          )}
-        </div>
-
-        <div className="mb-1">
-          <Label className="form-label" for="lastName">
-            شماره تلفن<span className="text-danger">*</span>
-          </Label>
-
-          <Input
-            id="firstName"
-            name="firstName"
-            placeholder="شماره کاربر را وارد کنید"
-            {...formik.getFieldProps("phoneNumber")}
-          />
-          {formik.errors.phoneNumber && (
-            <div className="text-danger top-0 end-0 me-3">
-              {formik.errors.phoneNumber}
-            </div>
-          )}
-        </div>
-
-        <div className="mb-1">
-          <Label className="form-label" for="lastName">
-            رمز<span className="text-danger">*</span>
-          </Label>
-
-          <Input
-            id="firstName"
-            name="firstName"
-            placeholder="شماره کاربر را وارد کنید"
-            {...formik.getFieldProps("password")}
-          />
-          {formik.errors.password && (
-            <div className="text-danger top-0 end-0 me-3">
-              {formik.errors.password}
-            </div>
-          )}
-        </div>
-
-        <div className="form-check mb-1">
-          <Input type="checkbox" id="isStudent" name="isStudent" />
-          <Label className="form-check-label" for="isStudent">
-            دانش آموز{" "}
-          </Label>
-        </div>
-
-        <div className="form-check mb-1">
-          <Input type="checkbox" id="isStudent" name="isTeacher" />
-          <Label className="form-check-label" for="isTeacher">
-            معلم{" "}
-          </Label>
-        </div>
-
-        {/* <div className="mb-1">
-          <Label className="form-label" for="country">
-            Country <span className="text-danger">*</span>
-          </Label>
-          <Controller
-            name="country"
-            control={control}
-            render={({ field }) => (
-              // <Input id='country' placeholder='Australia' invalid={errors.country && true} {...field} />
+    <Fragment>
+      <Modal
+        isOpen={open}
+        toggle={toggleSidebar}
+        className="modal-dialog-centered modal-lg"
+      >
+        <ModalHeader className="bg-transparent"></ModalHeader>
+        <ModalBody className="px-sm-5 mx-50 pb-5">
+          <div className="text-center mb-2">
+            <h1 className="mb-1">Edit User Information</h1>
+            <p>Updating user details will receive a privacy audit.</p>
+          </div>
+          <Row
+            tag="form"
+            className="gy-1 pt-75"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Col md={6} xs={12}>
+              <Label className="form-label" for="firstName">
+                First Name
+              </Label>
+              <Controller
+                control={control}
+                name="firstName"
+                render={({ field }) => {
+                  return (
+                    <Input
+                      {...field}
+                      id="firstName"
+                      placeholder="John"
+                      value={field.value}
+                      invalid={errors.firstName && true}
+                    />
+                  );
+                }}
+              />
+              {errors.firstName && (
+                <FormFeedback>Please enter a valid First Name</FormFeedback>
+              )}
+            </Col>
+            <Col md={6} xs={12}>
+              <Label className="form-label" for="lastName">
+                Last Name
+              </Label>
+              <Controller
+                name="lastName"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    id="lastName"
+                    placeholder="Doe"
+                    invalid={errors.lastName && true}
+                  />
+                )}
+              />
+              {errors.lastName && (
+                <FormFeedback>Please enter a valid Last Name</FormFeedback>
+              )}
+            </Col>
+            <Col xs={12}>
+              <Label className="form-label" for="username">
+                Username
+              </Label>
+              <Controller
+                name="username"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    id="username"
+                    placeholder="john.doe.007"
+                    invalid={errors.username && true}
+                  />
+                )}
+              />
+              {errors.username && (
+                <FormFeedback>Please enter a valid Username</FormFeedback>
+              )}
+            </Col>
+            <Col md={6} xs={12}>
+              <Label className="form-label" for="email">
+                Billing Email
+              </Label>
+              <Input type="email" id="email" placeholder="example@domain.com" />
+            </Col>
+            <Col md={6} xs={12}>
+              <Label className="form-label" for="status">
+                Status:
+              </Label>
               <Select
+                id="status"
                 isClearable={false}
+                className="react-select"
+                classNamePrefix="select"
+                options={statusOptions}
+                theme={selectThemeColors}
+                defaultValue={statusOptions[0]}
+              />
+            </Col>
+            <Col md={6} xs={12}>
+              <Label className="form-label" for="tax-id">
+                Tax ID
+              </Label>
+              <Input
+                id="tax-id"
+                defaultValue="Tax-8894"
+                placeholder="Tax-1234"
+              />
+            </Col>
+            <Col md={6} xs={12}>
+              <Label className="form-label" for="contact">
+                Contact
+              </Label>
+              <Input
+                id="contact"
+                defaultValue="+1 609 933 4422"
+                placeholder="+1 609 933 4422"
+              />
+            </Col>
+            <Col md={6} xs={12}>
+              <Label className="form-label" for="language">
+                Language
+              </Label>
+              <Select
+                id="language"
+                isClearable={false}
+                className="react-select"
+                classNamePrefix="select"
+                options={languageOptions}
+                theme={selectThemeColors}
+                defaultValue={languageOptions[0]}
+              />
+            </Col>
+            <Col md={6} xs={12}>
+              <Label className="form-label" for="country">
+                Country
+              </Label>
+              <Select
+                id="country"
+                isClearable={false}
+                className="react-select"
                 classNamePrefix="select"
                 options={countryOptions}
                 theme={selectThemeColors}
-                className={classnames("react-select", {
-                  "is-invalid": data !== null && data.country === null,
-                })}
-                {...field}
+                defaultValue={countryOptions[0]}
               />
-            )}
-          />
-        </div> */}
-
-        <Button type="submit" className="me-1" color="primary">
-          افزودن{" "}
-        </Button>
-        <Button type="reset" color="secondary" outline onClick={toggleSidebar}>
-          بستن
-        </Button>
-      </form>
-    </Sidebar>
+            </Col>
+            <Col xs={12}>
+              <div className="d-flex align-items-center">
+                <div className="form-switch">
+                  <Input
+                    type="switch"
+                    defaultChecked
+                    id="billing-switch"
+                    name="billing-switch"
+                  />
+                  <Label className="form-check-label" htmlFor="billing-switch">
+                    <span className="switch-icon-left">
+                      <Check size={14} />
+                    </span>
+                    <span className="switch-icon-right">
+                      <X size={14} />
+                    </span>
+                  </Label>
+                </div>
+                <Label
+                  className="form-check-label fw-bolder"
+                  htmlFor="billing-switch"
+                >
+                  Use as a billing address?
+                </Label>
+              </div>
+            </Col>
+            <Col xs={12} className="text-center mt-2 pt-50">
+              <Button type="submit" className="me-1" color="primary">
+                Submit
+              </Button>
+              <Button type="reset" color="secondary" outline>
+                Discard
+              </Button>
+            </Col>
+          </Row>
+        </ModalBody>
+      </Modal>
+    </Fragment>
   );
 };
 

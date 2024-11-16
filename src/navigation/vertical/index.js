@@ -24,6 +24,13 @@ export default [
         icon: <Circle size={12} />,
         navLink: "/CourseListPage",
       },
+
+      {
+        id: "createCourse",
+        title: "ایجاد دوره",
+        icon: <Circle size={12} />,
+        navLink: "/createCourse",
+      },
     ],
   },
   {

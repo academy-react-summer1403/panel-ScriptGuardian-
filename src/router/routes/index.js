@@ -75,6 +75,15 @@ const Routes = [
     element: <CourseDetailPage />,
   },
   {
+    path: "/createCourse",
+    element: (
+      <p>
+        همهی دوره هااااااااااااااااااااااااااااااااااااااااااااا
+        ساختتتتتتتتتتتتت
+      </p>
+    ),
+  },
+  {
     path: "/CommentsListPage",
     element: <CommentListPage />,
   },
