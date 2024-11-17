@@ -636,7 +636,7 @@ export const CustomColumnsForListNews = (toggleSidebar2) => [
   {
     name: "دسته بندی خبر ",
     sortable: true,
-    minWidth: "272px",
+    minWidth: "200px",
     sortField: "userRoles",
     selector: (row) => row.cost,
     cell: (row) => {
@@ -645,6 +645,29 @@ export const CustomColumnsForListNews = (toggleSidebar2) => [
           {" "}
           <h5 className="text-truncate text-muted mb-0">
             {row.newsCatregoryName}
+          </h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "وضعیت ",
+    sortable: true,
+    minWidth: "52px",
+    sortField: "userRoles",
+    selector: (row) => row.isActive,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.isActive ? "light-primary" : "light-danger"}
+              className="me-1"
+            >
+              {row.isActive ? "فعال" : "غیرفعال"}
+            </Badge>
           </h5>
         </>
       );

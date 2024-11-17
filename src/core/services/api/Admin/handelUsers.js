@@ -294,11 +294,17 @@ export const useDeleteCommentCourse = () => {
 
 //GetAll News
 
-const GetAllNewsList = async ({ currentPage, rowsPerPage, searchTerm }) => {
+const GetAllNewsList = async ({
+  currentPage,
+  rowsPerPage,
+  searchTerm,
+  active,
+}) => {
   const AllParams = {
     PageNumber: currentPage ? currentPage : 1,
     RowsOfPage: rowsPerPage ? rowsPerPage : 10,
     Query: searchTerm ? searchTerm : undefined,
+    IsActive: active,
   };
   try {
     const response = await http.get(ApiRoutes.PANEL_GET_ALL_NEWS_ADMIN_URL, {
@@ -310,11 +316,16 @@ const GetAllNewsList = async ({ currentPage, rowsPerPage, searchTerm }) => {
     return false;
   }
 };
-export const useGetAllNewsList = ({ currentPage, rowsPerPage, searchTerm }) => {
+export const useGetAllNewsList = ({
+  currentPage,
+  rowsPerPage,
+  searchTerm,
+  active,
+}) => {
   return useQuery({
-    queryKey: ["GetAllNewsList", currentPage, rowsPerPage, searchTerm],
+    queryKey: ["GetAllNewsList", currentPage, rowsPerPage, searchTerm, active],
     queryFn: () => {
-      return GetAllNewsList({ currentPage, rowsPerPage, searchTerm });
+      return GetAllNewsList({ currentPage, rowsPerPage, searchTerm, active });
     },
   });
 };

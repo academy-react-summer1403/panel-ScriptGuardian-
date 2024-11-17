@@ -34,7 +34,7 @@ import "@styles/react/apps/app-users.scss";
 import { useGetAllUsers } from "../../../core/services/api/Admin/handelUsers";
 
 const UsersList = () => {
-  //TODO
+  //TODO  : namayesh tedad user
   const [currentStatus, setCurrentStatus] = useState({
     value: true,
     label: "فعال",
@@ -51,9 +51,10 @@ const UsersList = () => {
     IsActiveUser: currentStatus.value,
     roleId: currentRole.value,
   });
+
+  //Handel Totals
   const totalUser = data?.totalCount;
   const roles = data?.roles;
-
   const { data: Admin } = useGetAllUsers({
     roleId: 1,
   });

@@ -74,6 +74,8 @@ const CustomHeader = ({
   rowsPerPage,
   handleFilter,
   searchTerm,
+  handleChange,
+  active,
 }) => {
   // ** Converts table to CSV
   function convertArrayOfObjectsToCSV(array) {
@@ -138,7 +140,22 @@ const CustomHeader = ({
             </Input>
             <label htmlFor="rows-per-page">Entries</label>
           </div>
+          <div className="d-flex align-items-center w-100">
+            <label htmlFor="rows-per-page">وضعیت:</label>
+            <Input
+              className="mx-50"
+              type="select"
+              id="rows-per-page"
+              style={{ width: "5rem" }}
+              value={active.toString()}
+              onChange={handleChange}
+            >
+              <option value="true">فعال</option>
+              <option value="false">غیرفعال</option>
+            </Input>
+          </div>
         </Col>
+
         <Col
           xl="6"
           className="d-flex align-items-sm-center justify-content-xl-end justify-content-start flex-xl-nowrap flex-wrap flex-sm-row flex-column pe-xl-1 p-0 mt-xl-0 mt-1"
@@ -211,17 +228,25 @@ const UsersList = () => {
   // ** States
   const [sort, setSort] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
+
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState("id");
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarOpen2, setSidebarOpen2] = useState(false);
 
+  const [active, setActive] = useState(true);
+
+  const handleChange = (e) => {
+    setActive(e.target.value === "true");
+  };
+
   //Page
   const { data } = useGetAllNewsList({
     currentPage,
     rowsPerPage,
     searchTerm,
+    active,
   });
   const listUser = data?.news;
   // const listUser = data?.comments?.slice().reverse();
@@ -308,6 +333,8 @@ const UsersList = () => {
                 handleFilter={handleFilter}
                 handlePerPage={handlePerPage}
                 toggleSidebar={toggleSidebar}
+                handleChange={handleChange}
+                active={active}
               />
             }
           />
