@@ -37,30 +37,63 @@ const ModalCustom = ({ show, setShow, data }) => {
       Id: data?.courseId ?? "",
       Title: data?.title ?? "",
       Describe: data?.describe ?? "",
-      MiniDescribe: "", //?
-      Capacity: "", //?
-      CourseTypeId: "", //?
-      SessionNumber: "", //?
-      CurrentCoursePaymentNumber: "", //?
-      TremId: "", //?
-      ClassId: "", //?
-      CourseLvlId: "", //?
+      MiniDescribe: "تست تست تست تست ",
+      Capacity: "33",
+      CourseTypeId: "2", //? آنلاین
+      SessionNumber: "1", // custom
+      CurrentCoursePaymentNumber: data?.paymentDoneTotal ?? "", //?
+      TremId: "1", // just my custom
+      ClassId: "2", //? "ClassRoom 2"
+      CourseLvlId: "3", //? پیشرفته
       TeacherId: data?.teacherId ?? "",
       Cost: data?.cost ?? "",
       UniqeUrlString: "", //?
-      Image: data?.imageAddress ?? "",
+      Image: data?.imageAddress ?? "Not-set",
       StartTime: data?.startTime ?? "",
       EndTime: data?.endTime ?? "",
-      GoogleSchema: "", //?
-      GoogleTitle: "", //?
-      CoursePrerequisiteId: "", //?
-      TumbImageAddress: "", //?
-      ImageAddress: data?.imageAddress ?? "", //??
+      GoogleSchema: "تستستستستستستستستستستستستستس", //?
+      GoogleTitle: "تستستستستستستستستستستستستستستس", //?
+      CoursePrerequisiteId: data?.courseId ?? "", //? course id mishe
+      TumbImageAddress: data?.imageAddress ?? " Not-set", //my custom
+      ImageAddress: data?.imageAddress ?? " Not-set", //my custom
+      ShortLink: "123456", //?
+
+      // Id: "b503e37c-3f21-ef11-b6c7-cc06a3e06235",
+      // Title: "JavaScript",
+      // Describe:
+      //   "آموزش جاوا اسکریپت برای تمامی افرادی ک قصد ورود به زبان برنامه نویسی دارند مناسب می باشد . خصوصا برای علاقه مندان به حوزه فرانت ",
+      // MiniDescribe: "تست تست تست",
+      // Capacity: "33",
+      // CourseTypeId: "2", //? آنلاین
+      // SessionNumber: "1", // custom
+      // CurrentCoursePaymentNumber: "0", //?
+      // TremId: "1", // just my custom
+      // ClassId: "2", //? "ClassRoom 2"
+      // CourseLvlId: "3", //? پیشرفته
+      // TeacherId: "1",
+      // Cost: "870000",
+      // UniqeUrlString: "1", //?
+      // Image:
+      //   "https://classapi.sepehracademy.ir/\\Pictures\\Course\\1718693266020_623b79fa-bde6-4186-885c-59aa129809cf.jpg",
+      // StartTime: "2024-11-17T00:00:00",
+      // EndTime: "2024-11-19T00:00:00",
+      // GoogleSchema: "تستستستستستستستستستستستستستس", //?
+      // GoogleTitle: "تستستستستستستستستستستستستستستس", //?
+      // CoursePrerequisiteId: "b503e37c-3f21-ef11-b6c7-cc06a3e06235", //? course id mishe
+      // TumbImageAddress:
+      //   "https://classapi.sepehracademy.ir/\\Pictures\\Course\\1718693266020_623b79fa-bde6-4186-885c-59aa129809cf.jpg", //my custom
+      // ImageAddress:
+      //   "https://classapi.sepehracademy.ir/\\Pictures\\Course\\1718693266020_623b79fa-bde6-4186-885c-59aa129809cf.jpg", //my custom
+      // ShortLink: "1", //?
     },
     enableReinitialize: true,
     // validationSchema: validationSchema,
     onSubmit: (values) => {
-      UpdateProfile(values, {
+      const formData = new FormData();
+      for (const key in values) {
+        formData.append(key, values[key]);
+      }
+      UpdateProfile(formData, {
         onSuccess: (data) => {
           if (data.success == true) {
             toast.success("ویرایش با موفقیت انجام شد");
@@ -90,7 +123,8 @@ const ModalCustom = ({ show, setShow, data }) => {
           </div>
           <form onSubmit={formik.handleSubmit}>
             <Row className="gy-1 pt-75">
-              <Col md={6} xs={12}>
+              {/* title */}
+              <Col md={4} xs={12}>
                 <Label className="form-label" for="Title">
                   عنوان دوره{" "}
                 </Label>
@@ -100,6 +134,58 @@ const ModalCustom = ({ show, setShow, data }) => {
                   name="Title"
                   placeholder="عنوان دوره را وارد کنید"
                   {...formik?.getFieldProps("Title")}
+                />
+              </Col>
+              {/* Describe */}
+              <Col md={4} xs={12}>
+                <Label className="form-label" for="Describe">
+                  توضیحات دوره{" "}
+                </Label>
+
+                <Input
+                  id="Describe"
+                  name="Describe"
+                  placeholder="متن دوره را وارد کنید"
+                  {...formik?.getFieldProps("Describe")}
+                />
+              </Col>
+              {/* MiniDescribe */}
+              <Col md={4} xs={12}>
+                <Label className="form-label" for="MiniDescribe">
+                  توضیحات کوتاه دوره{" "}
+                </Label>
+
+                <Input
+                  id="MiniDescribe"
+                  name="MiniDescribe"
+                  placeholder="متن دوره را وارد کنید"
+                  {...formik?.getFieldProps("MiniDescribe")}
+                />
+              </Col>
+              {/* Capacity */}
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="Capacity">
+                  ظرفیت دوره
+                </Label>
+
+                <Input
+                  id="Capacity"
+                  name="Capacity"
+                  placeholder="ظرفیت دوره را وارد کنید"
+                  {...formik?.getFieldProps("Capacity")}
+                />
+              </Col>
+              {/* UniqeUrlString */}
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="Capacity">
+                  ای دی اختصاصی دوره
+                </Label>
+
+                <Input
+                  id="UniqeUrlString"
+                  name="UniqeUrlString"
+                  placeholder="یونیک دوره را وارد کنید"
+                  {...formik?.getFieldProps("UniqeUrlString")}
                 />
               </Col>
 
