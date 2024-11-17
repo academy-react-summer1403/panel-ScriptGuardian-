@@ -24,3 +24,27 @@ export const useUpdateUser = () => {
     },
   });
 };
+
+const UpdateCourse = async (user) => {
+  console.log("this is UpdateUser", user);
+  try {
+    const response = await http.put(
+      `${ApiRoutes.PANEL_UPDATE_COURSE_ADMIN_URL}`,
+      user
+    );
+    console.log(response.message, "this response UpdateCourse");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useUpdateCourse = () => {
+  return useMutation({
+    mutationKey: ["UpdateCourse"],
+    mutationFn: (data) => {
+      console.log("this is user UpdateCourse =", data);
+      return UpdateCourse(data);
+    },
+  });
+};

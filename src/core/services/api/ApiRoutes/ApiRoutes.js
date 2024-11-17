@@ -90,5 +90,6 @@ export const ApiRoutes = {
   //change profile
 
   PANEL_UPDATE_USER_ADMIN_URL: "/User/UpdateUser",
+  PANEL_UPDATE_COURSE_ADMIN_URL: "/Course",
   PANEL_ACCEPT_RESERVE_ADMIN_URL: "/CourseReserve/SendReserveToCourse",
 };
