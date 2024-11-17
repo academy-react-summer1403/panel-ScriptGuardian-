@@ -317,14 +317,14 @@ const UserInfoCard = ({ data }) => {
             <Button color="primary" onClick={() => setShow(true)}>
               ویرایش
             </Button>
-            <Button
+            {/* <Button
               className="ms-1"
               color="danger"
               outline
               onClick={handleSuspendedClick}
             >
               Suspended
-            </Button>
+            </Button> */}
           </div>
         </CardBody>
       </Card>

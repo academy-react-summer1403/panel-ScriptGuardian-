@@ -9,6 +9,7 @@ import { User, Lock, Bookmark, Bell, Link } from "react-feather";
 
 // ** User Components
 import InvoiceList from "./InvoiceList";
+import InvoiceList2 from "./InvoiceList2";
 // import SecurityTab from './SecurityTab'
 // import Connections from './Connections'
 // import BillingPlanTab from './BillingTab'
@@ -37,13 +38,14 @@ const UserTabs = ({ active, toggleTab, data }) => {
         <TabPane tabId="1">
           {/* <UserProjectsList />
           <UserTimeline /> */}
-          <InvoiceList data={data?.coursesReseves} />1
+          <InvoiceList data={data?.coursesReseves} />
         </TabPane>
 
         <TabPane tabId="2">
+          <InvoiceList2 data={data?.courses} />
           {/* <UserProjectsList />
           <UserTimeline /> */}
-          {/* <InvoiceList /> */}2
+          {/* <InvoiceList /> */}
         </TabPane>
         {/* <TabPane tabId='2'>
           <SecurityTab />
