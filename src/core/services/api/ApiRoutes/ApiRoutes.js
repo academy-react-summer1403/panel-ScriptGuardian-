@@ -72,6 +72,7 @@ export const ApiRoutes = {
 
   PANEL_GET_ALL_USERS_URL: "/User/UserMannage",
   PANEL_GET_DETAILS_USERS_URL: "/User/UserDetails/",
+  PANEL_GET_DETAILS_COURSE_RESERVE_URL: "/CourseReserve/",
   PANEL_ADD_NEW_USER_URL: "/User/CreateUser",
   PANEL_GET_ALL_COURSES_ADMIN_URL: "/Course/CourseList",
   PANEL_GET_DETAILS_COURSE_URL: "/Course/",

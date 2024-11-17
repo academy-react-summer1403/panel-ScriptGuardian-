@@ -6,13 +6,16 @@ import { useParams, Link } from "react-router-dom";
 import { Row, Col, Alert } from "reactstrap";
 
 // ** User View Components
-import UserTabs from "./Tabs";
 import PlanCard from "./PlanCard";
 import UserInfoCard from "./UserInfoCard";
 
 // ** Styles
 import "@styles/react/apps/app-users.scss";
-import { useGetAllCourseDetailsAdmin, useGetAllUsersDetailsAdmin } from "../../../core/services/api/Admin/handelUsers";
+import {
+  useGetAllCourseDetailsAdmin,
+  useGetAllUsersDetailsAdmin,
+} from "../../../core/services/api/Admin/handelUsers";
+import CourseTabs from "./Tabs";
 
 const CourseDetails = () => {
   const { id } = useParams();
@@ -32,7 +35,12 @@ const CourseDetails = () => {
           {/* <PlanCard /> */}
         </Col>
         <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
-          {/* <UserTabs active={active} toggleTab={toggleTab} /> */}
+          <CourseTabs
+            active={active}
+            data={data}
+            toggleTab={toggleTab}
+            id={id}
+          />
         </Col>
       </Row>
     </div>
