@@ -6,7 +6,6 @@ import { useParams, Link } from "react-router-dom";
 import { Row, Col, Alert } from "reactstrap";
 
 // ** User View Components
-import UserTabs from "./Tabs";
 import PlanCard from "./PlanCard";
 import UserInfoCard from "./UserInfoCard";
 
@@ -17,6 +16,7 @@ import {
   useGetAllNewsDetailsAdmin,
   useGetAllUsersDetailsAdmin,
 } from "../../../core/services/api/Admin/handelUsers";
+import NewsTab from "./Tabs";
 
 const NewsDetails = () => {
   const { id } = useParams();
@@ -38,7 +38,7 @@ const NewsDetails = () => {
           {/* <PlanCard /> */}
         </Col>
         <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
-          {/* <UserTabs active={active} toggleTab={toggleTab} /> */}
+          <NewsTab active={active} data={data} toggleTab={toggleTab} id={id} />
         </Col>
       </Row>
     </div>
