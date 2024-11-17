@@ -13,8 +13,11 @@ import { selectThemeColors } from "@utils";
 import { Check, X } from "react-feather";
 import { useFormik } from "formik";
 import { useUpdateUser } from "../../../../core/services/api/Admin/handelChangeProfileUser";
+import { toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ModalCustom = ({ show, setShow, data }) => {
+  const queryClient = useQueryClient();
   const countryOptions = [
     { value: "uk", label: "UK" },
     { value: "usa", label: "USA" },
@@ -75,13 +78,24 @@ const ModalCustom = ({ show, setShow, data }) => {
           studentId: reserve.studentId || "",
           studentName: reserve.studentName || "",
           reserverDate: reserve.reserverDate || "",
-          accept: reserve.accept || "",
+          accept: reserve.accept,
         })) || [],
       userProfileId: data?.userProfileId ? data?.userProfileId : undefined,
     },
+    enableReinitialize: true,
     // validationSchema: validationSchema,
     onSubmit: (values) => {
-      UpdateProfile(values);
+      UpdateProfile(values, {
+        onSuccess: (data) => {
+          if (data.success == true) {
+            toast.success("ویرایش با موفقیت انجام شد");
+            queryClient.invalidateQueries("GetStudentProfile");
+            queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
+            queryClient.invalidateQueries("GetAllUsers");
+            setShow(false);
+          }
+        },
+      });
     },
   });
 
@@ -160,9 +174,9 @@ const ModalCustom = ({ show, setShow, data }) => {
               </Col>
               <Col xs={12} className="text-center mt-2 pt-50">
                 <Button type="submit" className="me-1" color="primary">
-                  Submit
+                  ارسال
                 </Button>
-                <Button
+                {/* <Button
                   type="reset"
                   color="secondary"
                   outline
@@ -172,7 +186,7 @@ const ModalCustom = ({ show, setShow, data }) => {
                   }}
                 >
                   Discard
-                </Button>
+                </Button> */}
               </Col>
             </Row>
           </form>
