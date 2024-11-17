@@ -18,13 +18,23 @@ import { selectThemeColors } from "@utils";
 import StatsHorizontal from "@components/widgets/stats/StatsHorizontal";
 
 // ** Icons Imports
-import { User, UserPlus, UserCheck, UserX } from "react-feather";
+import {
+  User,
+  UserPlus,
+  UserCheck,
+  UserX,
+  Shield,
+  Clipboard,
+  Book,
+  Headphones,
+} from "react-feather";
 
 // ** Styles
 import "@styles/react/apps/app-users.scss";
 import { useGetAllUsers } from "../../../core/services/api/Admin/handelUsers";
 
 const UsersList = () => {
+  //TODO
   const [currentStatus, setCurrentStatus] = useState({
     value: true,
     label: "فعال",
@@ -43,6 +53,21 @@ const UsersList = () => {
   });
   const totalUser = data?.totalCount;
   const roles = data?.roles;
+
+  const { data: Admin } = useGetAllUsers({
+    roleId: 1,
+  });
+  const totalAdminStor = Admin?.totalCount;
+
+  const { data: Teacher } = useGetAllUsers({
+    roleId: 2,
+  });
+  const totalTeacher = Teacher?.totalCount;
+
+  const { data: Support } = useGetAllUsers({
+    roleId: 10,
+  });
+  const totalSupport = Support?.totalCount;
 
   const statusOptions = () => {
     return [
@@ -83,6 +108,31 @@ const UsersList = () => {
             statTitle=" تعداد کاربران"
             icon={<User size={20} />}
             renderStats={<h3 className="fw-bolder mb-75">{totalUser}</h3>}
+          />
+        </Col>
+        <Col lg="3" sm="6">
+          <StatsHorizontal
+            color="success"
+            statTitle=" تعداد ادمین"
+            icon={<Shield size={20} />}
+            renderStats={<h3 className="fw-bolder mb-75">{totalAdminStor}</h3>}
+          />
+        </Col>
+
+        <Col lg="3" sm="6">
+          <StatsHorizontal
+            color="warning"
+            statTitle=" تعداد معلم"
+            icon={<Book size={20} />}
+            renderStats={<h3 className="fw-bolder mb-75">{totalTeacher}</h3>}
+          />
+        </Col>
+        <Col lg="3" sm="6">
+          <StatsHorizontal
+            color="warning"
+            statTitle=" تعداد پشتیبان"
+            icon={<Headphones size={20} />}
+            renderStats={<h3 className="fw-bolder mb-75">{totalSupport}</h3>}
           />
         </Col>
         {/* <Col lg="3" sm="6">
