@@ -146,7 +146,7 @@ const UserInfoCard = ({ data }) => {
       setShow(false);
     } else {
       for (const key in data) {
-        if (data[key].length === 0) {
+        if (dat && data[key].length === 0) {
           setError(key, {
             type: "manual",
           });
@@ -242,7 +242,7 @@ const UserInfoCard = ({ data }) => {
                 <Check className="font-medium-2" />
               </Badge>
               <div className="ms-75">
-                <h4 className="mb-0">{data?.courses.length}</h4>
+                <h4 className="mb-0">{data && data?.courses.length}</h4>
                 <small>دوره ها </small>
               </div>
             </div>
@@ -251,7 +251,7 @@ const UserInfoCard = ({ data }) => {
                 <Briefcase className="font-medium-2" />
               </Badge>
               <div className="ms-75">
-                <h4 className="mb-0">{data?.coursesReseves.length}</h4>
+                <h4 className="mb-0">{data && data?.coursesReseves.length}</h4>
                 <small>رزرو شده</small>
               </div>
             </div>

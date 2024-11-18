@@ -149,7 +149,7 @@ const GetAllCourseDetailsAdmin = async (id) => {
 };
 export const useGetAllCourseDetailsAdmin = (id) => {
   return useQuery({
-    queryKey: ["GetAllCourseDetailsAdmin"],
+    queryKey: ["GetAllCourseDetailsAdmin", id],
     queryFn: () => {
       return GetAllCourseDetailsAdmin(id);
     },

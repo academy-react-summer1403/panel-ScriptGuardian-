@@ -23,3 +23,28 @@ export const useGetAllCourseDetailsReserves = (id) => {
     },
   });
 };
+
+//Get All Reserve
+
+const GetAllCourseReserves = async () => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_LIST_COURSE_RESERVE_URL}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllCourseReserves in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllCourseReserves = () => {
+  return useQuery({
+    queryKey: ["GetAllCourseReserves"],
+    queryFn: () => {
+      return GetAllCourseReserves();
+    },
+  });
+};

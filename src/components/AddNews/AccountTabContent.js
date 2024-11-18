@@ -72,10 +72,12 @@ const AccountTabs = () => {
     },
   });
   // تبدیل داده‌ها به فرمت قابل استفاده در کامپوننت Select
-  const options = data?.map((item) => ({
-    value: item?.id,
-    label: item?.categoryName,
-  }));
+  const options =
+    data &&
+    data?.map((item) => ({
+      value: item?.id,
+      label: item?.categoryName,
+    }));
 
   console.log("data of cate", data);
   // ** Hooks
@@ -292,9 +294,12 @@ const AccountTabs = () => {
                   classNamePrefix="select"
                   options={options}
                   theme={selectThemeColors}
-                  value={options?.find(
-                    (option) => option.value === formik.values.NewsCatregoryId
-                  )} // پیدا کردن گزینه مناسب
+                  value={
+                    options &&
+                    options?.find(
+                      (option) => option.value === formik.values.NewsCatregoryId
+                    )
+                  } // پیدا کردن گزینه مناسب
                   onChange={(data) => {
                     formik.setFieldValue("NewsCatregoryId", data?.value || ""); // مقدار فرمیک به‌روزرسانی می‌شود
                     setCurrentRole(data);

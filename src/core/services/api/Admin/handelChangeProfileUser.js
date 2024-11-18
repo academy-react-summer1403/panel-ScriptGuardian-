@@ -48,3 +48,27 @@ export const useUpdateCourse = () => {
     },
   });
 };
+
+const UpdateNews = async (user) => {
+  console.log("this is UpdateUser", user);
+  try {
+    const response = await http.put(
+      `${ApiRoutes.PANEL_UPDATE_NEWS_ADMIN_URL}`,
+      user
+    );
+    console.log(response.message, "this response UpdateNews");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useUpdateNews = () => {
+  return useMutation({
+    mutationKey: ["UpdateNews"],
+    mutationFn: (data) => {
+      console.log("this is user UpdateNews =", data);
+      return UpdateNews(data);
+    },
+  });
+};

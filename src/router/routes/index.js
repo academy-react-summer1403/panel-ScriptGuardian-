@@ -40,6 +40,7 @@ const Login = lazy(() => import("../../pages/Login"));
 const Register = lazy(() => import("../../pages/Register"));
 const NewsDetailsPage = lazy(() => import("../../pages/NewsDetailsPage"));
 const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
+const CourseReservedPage = lazy(() => import("../../pages/CourseReservedPage"));
 const Error = lazy(() => import("../../pages/Error"));
 const Sample = lazy(() => import("../../pages/Sample"));
 
@@ -82,6 +83,10 @@ const Routes = [
         ساختتتتتتتتتتتتت
       </p>
     ),
+  },
+  {
+    path: "/CourseReserved",
+    element: <CourseReservedPage/>,
   },
   {
     path: "/CommentsListPage",

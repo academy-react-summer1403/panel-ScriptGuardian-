@@ -73,6 +73,7 @@ export const ApiRoutes = {
   PANEL_GET_ALL_USERS_URL: "/User/UserMannage",
   PANEL_GET_DETAILS_USERS_URL: "/User/UserDetails/",
   PANEL_GET_DETAILS_COURSE_RESERVE_URL: "/CourseReserve/",
+  PANEL_GET_LIST_COURSE_RESERVE_URL: "/CourseReserve",
   PANEL_GET_DETAILS_NEWS_COMMENTS_URL: "/News/GetAdminNewsComments?NewsId=",
   PANEL_ADD_NEW_USER_URL: "/User/CreateUser",
   PANEL_GET_ALL_COURSES_ADMIN_URL: "/Course/CourseList",
@@ -93,5 +94,8 @@ export const ApiRoutes = {
 
   PANEL_UPDATE_USER_ADMIN_URL: "/User/UpdateUser",
   PANEL_UPDATE_COURSE_ADMIN_URL: "/Course",
+  PANEL_UPDATE_NEWS_ADMIN_URL: "/News/UpdateNews",
   PANEL_ACCEPT_RESERVE_ADMIN_URL: "/CourseReserve/SendReserveToCourse",
+  // PANEL_COURSE_GROUP_ADMIN_URL: "/CourseGroup",
+  PANEL_COURSE_GROUP_ADMIN_URL: "/CourseGroup/GetCourseGroup?",
 };
