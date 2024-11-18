@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 // ** Custom Components
@@ -37,6 +37,8 @@ import default_image from "../../../images/default_image.png";
 import { useAcceptCourseReserve } from "../../../core/services/api/Admin/handelreserve";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import { useUpdateCommentNews } from "../../../core/services/api/Admin/handelDetailsNews";
+import ModalEditCommentNews from "./modal/ModalEditCommentNews";
 
 // ** Vars
 const invoiceStatusObj = {
@@ -155,7 +157,7 @@ export const columns2 = [
     name: "نام نویسنده",
     sortable: true,
     sortField: "id",
-    minWidth: "100px",
+    minWidth: "80px",
     selector: (row) => row.studentName,
     cell: (row) => {
       return (
@@ -173,7 +175,7 @@ export const columns2 = [
   },
 
   {
-    minWidth: "150px",
+    minWidth: "100px",
     name: " عنوان کامنت",
     cell: (row) => (
       <span title={row?.title}>
@@ -254,4 +256,26 @@ export const columns2 = [
   //     );
   //   },
   // },
+
+  {
+    name: "اقدامات",
+    minWidth: "100px",
+
+    cell: (row) => {
+      const queryClient = useQueryClient();
+      const { mutate } = useUpdateCommentNews();
+
+      const [show, setShow] = useState(false);
+      const handelToggle = () => {
+        setShow(!show);
+      };
+
+      return (
+        <>
+          <Button onClick={handelToggle}>ویرایش</Button>
+          <ModalEditCommentNews show={show} setShow={setShow} data={row} />
+        </>
+      );
+    },
+  },
 ];

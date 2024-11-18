@@ -95,6 +95,7 @@ export const ApiRoutes = {
   PANEL_UPDATE_USER_ADMIN_URL: "/User/UpdateUser",
   PANEL_UPDATE_COURSE_ADMIN_URL: "/Course",
   PANEL_UPDATE_NEWS_ADMIN_URL: "/News/UpdateNews",
+  PANEL_UPDATE_NEWS_COMMENT_URL: "/News/UpdateNewsComment",
   PANEL_ACCEPT_RESERVE_ADMIN_URL: "/CourseReserve/SendReserveToCourse",
   // PANEL_COURSE_GROUP_ADMIN_URL: "/CourseGroup",
   PANEL_COURSE_GROUP_ADMIN_URL: "/CourseGroup/GetCourseGroup?",

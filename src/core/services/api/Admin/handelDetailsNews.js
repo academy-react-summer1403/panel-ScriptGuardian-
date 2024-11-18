@@ -23,3 +23,27 @@ export const useGetAllNewsComments = (id) => {
     },
   });
 };
+
+const UpdateCommentNews = async (user) => {
+  console.log("this is UpdateCommentNews", user);
+  try {
+    const response = await http.put(
+      `${ApiRoutes.PANEL_UPDATE_NEWS_COMMENT_URL}`,
+      user
+    );
+    console.log(response.message, "this response UpdateCommentNews");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useUpdateCommentNews = () => {
+  return useMutation({
+    mutationKey: ["UpdateCommentNews"],
+    mutationFn: (data) => {
+      console.log("this is user UpdateCommentNews =", data);
+      return UpdateCommentNews(data);
+    },
+  });
+};
