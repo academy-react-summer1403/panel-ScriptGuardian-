@@ -15,32 +15,101 @@ import {
 
 import {
   useAcceptCourseReserve,
+  useAddNewGroupForCourses,
   useGetGroupCourse,
 } from "../../../../core/services/api/Admin/handelreserve";
 import { toast } from "react-toastify";
 import { useGetAllCourseDetailsAdmin } from "../../../../core/services/api/Admin/handelUsers";
+import { useState } from "react";
+import { useFormik } from "formik";
 
-const CustomModal = ({ isOpenModal, toggleAcceptModal, Id }) => {
-  // const queryClient = useQueryClient();
-  // const { data: CourseDetails } = useGetAllCourseDetailsAdmin(Id);
-  // const { data: AllGroup } = useGetGroupCourse({
-  //   teacherId: CourseDetails?.teacherId,
-  //   courseId: CourseDetails?.courseId,
-  // });
-  // console.log(AllGroup , "AllGroup");
-  const { mutate: Accept } = useAcceptCourseReserve();
-  const handelAccept = (value) => {
-    Accept(value.reserveId, value.courseId, value.studentId, {
-      onSuccess: (data) => {
-        if (data.success == true) {
-          toast.success("با موفقیت رزرو پذیرفته شد");
-          queryClient.invalidateQueries("GetAllCourseReserves");
-        } else {
-          toast.error("    خطا در رزرو");
-        }
-      },
-    });
+const CustomModal = ({
+  isOpenModal,
+  toggleAcceptModal,
+  courseId,
+  teacherId,
+  studentId,
+  setIsOpenModal,
+}) => {
+  const queryClient = useQueryClient();
+  const [addNewGroupIsOpen, setAddNewGroupIsOpen] = useState(false);
+
+  const ToggelIsOpen = () => {
+    setAddNewGroupIsOpen(!addNewGroupIsOpen);
   };
+
+  const { data: AllGroup } = useGetGroupCourse({
+    teacherId: teacherId,
+    courseId: courseId,
+  });
+
+  if (isOpenModal && isOpenModal === true) {
+    if (AllGroup && AllGroup?.length === 0) {
+      toast.info("گروهی برای رزرو وجود ندارد لطفا ایجاد  کنید");
+    }
+  }
+
+  const { mutate: Accept } = useAcceptCourseReserve();
+  const [selectedGroup, setSelectedGroup] = useState("");
+
+  const handelAccept = ({ courseId, studentId, selectedGroup }) => {
+    if (selectedGroup !== "") {
+      Accept(
+        { studentId, courseId, selectedGroup },
+        {
+          onSuccess: (data) => {
+            if (data.success == true) {
+              setIsOpenModal(false);
+              toast.success("با موفقیت رزرو پذیرفته شد");
+              queryClient.invalidateQueries("GetAllCourseReserves");
+            } else {
+              toast.error("    خطا در رزرو");
+            }
+          },
+        }
+      );
+    } else if (selectedGroup === "") {
+      toast.error("انتخاب گروه اجباریست");
+    } else {
+      toast.error("  خطا در قبول کردن رزرو");
+    }
+  };
+
+  //handel Add New Group
+
+  const { mutate: AddNewsGroup } = useAddNewGroupForCourses();
+
+  const formik = useFormik({
+    initialValues: {
+      GroupName: "",
+      CourseId: courseId,
+      GroupCapacity: "",
+    },
+    enableReinitialize: true,
+
+    // validationSchema: validationSchema,
+    onSubmit: (values) => {
+      const formData = new FormData();
+      for (const key in values) {
+        formData.append(key, values[key]);
+      }
+      AddNewsGroup(formData, {
+        onSuccess: (data) => {
+          if (data.success) {
+            toast.success("با موفقیت گروه اضافه شد ");
+            setAddNewGroupIsOpen(false);
+            queryClient.invalidateQueries("GetGroupCourse");
+          } else {
+            toast.error("خطا در اضافه کردن گروه");
+          }
+        },
+        // onError: (error) => {
+
+        // },
+      });
+    },
+  });
+
   return (
     <>
       <Modal isOpen={isOpenModal} toggle={toggleAcceptModal}>
@@ -56,8 +125,8 @@ const CustomModal = ({ isOpenModal, toggleAcceptModal, Id }) => {
               type="select"
               name="courseGroup"
               id="courseGroup"
-              //   value={selectedGroup}
-              //   onChange={(e) => setSelectedGroup(e.target.value)}
+              value={selectedGroup}
+              onChange={(e) => setSelectedGroup(e.target.value)}
             >
               <option value="" disabled>
                 لطفا گروه دوره را انتخاب کنید
@@ -68,65 +137,41 @@ const CustomModal = ({ isOpenModal, toggleAcceptModal, Id }) => {
             </option>
           ))} */}
 
-              {/* {AllGroup &&
+              {AllGroup &&
                 AllGroup?.map((group) => (
                   <option key={group.groupId} value={group.groupId}>
                     {group.groupName}
                   </option>
-                ))} */}
+                ))}
             </Input>
           </FormGroup>
-          <Button
-            color="link"
-            //   onClick={toggleAccordion}
-          >
+          <Button color="link" onClick={ToggelIsOpen}>
             افزودن گروه جدید
           </Button>
-          <Collapse
-          //    isOpen={isAccordionOpen}
-          >
+          <Collapse isOpen={addNewGroupIsOpen}>
             <Card>
               <CardBody>
-                <form
-                //  onSubmit={formik.handleSubmit}
-                >
+                <form onSubmit={formik.handleSubmit}>
                   <FormGroup>
-                    <Label for="newGroupName">نام گروه</Label>
+                    <Label for="GroupName">نام گروه</Label>
                     <Input
                       type="text"
-                      id="newGroupName"
+                      id="GroupName"
                       name="GroupName"
-                      //   value={formik.values.GroupName}
-                      //   onChange={formik.handleChange}
-                      //   onBlur={formik.handleBlur}
-                      //   invalid={
-                      //     formik.touched.GroupName && !!formik.errors.GroupName
-                      //   }
+                      {...formik.getFieldProps("GroupName")}
                     />
                     {/* {formik.touched.GroupName && formik.errors.GroupName && (
                   <div className="text-danger">{formik.errors.GroupName}</div>
                 )} */}
                   </FormGroup>
                   <FormGroup>
-                    <Label for="newGroupCapacity">ظرفیت گروه</Label>
+                    <Label for="GroupCapacity">ظرفیت گروه</Label>
                     <Input
-                      type="number"
-                      id="newGroupCapacity"
+                      type="text"
+                      id="GroupCapacity"
                       name="GroupCapacity"
-                      //   value={formik.values.GroupCapacity}
-                      //   onChange={formik.handleChange}
-                      //   onBlur={formik.handleBlur}
-                      //   invalid={
-                      //     formik.touched.GroupCapacity &&
-                      //     !!formik.errors.GroupCapacity
-                      //   }
+                      {...formik.getFieldProps("GroupCapacity")}
                     />
-                    {/* {formik.touched.GroupCapacity &&
-                  formik.errors.GroupCapacity && (
-                    <div className="text-danger">
-                      {formik.errors.GroupCapacity}
-                    </div>
-                  )} */}
                   </FormGroup>
                   <Button color="primary" type="submit" className="mt-2">
                     اضافه کردن گروه جدید{" "}
@@ -139,7 +184,9 @@ const CustomModal = ({ isOpenModal, toggleAcceptModal, Id }) => {
         <ModalFooter>
           <Button
             color="success"
-            //    onClick={handleAcceptCourseReserve}
+            onClick={() => {
+              handelAccept({ courseId, studentId, selectedGroup });
+            }}
           >
             موافقت
           </Button>

@@ -30,6 +30,7 @@ const UsersPage = lazy(() => import("../../pages/UsersPage"));
 const UserDetailsPage = lazy(() => import("../../pages/UserDetailsPage"));
 const CourseListPage = lazy(() => import("../../pages/CourseListPage"));
 const CourseDetailPage = lazy(() => import("../../pages/CourseDetailPage"));
+const AddCoursePage = lazy(() => import("../../pages/AddCoursePage"));
 const CommentListPage = lazy(() => import("../../pages/CommentListPage"));
 const NewsListPage = lazy(() => import("../../pages/NewsListPage.js"));
 const AddNewsCateGoryPage = lazy(() =>
@@ -77,16 +78,11 @@ const Routes = [
   },
   {
     path: "/createCourse",
-    element: (
-      <p>
-        همهی دوره هااااااااااااااااااااااااااااااااااااااااااااا
-        ساختتتتتتتتتتتتت
-      </p>
-    ),
+    element: <AddCoursePage />,
   },
   {
     path: "/CourseReserved",
-    element: <CourseReservedPage/>,
+    element: <CourseReservedPage />,
   },
   {
     path: "/CommentsListPage",

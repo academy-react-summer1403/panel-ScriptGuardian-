@@ -22,6 +22,10 @@ import {
 } from "reactstrap";
 import CustomModal from "./modal/modal";
 import { useState } from "react";
+import {
+  useGetAllCourseDetailsAdmin,
+  useGetAllCourseDetailsAdminForReserve,
+} from "../../../core/services/api/Admin/handelUsers";
 
 export const CustomColumns = (toggleSidebar2) => [
   {
@@ -493,8 +497,15 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
 
     cell: (row) => {
       const [isOpenModal, setIsOpenModal] = useState(false);
+      const {
+        data: CourseDetails,
+        refetch,
+        isFetching,
+      } = useGetAllCourseDetailsAdminForReserve(row?.courseId);
+
       const toggleAcceptModal = () => {
         setIsOpenModal(!isOpenModal);
+        refetch();
       };
 
       return (
@@ -533,13 +544,14 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
               </DropdownMenu>
             </UncontrolledDropdown>
           </div>
-          {/* <div className="" onClick={toggleAcceptModal}>
-            sssssssssssssssssssssssssssssssss
-          </div> */}
+
           <CustomModal
             isOpenModal={isOpenModal}
             toggleAcceptModal={toggleAcceptModal}
-            Id={row?.courseId}
+            setIsOpenModal={setIsOpenModal}
+            teacherId={CourseDetails?.teacherId}
+            courseId={CourseDetails?.courseId}
+            studentId={row?.studentId}
           />
         </>
       );

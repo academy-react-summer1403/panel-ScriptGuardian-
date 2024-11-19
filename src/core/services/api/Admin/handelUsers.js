@@ -156,6 +156,32 @@ export const useGetAllCourseDetailsAdmin = (id) => {
   });
 };
 
+//Course Details for accept reserved
+
+const GetAllCourseDetailsAdminForReserve = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_COURSE_URL}${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllCourseDetailsAdmin in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllCourseDetailsAdminForReserve = (id) => {
+  return useQuery({
+    queryKey: ["GetAllCourseDetailsAdmin", id],
+    queryFn: () => {
+      return GetAllCourseDetailsAdminForReserve(id);
+    },
+    enabled: false, // غیرفعال کردن فراخوانی خودکار
+  });
+};
+
 //News Details
 
 const GetAllNewsDetailsAdmin = async (id) => {
