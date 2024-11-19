@@ -94,3 +94,33 @@ export const useAddNewGroupForCourses = () => {
     },
   });
 };
+
+// handel Change COurses To active Or De active
+
+const ActiveCourse = async ({ active, id }) => {
+  console.log("this is AcceptCourseReserve", { active, id });
+  const data = {
+    active: active,
+    id: id,
+  };
+  try {
+    const response = await http.put(
+      ApiRoutes.PANEL_CHANGE_ACTIVITY_ADMIN_URL,
+      data
+    );
+    console.log(response.message, "this response ActiveCourse");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useActiveCourse = () => {
+  return useMutation({
+    mutationKey: ["ActiveCourse"],
+    mutationFn: ({ active, id }) => {
+      console.log("this is user ActiveCourse =", { active, id });
+      return ActiveCourse({ active, id });
+    },
+  });
+};
