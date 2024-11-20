@@ -80,6 +80,7 @@ export const ApiRoutes = {
   PANEL_GET_DETAILS_COURSE_URL: "/Course/",
   PANEL_GET_DETAILS_NEWS_URL: "/News/",
   PANEL_GET_ALL_COMMENTS_ADMIN_URL: "/Course/CommentManagment",
+  PANEL_GET_CREATE_COURSE_STEP_ONE_ADMIN_URL: "/Course/GetCreate",
 
   PANEL_ACCEPT_COMMENTS_ADMIN_URL: "/Course/AcceptCourseComment?",
   PANEL_NOT_ACCEPT_COMMENTS_ADMIN_URL: "/Course/RejectCourseComment?",
@@ -98,6 +99,7 @@ export const ApiRoutes = {
   PANEL_UPDATE_NEWS_COMMENT_URL: "/News/UpdateNewsComment",
   PANEL_ACCEPT_RESERVE_ADMIN_URL: "/CourseReserve/SendReserveToCourse",
   PANEL_CHANGE_ACTIVITY_ADMIN_URL: "/Course/ActiveAndDeactiveCourse",
+  PANEL_CHANGE_ACTIVITY_NEWS_ADMIN_URL: "/News/ActiveDeactiveNews",
   PANEL_ADD_NEW_COURSE_GROUP_URL: "/CourseGroup",
   // PANEL_COURSE_GROUP_ADMIN_URL: "/CourseGroup",
   PANEL_COURSE_GROUP_ADMIN_URL: "/CourseGroup/GetCourseGroup?",

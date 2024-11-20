@@ -31,6 +31,11 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
+import {
+  useActiveCourse,
+  useActiveNews,
+} from "../../../core/services/api/Admin/handelreserve";
+
 export const CustomColumns = (toggleSidebar2) => [
   {
     name: "نام کاربر",
@@ -679,6 +684,45 @@ export const CustomColumnsForListNews = (toggleSidebar2) => [
     minWidth: "100px",
 
     cell: (row) => {
+      const queryClient = useQueryClient();
+
+      const { mutate: ChangeActivity } = useActiveNews();
+
+      const ActiveCourse = (id) => {
+        const formData = new FormData();
+        formData.append("Id", id);
+        formData.append("Active", true);
+        ChangeActivity(
+          formData,
+
+          {
+            onSuccess: (data) => {
+              if (data.success === true) {
+                queryClient.invalidateQueries("GetAllNewsList");
+                toast.success("خبر با موفقیت فعال شد");
+              }
+            },
+          }
+        );
+      };
+
+      const DeActiveCourse = (id) => {
+        const formData = new FormData();
+        formData.append("Id", id);
+        formData.append("Active", false);
+        ChangeActivity(
+          formData,
+
+          {
+            onSuccess: (data) => {
+              if (data.success === true) {
+                queryClient.invalidateQueries("GetAllNewsList");
+                toast.success("خبر با موفقیت غیر فعال شد");
+              }
+            },
+          }
+        );
+      };
       return (
         <div className="column-action">
           <UncontrolledDropdown>
@@ -686,61 +730,43 @@ export const CustomColumnsForListNews = (toggleSidebar2) => [
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
-              {/* <DropdownItem
-                tag={Link}
-                className="w-100"
-                to={`${row.id}`}
-                // onClick={() => store.dispatch(getUser(row.id))}
-              >
-                <FileText size={14} className="me-50" />
-                <span className="align-middle">جزئیات کاربر</span>
-              </DropdownItem> */}
-              <DropdownItem
-                tag="a"
-                // href="/"
-                className="w-100"
-                // onClick={(e) => {
-                //   e.preventDefault();
-                //   dispatch(dispatch(toggleEditSidebar));
-                //   setData2(row);
-                // }}
-              >
+              <DropdownItem tag="a" className="w-100">
                 <Archive size={14} className="me-50" />
                 <span className="align-middle" onClick={toggleSidebar2}>
                   ویرایش کاربر
                 </span>
               </DropdownItem>
-              <DropdownItem
-                tag="a"
-                href="/"
-                className="w-100"
-                // onClick={(e) => {
-                //   e.preventDefault();
-                //   // const params = {}
-                //   // store.dispatch(deleteUser(row.id));
-                //   deleteUserFn.mutate(
-                //     row.id
-                //     // {
-                //     //   onSuccess:()=> {useQueryClient(queryClient)}
-                //     // }
-                //   );
-                // }}
-              >
-                <Trash2 size={14} className="me-50" />
-                <span className="align-middle">حذف کاربر</span>
-              </DropdownItem>
+
+              {row?.isActive ? (
+                <>
+                  <DropdownItem
+                    onClick={() => {
+                      DeActiveCourse(row?.id);
+                    }}
+                    lassName="w-100"
+                  >
+                    <X size={14} className="me-50" />
+                    <span className="align-middle"> غیر فعال کردن خبر </span>
+                  </DropdownItem>
+                </>
+              ) : (
+                <>
+                  <DropdownItem
+                    className="w-100"
+                    onClick={() => {
+                      ActiveCourse(row?.id);
+                    }}
+                  >
+                    <Trash2 size={14} className="me-50" />
+                    <span className="align-middle">فعال کردن خبر</span>
+                  </DropdownItem>
+                </>
+              )}
+
               <DropdownItem size="sm">
                 <Archive size={14} className="me-50" />
                 <span className="align-middle">دسترسی</span>
               </DropdownItem>
-              {/* <UserAddRole
-              // modal={modal}
-              // id={row.id}
-              // userName={row.fname + " " + row.lname}
-              // toggleModal={toggleModal}
-              // userRoles={row.role}
-              // refetch={refetch}
-              /> */}
             </DropdownMenu>
           </UncontrolledDropdown>
         </div>

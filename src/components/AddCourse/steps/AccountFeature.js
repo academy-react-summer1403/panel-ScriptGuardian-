@@ -10,16 +10,62 @@ import Select from "react-select";
 
 import { selectThemeColors } from "@utils";
 
-const AccountFeature = ({ stepper, type }) => {
-  const countryOptions = [
-    { value: "UK", label: "UK" },
-    { value: "USA", label: "USA" },
-    { value: "Spain", label: "Spain" },
-    { value: "France", label: "France" },
-    { value: "Italy", label: "Italy" },
-    { value: "Australia", label: "Australia" },
-  ];
+const AccountFeature = ({ stepper, type, data }) => {
+  const courseTypeDtos =
+    (data &&
+      data?.courseTypeDtos?.map((item) => ({
+        value: item.id,
+        label: item.typeName,
+      }))) ||
+    [];
 
+  const courseLevelDtos =
+    (data &&
+      data?.courseLevelDtos?.map((item) => ({
+        value: item.id,
+        label: item.levelName,
+      }))) ||
+    [];
+
+  const statusDtos =
+    (data &&
+      data?.statusDtos?.map((item) => ({
+        value: item.id,
+        label: item.statusName,
+      }))) ||
+    [];
+
+  const classRoomDtos =
+    (data &&
+      data?.classRoomDtos?.map((item) => ({
+        value: item.id,
+        label: item.classRoomName,
+      }))) ||
+    [];
+
+  const teachers =
+    (data &&
+      data?.teachers?.map((item) => ({
+        value: item.teacherId,
+        label: item.fullName,
+      }))) ||
+    [];
+
+  const termDtos =
+    (data &&
+      data?.termDtos?.map((item) => ({
+        value: item.id,
+        label: item.termName,
+      }))) ||
+    [];
+
+  const technologyDtos =
+    (data &&
+      data?.technologyDtos?.map((item) => ({
+        value: item.id,
+        label: item.techName,
+      }))) ||
+    [];
   return (
     <Fragment>
       <div className="content-header">
@@ -29,57 +75,115 @@ const AccountFeature = ({ stepper, type }) => {
       <Form onSubmit={(e) => e.preventDefault()}>
         <Row>
           <Col md="6" className="mb-1">
-            <Col md="6" className="mb-1">
-              <Label className="form-label" for={`country-${type}`}>
-                Country
-              </Label>
-              <Select
-                theme={selectThemeColors}
-                isClearable={false}
-                id={`country-${type}`}
-                className="react-select"
-                classNamePrefix="select"
-                options={countryOptions}
-                defaultValue={countryOptions[0]}
-              />
-            </Col>
-            <Label className="form-label" for={`username-${type}`}>
-              Username
+            <Label className="form-label" for={`country-${type}`}>
+              نوع دوره
             </Label>
-            <Input
-              type="text"
-              name={`username-${type}`}
-              id={`username-${type}`}
-              placeholder="johndoe"
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id={`country-${type}`}
+              className="react-select"
+              classNamePrefix="select"
+              options={courseTypeDtos}
+              defaultValue={courseTypeDtos[0]}
             />
           </Col>
           <Col md="6" className="mb-1">
-            <Label className="form-label" for={`email-${type}`}>
-              Email
+            <Label className="form-label" for={`country-${type}`}>
+              سطح دوره{" "}
             </Label>
-            <Input
-              type="email"
-              name={`email-${type}`}
-              id={`email-${type}`}
-              placeholder="john.doe@email.com"
-              aria-label="john.doe"
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id={`country-${type}`}
+              className="react-select"
+              classNamePrefix="select"
+              options={courseLevelDtos}
+              defaultValue={courseLevelDtos[0]}
             />
           </Col>
         </Row>
+
         <Row>
-          <div className="form-password-toggle col-md-6 mb-1">
-            <Label className="form-label" for={`password-${type}`}>
-              Password
+          <Col md="6" className="mb-1">
+            <Label className="form-label" for={`country-${type}`}>
+              وضعیت دوره{" "}
             </Label>
-            <Input type="password" id={`password-${type}`} />
-          </div>
-          <div className="form-password-toggle col-md-6 mb-1">
-            <Label className="form-label" for={`confirm-password-${type}`}>
-              Confirm Password
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id={`country-${type}`}
+              className="react-select"
+              classNamePrefix="select"
+              options={statusDtos}
+              defaultValue={statusDtos[0]}
+            />
+          </Col>
+          <Col md="6" className="mb-1">
+            <Label className="form-label" for={`country-${type}`}>
+              کلاس دوره{" "}
             </Label>
-            <Input type="password" id={`confirm-password-${type}`} />
-          </div>
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id={`country-${type}`}
+              className="react-select"
+              classNamePrefix="select"
+              options={classRoomDtos}
+              defaultValue={classRoomDtos[0]}
+            />
+          </Col>
         </Row>
+
+        <Row>
+          <Col md="6" className="mb-1">
+            <Label className="form-label" for={`country-${type}`}>
+              معلم دوره{" "}
+            </Label>
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id={`country-${type}`}
+              className="react-select"
+              classNamePrefix="select"
+              options={teachers}
+              defaultValue={teachers[0]}
+            />
+          </Col>
+          <Col md="6" className="mb-1">
+            <Label className="form-label" for={`country-${type}`}>
+              ترم دوره{" "}
+            </Label>
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id={`country-${type}`}
+              className="react-select"
+              classNamePrefix="select"
+              options={termDtos}
+              defaultValue={termDtos[0]}
+            />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md="12" className="mb-1">
+            <Label className="form-label" for={`country-${type}`}>
+              درس دوره{" "}
+            </Label>
+            <Select
+              theme={selectThemeColors}
+              isClearable={false}
+              id={`country-${type}`}
+              className="react-select"
+              classNamePrefix="select"
+              options={technologyDtos}
+              defaultValue={technologyDtos[0]}
+            />
+          </Col>
+        </Row>
+
+        <Row></Row>
         <div className="d-flex justify-content-between">
           <Button color="secondary" className="btn-prev" outline disabled>
             <ArrowLeft
@@ -95,7 +199,7 @@ const AccountFeature = ({ stepper, type }) => {
             className="btn-next"
             onClick={() => stepper.next()}
           >
-            <span className="align-middle d-sm-inline-block d-none">Next</span>
+            <span className="align-middle d-sm-inline-block d-none">بعدی</span>
             <ArrowRight
               size={14}
               className="align-middle ms-sm-25 ms-0"

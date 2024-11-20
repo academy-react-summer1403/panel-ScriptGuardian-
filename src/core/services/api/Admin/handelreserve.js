@@ -124,3 +124,28 @@ export const useActiveCourse = () => {
     },
   });
 };
+
+const ActiveNews = async (formData) => {
+  console.log("this is  Active News",  formData );
+
+  try {
+    const response = await http.put(
+      ApiRoutes.PANEL_CHANGE_ACTIVITY_NEWS_ADMIN_URL,
+      formData
+    );
+    console.log(response.message, "this response ActiveNews");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useActiveNews = () => {
+  return useMutation({
+    mutationKey: ["ActiveNews"],
+    mutationFn: (formData) => {
+      console.log("this is user ActiveNews =", formData);
+      return ActiveNews(formData);
+    },
+  });
+};

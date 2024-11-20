@@ -368,7 +368,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
             onSuccess: (data) => {
               if (data.success === true) {
                 queryClient.invalidateQueries("GetAllCourses");
-                toast.success("دوره با موفق غیر فعال شد");
+                toast.success("دوره با موفقیت غیر فعال شد");
               }
             },
           }

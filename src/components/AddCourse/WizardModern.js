@@ -12,8 +12,13 @@ import PersonalInfo from "./steps/PersonalInfo";
 // ** Icons Imports
 import { FileText, User, MapPin, Link } from "react-feather";
 import AccountFeature from "./steps/AccountFeature";
+import { useCreateCourseStepOne } from "../../core/services/api/Admin/handelAddCourse";
 
 const WizardModern = () => {
+  //API
+  //Step one
+
+  const { data: GetCourseStepOne } = useCreateCourseStepOne();
   // ** Ref
   const ref = useRef(null);
 
@@ -26,12 +31,18 @@ const WizardModern = () => {
       title: "ویژگی های دوره",
       subtitle: "ویژگی های دوره خود را وارد کنید",
       icon: <FileText size={18} />,
-      content: <AccountFeature stepper={stepper} type="wizard-modern" />,
+      content: (
+        <AccountFeature
+          stepper={stepper}
+          type="wizard-modern"
+          data={GetCourseStepOne}
+        />
+      ),
     },
     {
       id: "personal-info",
-      title: "Personal Info",
-      subtitle: "Add Personal Info",
+      title: "توضیحات",
+      subtitle: "توضیحات رو کامل کنید",
       icon: <User size={18} />,
       content: <PersonalInfo stepper={stepper} type="wizard-modern" />,
     },
