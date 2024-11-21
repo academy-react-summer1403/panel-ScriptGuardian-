@@ -35,6 +35,7 @@ export const ApiRoutes = {
   DETAILS_COURSES_PAGE_URL: "/Home/GetCourseDetails?CourseId=",
   DETAILS_COURSES_ADD_TO_RESERVE_URL: "/CourseReserve/ReserveAdd",
   DETAILS_COURSES_COMMENTS_URL: "/Course/GetCourseCommnets/",
+  DETAILS_COURSES_PAYMENT_URL: "/CoursePayment?CourseId=",
   DETAILS_COURSES_RATE_URL: "/Course/SetCourseRating?",
   NEWS_DETAILS_ADD_COMMENT_URL: "/News/CreateNewsComment",
   NEWS_DETAILS_ADD_REPLAY_COMMENT_URL: "/News/CreateNewsReplyComment",

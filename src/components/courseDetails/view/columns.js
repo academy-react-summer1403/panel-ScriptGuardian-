@@ -246,3 +246,199 @@ export const columns2 = [
     },
   },
 ];
+
+export const columns3ForComment = [
+  {
+    name: "نام دانشجو",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.studentName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <Avatar
+            img={
+              row?.pictureAddress && row?.pictureAddress !== "Not-set"
+                ? row?.pictureAddress
+                : default_image
+            }
+          />
+
+          <div className="user-info text-truncate ms-1">
+            <NavLink
+              className="d-block fw-bold text-truncate"
+              to={`/UsersPage/${row.userId}`}
+            >
+              {row.author}
+            </NavLink>
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    minWidth: "200px",
+    name: "عنوان کامنت",
+    cell: (row) => <span>{row?.describe}</span>,
+  },
+  {
+    name: "وضعیت پذیرش ",
+    sortable: true,
+    minWidth: "150px",
+    sortField: "userRoles",
+    selector: (row) => row.isActive,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.accept ? "light-primary" : "light-danger"}
+              className="me-1"
+            >
+              {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "اقدامات",
+    minWidth: "100px",
+
+    cell: (row) => {
+      const queryClient = useQueryClient();
+
+      const { mutate: Accept } = useAcceptCourseReserve();
+      const handelAccept = (value) => {
+        Accept(value.reserveId, value.courseId, value.studentId, {
+          onSuccess: (data) => {
+            if (data.success == true) {
+              toast.success("با موفقیت رزرو پذیرفته شد");
+              queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
+            } else {
+              toast.error("    خطا در رزرو");
+            }
+          },
+        });
+      };
+      return (
+        <>
+          {row.accept ? (
+            <p className="text-success">پذیرفته شده</p>
+          ) : (
+            <Button
+              onClick={() => {
+                handelAccept(row);
+              }}
+            >
+              پذیرفتن
+            </Button>
+          )}
+        </>
+      );
+    },
+  },
+];
+
+export const columns4ForPayMent = [
+  {
+    name: "نام دانشجو",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.studentName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <Avatar
+            img={
+              row?.pictureAddress && row?.pictureAddress !== "Not-set"
+                ? row?.pictureAddress
+                : default_image
+            }
+          />
+
+          <div className="user-info text-truncate ms-1">
+            <NavLink
+              className="d-block fw-bold text-truncate"
+              to={`/UsersPage/${row.userId}`}
+            >
+              {row.studentName}
+            </NavLink>
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    minWidth: "200px",
+    name: "تاریخ",
+    cell: (row) => <span>{row?.peymentDate}</span>,
+  },
+  {
+    name: "وضعیت پذیرش ",
+    sortable: true,
+    minWidth: "150px",
+    sortField: "userRoles",
+    selector: (row) => row.accept,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.accept ? "light-primary" : "light-danger"}
+              className="me-1"
+            >
+              {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "اقدامات",
+    minWidth: "100px",
+
+    cell: (row) => {
+      const queryClient = useQueryClient();
+
+      const { mutate: Accept } = useAcceptCourseReserve();
+      const handelAccept = (value) => {
+        Accept(value.reserveId, value.courseId, value.studentId, {
+          onSuccess: (data) => {
+            if (data.success == true) {
+              toast.success("با موفقیت رزرو پذیرفته شد");
+              queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
+            } else {
+              toast.error("    خطا در رزرو");
+            }
+          },
+        });
+      };
+      return (
+        <>
+          {row.accept ? (
+            <p className="text-success">پذیرفته شده</p>
+          ) : (
+            <Button
+              onClick={() => {
+                handelAccept(row);
+              }}
+            >
+              پذیرفتن
+            </Button>
+          )}
+        </>
+      );
+    },
+  },
+];

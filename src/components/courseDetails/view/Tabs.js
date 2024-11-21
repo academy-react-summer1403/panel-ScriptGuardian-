@@ -17,8 +17,17 @@ import InvoiceList from "./InvoiceList";
 // import UserProjectsList from './UserProjectsList'
 
 import { useGetAllCourseDetailsReserves } from "../../../core/services/api/Admin/handelReserveCourse";
+import { useCoursesDetail } from "../../../core/services/api/DetailCourses/GetDetailCourses";
+import {
+  useCoursesComment,
+  useCoursesPayMent,
+} from "../../../core/services/api/CourseDetils/handelCooment";
+import InvoiceList2 from "./InvoiceList2";
+import InvoiceList3 from "./InvoiceList3";
 const CourseTabs = ({ active, toggleTab, data, id }) => {
   const { data: reserveList } = useGetAllCourseDetailsReserves(id);
+  const { data: CommentList } = useCoursesComment(id);
+  const { data: PayMentList } = useCoursesPayMent(id);
   return (
     <Fragment>
       <Nav pills className="mb-2">
@@ -31,7 +40,14 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
         <NavItem>
           <NavLink active={active === "2"} onClick={() => toggleTab("2")}>
             <Lock className="font-medium-3 me-50" />
-            <span className="fw-bold">دوره ها</span>
+            <span className="fw-bold"> نظرات دوره</span>
+          </NavLink>
+        </NavItem>
+
+        <NavItem>
+          <NavLink active={active === "3"} onClick={() => toggleTab("3")}>
+            <Lock className="font-medium-3 me-50" />
+            <span className="fw-bold">خرید های دوره</span>
           </NavLink>
         </NavItem>
       </Nav>
@@ -43,9 +59,11 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
         </TabPane>
 
         <TabPane tabId="2">
-          {/* <UserProjectsList />
-          <UserTimeline /> */}
-          {/* <InvoiceList /> */}
+          <InvoiceList2 data={CommentList} />
+        </TabPane>
+
+        <TabPane tabId="3">
+          <InvoiceList3 data={PayMentList} />
         </TabPane>
         {/* <TabPane tabId='2'>
           <SecurityTab />

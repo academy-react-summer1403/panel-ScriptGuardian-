@@ -15,11 +15,29 @@ const CoursesComment = async (id) => {
 };
 export const useCoursesComment = (id) => {
   return useQuery({
-    queryKey: ["CoursesComment"],
+    queryKey: ["CoursesCommentDetails"],
     queryFn: () => CoursesComment(id),
     enabled: !!id,
   });
 };
 
+const CoursesPayMent = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.DETAILS_COURSES_PAYMENT_URL}${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log("This error Four Get Detail Courses   CoursesPayMent ", error);
+    return false;
+  }
+};
+export const useCoursesPayMent = (id) => {
+  return useQuery({
+    queryKey: ["CoursesPayMentDetails"],
+    queryFn: () => CoursesPayMent(id),
+    enabled: !!id,
+  });
+};
 
 //!TODO
