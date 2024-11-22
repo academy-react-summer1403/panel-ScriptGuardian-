@@ -10,6 +10,7 @@ import Select from "react-select";
 
 import { selectThemeColors } from "@utils";
 import { current } from "@reduxjs/toolkit";
+import * as yup from "yup";
 
 const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
   //1
@@ -61,13 +62,13 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
       }))) ||
     [];
   //7
-  const technologyDtos =
-    (data &&
-      data?.technologyDtos?.map((item) => ({
-        value: item.id,
-        label: item.techName,
-      }))) ||
-    [];
+  // const technologyDtos =
+  //   (data &&
+  //     data?.technologyDtos?.map((item) => ({
+  //       value: item.id,
+  //       label: item.techName,
+  //     }))) ||
+  //   [];
 
   const handleChange = (key, data) => {
     setCurrentValue((prev) => ({
@@ -75,6 +76,19 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
       [key]: data,
     }));
   };
+
+  //handel validation
+
+  const validationSchema = yup.object().shape({
+    currentCourseType: yup
+      .object()
+      .nullable()
+      .required("لطفاً نوع دوره را انتخاب کنید."),
+    currentCourseLevel: yup
+      .object()
+      .nullable()
+      .required("لطفاً سطح دوره را انتخاب کنید."),
+  });
   return (
     <Fragment>
       <div className="content-header">
@@ -82,7 +96,7 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
         <small className="text-muted">ویژگی های دوره ی خود را وارد کنید</small>
       </div>
       <Form onSubmit={(e) => e.preventDefault()}>
-        <Row>
+        <Row className="">
           <Col md="6" className="mb-1">
             <Label className="form-label" for={`country-${type}`}>
               نوع دوره
@@ -148,7 +162,7 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
           </Col>
         </Row>
 
-        <Row>
+        <Row className="mb-5">
           <Col md="6" className="mb-1">
             <Label className="form-label" for={`country-${type}`}>
               معلم دوره{" "}
@@ -181,7 +195,7 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
           </Col>
         </Row>
 
-        <Row>
+        {/* <Row>
           <Col md="12" className="mb-1">
             <Label className="form-label" for={`country-${type}`}>
               درس دوره{" "}
@@ -197,7 +211,7 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
               onChange={(data) => handleChange("currentTechnologyDtos", data)}
             />
           </Col>
-        </Row>
+        </Row> */}
 
         {/* <Row></Row> */}
         <div className="d-flex justify-content-between">

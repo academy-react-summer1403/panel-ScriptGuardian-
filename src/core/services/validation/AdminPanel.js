@@ -42,3 +42,15 @@ export const validationForCreateNews = Yup.object().shape({
       (value) => value === "Not-set" || Yup.string().url().isValidSync(value)
     ),
 });
+
+
+
+
+export const validationSchemaForAddNewCourses = Yup.object().shape({
+  currentCourseType: Yup
+    .object()
+    .required("لطفاً نوع دوره را انتخاب کنید."),
+  currentCourseLevel: Yup
+    .object()
+    .required("لطفاً سطح دوره را انتخاب کنید."),
+});

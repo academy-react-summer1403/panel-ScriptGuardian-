@@ -9,10 +9,19 @@ import { ArrowLeft, ArrowRight } from "react-feather";
 import { Label, Row, Col, Input, Form, Button } from "reactstrap";
 import { useCreateCourseStepTwo } from "../../../core/services/api/Admin/handelAddCourse";
 import { toast } from "react-toastify";
+import { validationSchemaForAddNewCourses } from "../../../core/services/validation/AdminPanel";
 
-const PostCourse = ({ stepper, type, setCurrentValue, currentValue }) => {
+const PostCourse = ({
+  stepper,
+  type,
+  setCurrentValue,
+  currentValue,
+  setGetId,
+}) => {
   const { mutate: CreateCourse, data } = useCreateCourseStepTwo();
-
+  if (data?.id) {
+    setGetId(data.id);
+  }
   const handleChange = (key, value) => {
     setCurrentValue((prev) => ({
       ...prev,

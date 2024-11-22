@@ -53,6 +53,8 @@ const WizardModern = () => {
 
   console.log(currentValue, "this is best value for ever never bever");
 
+  const [getId, setGetId] = useState(null);
+
   const steps = [
     {
       id: "account-details",
@@ -93,15 +95,25 @@ const WizardModern = () => {
           type="wizard-modern"
           setCurrentValue={setCurrentValue}
           currentValue={currentValue}
+          setGetId={setGetId}
         />
       ),
     },
     {
       id: "social-links",
-      title: "Social Links",
-      subtitle: "Add Social Links",
+      title: "افزودن تکنولوژی",
+      subtitle: "تکنولوژی مورد نظر خود را انتخاب کنید",
       icon: <Link size={18} />,
-      content: <SocialLinks stepper={stepper} type="wizard-modern" />,
+      content: (
+        <SocialLinks
+          stepper={stepper}
+          type="wizard-modern"
+          data={GetCourseStepOne}
+          setCurrentValue={setCurrentValue}
+          currentValue={currentValue}
+          getId={getId}
+        />
+      ),
     },
   ];
 
