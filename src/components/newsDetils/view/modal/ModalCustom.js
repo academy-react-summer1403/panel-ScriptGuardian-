@@ -88,62 +88,93 @@ const ModalCustom = ({ show, setShow, data }) => {
           <form onSubmit={formik.handleSubmit}>
             <Row className="gy-1 pt-75">
               {/* title */}
-              <Col md={4} xs={12}>
+              <Col md={6} xs={12}>
                 <Label className="form-label" for="Title">
-                  عنوان دوره{" "}
+                  عنوان خبر{" "}
                 </Label>
                 <Input
                   id="Title"
                   name="Title"
-                  placeholder="عنوان دوره را وارد کنید"
+                  placeholder="عنوان خبر را وارد کنید"
                   {...formik?.getFieldProps("Title")}
                 />
               </Col>
 
-              <Col xs={12}>
-                <div className="d-flex align-items-center mt-1">
-                  <div className="form-switch">
-                    <Input
-                      type="switch"
-                      defaultChecked
-                      id="billing-switch"
-                      name="billing-switch"
-                    />
-                    <Label
-                      className="form-check-label"
-                      htmlFor="billing-switch"
-                    >
-                      <span className="switch-icon-left">
-                        <Check size={14} />
-                      </span>
-                      <span className="switch-icon-right">
-                        <X size={14} />
-                      </span>
-                    </Label>
-                  </div>
-                  <Label
-                    className="form-check-label fw-bolder"
-                    for="billing-switch"
-                  >
-                    Use as a billing address?
-                  </Label>
-                </div>
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="Keyword">
+                  کلمات کلیدی خبر{" "}
+                </Label>
+                <Input
+                  id="Keyword"
+                  name="Keyword"
+                  placeholder="کلمات کلیدی  خبر را وارد کنید"
+                  {...formik?.getFieldProps("Keyword")}
+                />
               </Col>
+            </Row>
+
+            <Row className="gy-1 pt-75">
+              {/* title */}
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="GoogleTitle">
+                  عنوان گوگل{" "}
+                </Label>
+                <Input
+                  id="GoogleTitle"
+                  name="GoogleTitle"
+                  placeholder="عنوان گوگل  را وارد کنید"
+                  {...formik?.getFieldProps("GoogleTitle")}
+                />
+              </Col>
+
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="GoogleDescribe">
+                  توضیحات گوگل
+                </Label>
+                <Input
+                  id="GoogleDescribe"
+                  name="GoogleDescribe"
+                  placeholder="   توضیحات گوگل را وارد کنید"
+                  {...formik?.getFieldProps("GoogleDescribe")}
+                />
+              </Col>
+
+              <Col md={12} xs={12}>
+                <Label className="form-label" for="Describe">
+                  توضیحات
+                </Label>
+                <Input
+                  type="textarea"
+                  id="Describe"
+                  name="Describe"
+                  placeholder="   توضیحات  را وارد کنید"
+                  {...formik?.getFieldProps("Describe")}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col md="12" sm="12">
+                <Label className="form-label" for="CurrentImageAddress">
+                  <h5> عکس خبر را میخاهید ویرایش کنید؟ </h5>{" "}
+                </Label>
+                <Input
+                  type="file"
+                  id="CurrentImageAddress"
+                  name="CurrentImageAddress"
+                  onChange={(event) => {
+                    formik.setFieldValue(
+                      "CurrentImageAddress",
+                      event.target.files[0]
+                    );
+                  }}
+                />
+              </Col>
+            </Row>
+            <Row>
               <Col xs={12} className="text-center mt-2 pt-50">
                 <Button type="submit" className="me-1" color="primary">
                   ارسال
                 </Button>
-                {/* <Button
-                  type="reset"
-                  color="secondary"
-                  outline
-                  onClick={() => {
-                    handleReset();
-                    setShow(false);
-                  }}
-                >
-                  Discard
-                </Button> */}
               </Col>
             </Row>
           </form>
