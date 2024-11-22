@@ -1,6 +1,6 @@
 // ** React Imports
-import { Fragment, lazy } from "react";
-import { Navigate } from "react-router-dom";
+import { Fragment, lazy, useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 // ** Layouts
 import BlankLayout from "@layouts/BlankLayout";
 import VerticalLayout from "@src/layouts/VerticalLayout";
@@ -12,6 +12,7 @@ import PublicRoute from "@components/routes/PublicRoute";
 
 // ** Utils
 import { isObjEmpty } from "@utils";
+import { getItem } from "../../core/services/storage/storage.services.js";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -23,7 +24,7 @@ const getLayout = {
 const TemplateTitle = "%s - Vuexy React Admin Template";
 
 // ** Default Route
-const DefaultRoute = "/home";
+const DefaultRoute = "/login";
 
 const Home = lazy(() => import("../../pages/Home"));
 const UsersPage = lazy(() => import("../../pages/UsersPage"));
@@ -153,6 +154,13 @@ const getRouteMeta = (route) => {
 
 // ** Return Filtered Array of Routes & Paths
 const MergeLayoutRoutes = (layout, defaultLayout) => {
+  const token = getItem("token");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
   const LayoutRoutes = [];
 
   if (Routes) {

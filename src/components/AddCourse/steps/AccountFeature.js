@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 
 // ** Icons Imports
 import { ArrowLeft, ArrowRight } from "react-feather";
@@ -9,8 +9,11 @@ import { Label, Row, Col, Input, Form, Button } from "reactstrap";
 import Select from "react-select";
 
 import { selectThemeColors } from "@utils";
+import { current } from "@reduxjs/toolkit";
 
-const AccountFeature = ({ stepper, type, data }) => {
+const AccountFeature = ({ stepper, type, data , setCurrentValue }) => {
+
+  //1
   const courseTypeDtos =
     (data &&
       data?.courseTypeDtos?.map((item) => ({
@@ -18,7 +21,7 @@ const AccountFeature = ({ stepper, type, data }) => {
         label: item.typeName,
       }))) ||
     [];
-
+  //2
   const courseLevelDtos =
     (data &&
       data?.courseLevelDtos?.map((item) => ({
@@ -26,7 +29,7 @@ const AccountFeature = ({ stepper, type, data }) => {
         label: item.levelName,
       }))) ||
     [];
-
+  //3
   const statusDtos =
     (data &&
       data?.statusDtos?.map((item) => ({
@@ -34,7 +37,7 @@ const AccountFeature = ({ stepper, type, data }) => {
         label: item.statusName,
       }))) ||
     [];
-
+  //4
   const classRoomDtos =
     (data &&
       data?.classRoomDtos?.map((item) => ({
@@ -42,7 +45,7 @@ const AccountFeature = ({ stepper, type, data }) => {
         label: item.classRoomName,
       }))) ||
     [];
-
+  //5
   const teachers =
     (data &&
       data?.teachers?.map((item) => ({
@@ -50,7 +53,7 @@ const AccountFeature = ({ stepper, type, data }) => {
         label: item.fullName,
       }))) ||
     [];
-
+  //6
   const termDtos =
     (data &&
       data?.termDtos?.map((item) => ({
@@ -58,7 +61,7 @@ const AccountFeature = ({ stepper, type, data }) => {
         label: item.termName,
       }))) ||
     [];
-
+  //7
   const technologyDtos =
     (data &&
       data?.technologyDtos?.map((item) => ({
@@ -66,6 +69,13 @@ const AccountFeature = ({ stepper, type, data }) => {
         label: item.techName,
       }))) ||
     [];
+
+  const handleChange = (key, data) => {
+    setCurrentValue((prev) => ({
+      ...prev,
+      [key]: data,
+    }));
+  };
   return (
     <Fragment>
       <div className="content-header">
@@ -86,6 +96,7 @@ const AccountFeature = ({ stepper, type, data }) => {
               classNamePrefix="select"
               options={courseTypeDtos}
               defaultValue={courseTypeDtos[0]}
+              onChange={(data) => handleChange("currentCourseType", data)}
             />
           </Col>
           <Col md="6" className="mb-1">
@@ -100,6 +111,7 @@ const AccountFeature = ({ stepper, type, data }) => {
               classNamePrefix="select"
               options={courseLevelDtos}
               defaultValue={courseLevelDtos[0]}
+              onChange={(data) => handleChange("currentCourseLevelDtos", data)}
             />
           </Col>
         </Row>
@@ -117,6 +129,7 @@ const AccountFeature = ({ stepper, type, data }) => {
               classNamePrefix="select"
               options={statusDtos}
               defaultValue={statusDtos[0]}
+              onChange={(data) => handleChange("currentStatusDtos", data)}
             />
           </Col>
           <Col md="6" className="mb-1">
@@ -131,6 +144,7 @@ const AccountFeature = ({ stepper, type, data }) => {
               classNamePrefix="select"
               options={classRoomDtos}
               defaultValue={classRoomDtos[0]}
+              onChange={(data) => handleChange("currentClassRoomDtos", data)}
             />
           </Col>
         </Row>
@@ -148,6 +162,7 @@ const AccountFeature = ({ stepper, type, data }) => {
               classNamePrefix="select"
               options={teachers}
               defaultValue={teachers[0]}
+              onChange={(data) => handleChange("currentTeachers", data)}
             />
           </Col>
           <Col md="6" className="mb-1">
@@ -155,6 +170,7 @@ const AccountFeature = ({ stepper, type, data }) => {
               ترم دوره{" "}
             </Label>
             <Select
+              onChange={(data) => handleChange("currentTermDtos", data)}
               theme={selectThemeColors}
               isClearable={false}
               id={`country-${type}`}
@@ -179,6 +195,7 @@ const AccountFeature = ({ stepper, type, data }) => {
               classNamePrefix="select"
               options={technologyDtos}
               defaultValue={technologyDtos[0]}
+              onChange={(data) => handleChange("currentTechnologyDtos", data)}
             />
           </Col>
         </Row>

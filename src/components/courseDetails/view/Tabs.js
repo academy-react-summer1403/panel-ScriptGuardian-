@@ -28,6 +28,7 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
   const { data: reserveList } = useGetAllCourseDetailsReserves(id);
   const { data: CommentList } = useCoursesComment(id);
   const { data: PayMentList } = useCoursesPayMent(id);
+
   return (
     <Fragment>
       <Nav pills className="mb-2">
@@ -78,6 +79,7 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
           <Connections />
         </TabPane> */}
       </TabContent>
+      <modal2ForAcceptReserve />
     </Fragment>
   );
 };

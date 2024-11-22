@@ -25,6 +25,20 @@ const WizardModern = () => {
   // ** State
   const [stepper, setStepper] = useState(null);
 
+
+
+  const [currentValue, setCurrentValue] = useState({
+    currentCourseType: null,
+    currentCourseLevelDtos: null,
+    currentStatusDtos: null,
+    currentClassRoomDtos: null,
+    currentTeachers: null,
+    currentTermDtos: null,
+    currentTechnologyDtos: null,
+  });
+
+  console.log(currentValue, "this is best value for ever never bever");
+
   const steps = [
     {
       id: "account-details",
@@ -36,6 +50,7 @@ const WizardModern = () => {
           stepper={stepper}
           type="wizard-modern"
           data={GetCourseStepOne}
+          setCurrentValue={setCurrentValue}
         />
       ),
     },

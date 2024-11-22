@@ -23,7 +23,7 @@ import { useGetAllCourseDetailsAdmin } from "../../../../core/services/api/Admin
 import { useState } from "react";
 import { useFormik } from "formik";
 
-const CustomModal = ({
+const modal2ForAcceptReserve = ({
   isOpenModal,
   toggleAcceptModal,
   courseId,
@@ -43,10 +43,11 @@ const CustomModal = ({
     courseId: courseId,
   });
 
-  if ( AllGroup?.length === 0) {
+  if (isOpenModal && isOpenModal === true) {
+    if (AllGroup && AllGroup?.length === 0) {
       toast.info("گروهی برای رزرو وجود ندارد لطفا ایجاد  کنید");
     }
-  
+  }
 
   const { mutate: Accept } = useAcceptCourseReserve();
   const [selectedGroup, setSelectedGroup] = useState("");
@@ -197,4 +198,4 @@ const CustomModal = ({
     </>
   );
 };
-export default CustomModal;
+export default modal2ForAcceptReserve;
