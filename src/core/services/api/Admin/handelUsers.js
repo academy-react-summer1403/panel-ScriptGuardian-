@@ -178,7 +178,7 @@ export const useGetAllCourseDetailsAdminForReserve = (id) => {
     queryFn: () => {
       return GetAllCourseDetailsAdminForReserve(id);
     },
-    enabled: false, // غیرفعال کردن فراخوانی خودکار
+    enabled: false,
   });
 };
 

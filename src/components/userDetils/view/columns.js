@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 // ** Custom Components
@@ -37,6 +37,12 @@ import default_image from "../../../images/default_image.png";
 import { useAcceptCourseReserve } from "../../../core/services/api/Admin/handelreserve";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import Modal2ForAcceptReserve from "./Modal/Modal2ForAcceptReserve";
+import { useCoursesDetail } from "../../../core/services/api/DetailCourses/GetDetailCourses";
+import {
+  useGetAllCourseDetailsAdmin,
+  useGetAllCourseDetailsAdminForReserve,
+} from "../../../core/services/api/Admin/handelUsers";
 
 // ** Vars
 const invoiceStatusObj = {
@@ -113,21 +119,28 @@ export const columns = [
     minWidth: "100px",
 
     cell: (row) => {
+      const { data: CourseDetails, refetch } =
+        useGetAllCourseDetailsAdminForReserve(row?.courseId);
       const queryClient = useQueryClient();
-
-      const { mutate: Accept } = useAcceptCourseReserve();
-      const handelAccept = (value) => {
-        Accept(value.reserveId, value.courseId, value.studentId, {
-          onSuccess: (data) => {
-            if (data.success == true) {
-              toast.success("با موفقیت رزرو پذیرفته شد");
-              queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
-            } else {
-              toast.error("    خطا در رزرو");
-            }
-          },
-        });
+      const [isOpenModal, setIsOpenModal] = useState(false);
+      const toggleAcceptModal = () => {
+        setIsOpenModal(!isOpenModal);
+        refetch();
       };
+
+      // const { mutate: Accept } = useAcceptCourseReserve();
+      // const handelAccept = (value) => {
+      //   Accept(value.reserveId, value.courseId, value.studentId, {
+      //     onSuccess: (data) => {
+      //       if (data.success == true) {
+      //         toast.success("با موفقیت رزرو پذیرفته شد");
+      //         queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
+      //       } else {
+      //         toast.error("    خطا در رزرو");
+      //       }
+      //     },
+      //   });
+      // };
       return (
         <>
           {row.accept ? (
@@ -135,12 +148,21 @@ export const columns = [
           ) : (
             <Button
               onClick={() => {
-                handelAccept(row);
+                // handelAccept(row);
+                toggleAcceptModal();
               }}
             >
               پذیرفتن
             </Button>
           )}
+          <Modal2ForAcceptReserve
+            isOpenModal={isOpenModal}
+            setIsOpenModal={setIsOpenModal}
+            toggleAcceptModal={toggleAcceptModal}
+            courseId={row?.courseId}
+            teacherId={CourseDetails?.teacherId}
+            studentId={row?.studentId}
+          />
         </>
       );
     },
