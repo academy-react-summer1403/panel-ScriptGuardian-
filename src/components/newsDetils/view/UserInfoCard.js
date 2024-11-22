@@ -45,7 +45,15 @@ import ModalCustom from "./modal/ModalCustom";
 const MySwal = withReactContent(Swal);
 // const UserInfoCard = ({ selectedUser }) => {
 
-const UserInfoCard = ({ data }) => {
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+
+import {
+  useActiveCourse,
+  useActiveNews,
+} from "../../../core/services/api/Admin/handelreserve";
+
+const UserInfoCard = ({ data, ID }) => {
   // ** State
   const [show, setShow] = useState(false);
   console.log(data, "this is best data");
@@ -103,63 +111,45 @@ const UserInfoCard = ({ data }) => {
     }
   };
 
-  const onSubmit = (data) => {
-    if (Object.values(data).every((field) => field && field.length > 0)) {
-      setShow(false);
-    } else {
-      for (const key in data) {
-        if (data && data[key].length === 0) {
-          setError(key, {
-            type: "manual",
-          });
-        }
+  const queryClient = useQueryClient();
+
+  const { mutate: ChangeActivity } = useActiveNews();
+
+  const ActiveCourse = () => {
+    const formData = new FormData();
+    formData.append("Id", ID);
+    formData.append("Active", true);
+    ChangeActivity(
+      formData,
+
+      {
+        onSuccess: (data) => {
+          if (data.success === true) {
+            queryClient.invalidateQueries("GetAllNewsDetailsAdmin");
+            toast.success("خبر با موفقیت فعال شد");
+          }
+        },
       }
-    }
+    );
   };
 
-  const handleReset = () => {
-    reset({
-      username: "amir",
-      lastName: "hosseni",
-      firstName: "amir",
-    });
-  };
+  const DeActiveCourse = () => {
+    const formData = new FormData();
+    formData.append("Id", ID);
+    formData.append("Active", false);
+    ChangeActivity(
+      formData,
 
-  const handleSuspendedClick = () => {
-    return MySwal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert user!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, Suspend user!",
-      customClass: {
-        confirmButton: "btn btn-primary",
-        cancelButton: "btn btn-outline-danger ms-1",
-      },
-      buttonsStyling: false,
-    }).then(function (result) {
-      if (result.value) {
-        MySwal.fire({
-          icon: "success",
-          title: "Suspended!",
-          text: "User has been suspended.",
-          customClass: {
-            confirmButton: "btn btn-success",
-          },
-        });
-      } else if (result.dismiss === MySwal.DismissReason.cancel) {
-        MySwal.fire({
-          title: "Cancelled",
-          text: "Cancelled Suspension :)",
-          icon: "error",
-          customClass: {
-            confirmButton: "btn btn-success",
-          },
-        });
+      {
+        onSuccess: (data) => {
+          if (data.success === true) {
+            queryClient.invalidateQueries("GetAllNewsDetailsAdmin");
+            toast.success("خبر با موفقیت غیر فعال شد");
+          }
+        },
       }
-    });
+    );
   };
-
   return (
     <Fragment>
       <Card>
@@ -169,20 +159,7 @@ const UserInfoCard = ({ data }) => {
               {renderUserImg(data)}
               <div className="d-flex flex-column align-items-center text-center">
                 <div className="user-info">
-                  {/* <h4>
-                    {selectedUser !== null
-                      ? selectedUser.fullName
-                      : "Eleanor Aguilar"}
-                  </h4> */}
                   <h4>{data?.title ? data?.title : ""}</h4>
-                  {/* {selectedUser !== null ? (
-                    <Badge
-                      color={roleColors[selectedUser.role]}
-                      className="text-capitalize"
-                    >
-                      {selectedUser.role}
-                    </Badge>
-                  ) : null} */}
 
                   <Badge color={"blue"} className="text-capitalize"></Badge>
                 </div>
@@ -264,14 +241,32 @@ const UserInfoCard = ({ data }) => {
             <Button color="primary" onClick={() => setShow(true)}>
               ویرایش
             </Button>
-            {/* <Button
-              className="ms-1"
-              color="danger"
-              outline
-              onClick={handleSuspendedClick}
-            >
-              Suspended
-            </Button> */}
+
+            {data?.active ? (
+              <Button
+                className="ms-1"
+                color="danger"
+                outline
+                // onClick={handleSuspendedClick}
+                onClick={() => {
+                  DeActiveCourse();
+                }}
+              >
+                غیرفعال کردن
+              </Button>
+            ) : (
+              <Button
+                className="ms-1"
+                color="success"
+                outline
+                // onClick={handleSuspendedClick}
+                onClick={() => {
+                  ActiveCourse();
+                }}
+              >
+                فعال کردن
+              </Button>
+            )}
           </div>
         </CardBody>
       </Card>
