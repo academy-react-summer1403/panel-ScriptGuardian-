@@ -21,3 +21,34 @@ export const useCreateCourseStepOne = () => {
     },
   });
 };
+
+//Step Two
+
+const CreateCourseStepTwo = async (user) => {
+  console.log("this is CreateCourseStepTwo", user);
+  try {
+    const response = await http.post(
+      `${ApiRoutes.PANEL_ADD_NEW_COURSE_STEP_TWO_ADMIN_URL}`,
+      user,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(response.message, "this response CreateCourseStepTwo");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useCreateCourseStepTwo = () => {
+  return useMutation({
+    mutationKey: ["CreateCourseStepTwo"],
+    mutationFn: (data) => {
+      console.log("this is user CreateCourseStepTwo =", data);
+      return CreateCourseStepTwo(data);
+    },
+  });
+};

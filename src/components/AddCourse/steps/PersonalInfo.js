@@ -105,7 +105,7 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
               تاریخ شروع دوره{" "}
             </Label>
             <Input
-              type="Number"
+              type="text"
               name="first-name"
               id={`first-name-${type}`}
               placeholder=" تاریخ شروع دوره را وارد کنید"
@@ -118,7 +118,7 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
               تاریخ پایان دوره{" "}
             </Label>
             <Input
-              type="Number"
+              type="text"
               name="first-name"
               id={`first-name-${type}`}
               placeholder=" تاریخ پایان دوره را وارد کنید"
