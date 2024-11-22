@@ -130,6 +130,19 @@ const ModalCustom = ({ show, setShow, data }) => {
               </Col>
 
               <Col md={6} xs={12}>
+                <Label className="form-label" for="lName">
+                  نام خانوادگی{" "}
+                </Label>
+
+                <Input
+                  id="lName"
+                  name="lName"
+                  placeholder="نام خانوادگی را وارد کنید"
+                  {...formik?.getFieldProps("lName")}
+                />
+              </Col>
+
+              {/* <Col md={6} xs={12}>
                 <Label className="form-label" for="country">
                   Country
                 </Label>
@@ -142,8 +155,8 @@ const ModalCustom = ({ show, setShow, data }) => {
                   theme={selectThemeColors}
                   defaultValue={countryOptions[0]}
                 />
-              </Col>
-              <Col xs={12}>
+              </Col> */}
+              {/* <Col xs={12}>
                 <div className="d-flex align-items-center mt-1">
                   <div className="form-switch">
                     <Input
@@ -171,22 +184,96 @@ const ModalCustom = ({ show, setShow, data }) => {
                     Use as a billing address?
                   </Label>
                 </div>
+              </Col> */}
+            </Row>
+
+            <Row className="gy-1 pt-75">
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="gmail">
+                  ایمیل کاربر{" "}
+                </Label>
+
+                <Input
+                  id="gmail"
+                  name="gmail"
+                  placeholder="ایمیل  کاربر را وارد کنید"
+                  {...formik?.getFieldProps("gmail")}
+                />
               </Col>
+
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="userAbout">
+                  درباره کاربر{" "}
+                </Label>
+
+                <Input
+                  id="fName"
+                  name="fName"
+                  placeholder=" اطلاعات درباره کاربر را وارد کنید"
+                  {...formik?.getFieldProps("userAbout")}
+                />
+              </Col>
+            </Row>
+
+            <Row className="gy-1 pt-75">
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="telegramLink">
+                  آدرس تلگرام{" "}
+                </Label>
+
+                <Input
+                  id="telegramLink"
+                  name="telegramLink"
+                  placeholder=" اطلاعات درباره آدرس تلگرام را وارد کنید"
+                  {...formik?.getFieldProps("telegramLink")}
+                />
+              </Col>
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="linkdinProfile">
+                  ادرس لینکدین{" "}
+                </Label>
+
+                <Input
+                  id="linkdinProfile"
+                  name="linkdinProfile"
+                  placeholder=" آدرس لینکدین  کاربر را وارد کنید"
+                  {...formik?.getFieldProps("linkdinProfile")}
+                />
+              </Col>
+            </Row>
+
+            <Row className="gy-1 pt-75">
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="userName">
+                  نام کاربری{" "}
+                </Label>
+
+                <Input
+                  id="userName"
+                  name="userName"
+                  placeholder=" اطلاعات درباره نام کاربری  را وارد کنید"
+                  {...formik?.getFieldProps("userName")}
+                />
+              </Col>
+              <Col md={6} xs={12}>
+                <Label className="form-label" for="phoneNumber">
+                  شماره تلفن{" "}
+                </Label>
+
+                <Input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  placeholder=" شماره تلفن   کاربر را وارد کنید"
+                  {...formik?.getFieldProps("phoneNumber")}
+                />
+              </Col>
+            </Row>
+
+            <Row className="gy-1 pt-75">
               <Col xs={12} className="text-center mt-2 pt-50">
                 <Button type="submit" className="me-1" color="primary">
                   ارسال
                 </Button>
-                {/* <Button
-                  type="reset"
-                  color="secondary"
-                  outline
-                  onClick={() => {
-                    handleReset();
-                    setShow(false);
-                  }}
-                >
-                  Discard
-                </Button> */}
               </Col>
             </Row>
           </form>

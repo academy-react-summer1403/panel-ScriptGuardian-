@@ -229,9 +229,9 @@ const UserInfoCard = ({ data }) => {
                     </Badge>
                   ) : null} */}
 
-                  <Badge color={"blue"} className="text-capitalize">
+                  {/* <Badge color={"blue"} className="text-capitalize">
                     رولللل
-                  </Badge>
+                  </Badge> */}
                 </div>
               </div>
             </div>
