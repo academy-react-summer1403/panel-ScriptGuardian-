@@ -18,19 +18,22 @@ import {
 } from "../../../../core/services/api/Admin/handelChangeProfileUser";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import { useCreateCourseStepOne } from "../../../../core/services/api/Admin/handelAddCourse";
+import { useState } from "react";
+import Select from "react-select";
 
 const ModalCustom = ({ show, setShow, data }) => {
   const queryClient = useQueryClient();
-  const countryOptions = [
-    { value: "uk", label: "UK" },
-    { value: "usa", label: "USA" },
-    { value: "france", label: "France" },
-    { value: "russia", label: "Russia" },
-    { value: "canada", label: "Canada" },
-  ];
-
+  const { data: GetCourseStepOne } = useCreateCourseStepOne();
   const { mutate: UpdateProfile } = useUpdateCourse();
   console.log(data, "this data from course details");
+
+  const [currentValue, setCurrentValue] = useState({
+    currentCourseType: null, //1
+    currentCourseLevelDtos: null, //2
+    currentClassRoomDtos: null, //3
+    currentTermDtos: null, //4
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -39,12 +42,12 @@ const ModalCustom = ({ show, setShow, data }) => {
       Describe: data?.describe ?? "",
       MiniDescribe: "تست تست تست تست ",
       Capacity: "33",
-      CourseTypeId: "2", //? آنلاین
+      CourseTypeId: currentValue?.currentCourseType?.value ?? "2", //? آنلاین
       SessionNumber: "1", // custom
       CurrentCoursePaymentNumber: data?.paymentDoneTotal ?? "", //?
-      TremId: "1", // just my custom
-      ClassId: "2", //? "ClassRoom 2"
-      CourseLvlId: "3", //? پیشرفته
+      TremId: currentValue?.currentTermDtos?.value ?? "2", // just my custom
+      ClassId: currentValue?.currentClassRoomDtos?.value ?? "2",
+      CourseLvlId: currentValue?.currentCourseLevelDtos?.value ?? "2",
       TeacherId: data?.teacherId ?? "",
       Cost: data?.cost ?? "",
       UniqeUrlString: "", //?
@@ -57,34 +60,6 @@ const ModalCustom = ({ show, setShow, data }) => {
       TumbImageAddress: data?.imageAddress ?? " Not-set", //my custom
       ImageAddress: data?.imageAddress ?? " Not-set", //my custom
       ShortLink: "123456", //?
-
-      // Id: "b503e37c-3f21-ef11-b6c7-cc06a3e06235",
-      // Title: "JavaScript",
-      // Describe:
-      //   "آموزش جاوا اسکریپت برای تمامی افرادی ک قصد ورود به زبان برنامه نویسی دارند مناسب می باشد . خصوصا برای علاقه مندان به حوزه فرانت ",
-      // MiniDescribe: "تست تست تست",
-      // Capacity: "33",
-      // CourseTypeId: "2", //? آنلاین
-      // SessionNumber: "1", // custom
-      // CurrentCoursePaymentNumber: "0", //?
-      // TremId: "1", // just my custom
-      // ClassId: "2", //? "ClassRoom 2"
-      // CourseLvlId: "3", //? پیشرفته
-      // TeacherId: "1",
-      // Cost: "870000",
-      // UniqeUrlString: "1", //?
-      // Image:
-      //   "https://classapi.sepehracademy.ir/\\Pictures\\Course\\1718693266020_623b79fa-bde6-4186-885c-59aa129809cf.jpg",
-      // StartTime: "2024-11-17T00:00:00",
-      // EndTime: "2024-11-19T00:00:00",
-      // GoogleSchema: "تستستستستستستستستستستستستستس", //?
-      // GoogleTitle: "تستستستستستستستستستستستستستستس", //?
-      // CoursePrerequisiteId: "b503e37c-3f21-ef11-b6c7-cc06a3e06235", //? course id mishe
-      // TumbImageAddress:
-      //   "https://classapi.sepehracademy.ir/\\Pictures\\Course\\1718693266020_623b79fa-bde6-4186-885c-59aa129809cf.jpg", //my custom
-      // ImageAddress:
-      //   "https://classapi.sepehracademy.ir/\\Pictures\\Course\\1718693266020_623b79fa-bde6-4186-885c-59aa129809cf.jpg", //my custom
-      // ShortLink: "1", //?
     },
     enableReinitialize: true,
     // validationSchema: validationSchema,
@@ -106,6 +81,54 @@ const ModalCustom = ({ show, setShow, data }) => {
     },
   });
 
+  const courseTypeDtos =
+    (GetCourseStepOne &&
+      GetCourseStepOne?.courseTypeDtos?.map((item) => ({
+        value: item.id,
+        label: item.typeName,
+      }))) ||
+    [];
+  //2
+  const courseLevelDtos =
+    (GetCourseStepOne &&
+      GetCourseStepOne?.courseLevelDtos?.map((item) => ({
+        value: item.id,
+        label: item.levelName,
+      }))) ||
+    [];
+  //3
+  const statusDtos =
+    (GetCourseStepOne &&
+      GetCourseStepOne?.statusDtos?.map((item) => ({
+        value: item.id,
+        label: item.statusName,
+      }))) ||
+    [];
+  //4
+  const classRoomDtos =
+    (GetCourseStepOne &&
+      GetCourseStepOne?.classRoomDtos?.map((item) => ({
+        value: item.id,
+        label: item.classRoomName,
+      }))) ||
+    [];
+  //5
+
+  //6
+  const termDtos =
+    (GetCourseStepOne &&
+      GetCourseStepOne?.termDtos?.map((item) => ({
+        value: item.id,
+        label: item.termName,
+      }))) ||
+    [];
+
+  const handleChange = (key, value) => {
+    setCurrentValue((prev) => ({
+      ...prev,
+      [key]: value, // بروزرسانی مقدار ورودی مشخص
+    }));
+  };
   return (
     <>
       <Modal
@@ -122,9 +145,9 @@ const ModalCustom = ({ show, setShow, data }) => {
             <h1 className="mb-1">تغییر اطلاعات دوره </h1>
           </div>
           <form onSubmit={formik.handleSubmit}>
-            <Row className="gy-1 pt-75">
+            <Row>
               {/* title */}
-              <Col md={4} xs={12}>
+              <Col md={6} xs={12}>
                 <Label className="form-label" for="Title">
                   عنوان دوره{" "}
                 </Label>
@@ -136,21 +159,9 @@ const ModalCustom = ({ show, setShow, data }) => {
                   {...formik?.getFieldProps("Title")}
                 />
               </Col>
-              {/* Describe */}
-              <Col md={4} xs={12}>
-                <Label className="form-label" for="Describe">
-                  توضیحات دوره{" "}
-                </Label>
 
-                <Input
-                  id="Describe"
-                  name="Describe"
-                  placeholder="متن دوره را وارد کنید"
-                  {...formik?.getFieldProps("Describe")}
-                />
-              </Col>
               {/* MiniDescribe */}
-              <Col md={4} xs={12}>
+              <Col md={6} xs={12}>
                 <Label className="form-label" for="MiniDescribe">
                   توضیحات کوتاه دوره{" "}
                 </Label>
@@ -162,6 +173,8 @@ const ModalCustom = ({ show, setShow, data }) => {
                   {...formik?.getFieldProps("MiniDescribe")}
                 />
               </Col>
+            </Row>
+            <Row className="gy-1 pt-75 mb-1">
               {/* Capacity */}
               <Col md={6} xs={12}>
                 <Label className="form-label" for="Capacity">
@@ -188,65 +201,100 @@ const ModalCustom = ({ show, setShow, data }) => {
                   {...formik?.getFieldProps("UniqeUrlString")}
                 />
               </Col>
+            </Row>
 
-              <Col md={6} xs={12}>
-                <Label className="form-label" for="country">
-                  Country
+            <Row className="">
+              <Col md="6" className="mb-1">
+                <Label className="form-label" for={`country-`}>
+                  نوع دوره
                 </Label>
-                <StateManagedSelect
-                  id="country"
+                <Select
+                  theme={selectThemeColors}
                   isClearable={false}
+                  id={`country-`}
                   className="react-select"
                   classNamePrefix="select"
-                  options={countryOptions}
-                  theme={selectThemeColors}
-                  defaultValue={countryOptions[0]}
+                  options={courseTypeDtos}
+                  defaultValue={courseTypeDtos[0]}
+                  onChange={(data) => handleChange("currentCourseType", data)}
                 />
               </Col>
-              <Col xs={12}>
-                <div className="d-flex align-items-center mt-1">
-                  <div className="form-switch">
-                    <Input
-                      type="switch"
-                      defaultChecked
-                      id="billing-switch"
-                      name="billing-switch"
-                    />
-                    <Label
-                      className="form-check-label"
-                      htmlFor="billing-switch"
-                    >
-                      <span className="switch-icon-left">
-                        <Check size={14} />
-                      </span>
-                      <span className="switch-icon-right">
-                        <X size={14} />
-                      </span>
-                    </Label>
-                  </div>
-                  <Label
-                    className="form-check-label fw-bolder"
-                    for="billing-switch"
-                  >
-                    Use as a billing address?
-                  </Label>
-                </div>
+              <Col md="6" className="mb-1">
+                <Label className="form-label" for={`country`}>
+                  سطح دوره{" "}
+                </Label>
+                <Select
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  id={`country`}
+                  className="react-select"
+                  classNamePrefix="select"
+                  options={courseLevelDtos}
+                  // Todo
+                  defaultValue={courseLevelDtos[0]}
+                  onChange={(data) =>
+                    handleChange("currentCourseLevelDtos", data)
+                  }
+                />
               </Col>
+            </Row>
+
+            <Row>
+              <Col md="6" className="mb-1">
+                <Label className="form-label" for={`countr`}>
+                  کلاس دوره{" "}
+                </Label>
+                <Select
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  id={`country`}
+                  className="react-select"
+                  classNamePrefix="select"
+                  options={classRoomDtos}
+                  defaultValue={classRoomDtos[0]}
+                  onChange={(data) =>
+                    handleChange("currentClassRoomDtos", data)
+                  }
+                />
+              </Col>
+
+              <Col md="6" className="mb-1">
+                <Label className="form-label" for={`countr`}>
+                  ترم دوره{" "}
+                </Label>
+                <Select
+                  onChange={(data) => handleChange("currentTermDtos", data)}
+                  theme={selectThemeColors}
+                  isClearable={false}
+                  id={`cou`}
+                  className="react-select"
+                  classNamePrefix="select"
+                  options={termDtos}
+                  defaultValue={termDtos[0]}
+                />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={12} xs={12}>
+                <Label className="form-label" for="Describe">
+                  توضیحات دوره{" "}
+                </Label>
+
+                <Input
+                  type="textarea"
+                  id="Describe"
+                  name="Describe"
+                  placeholder="متن دوره را وارد کنید"
+                  {...formik?.getFieldProps("Describe")}
+                />
+              </Col>
+            </Row>
+            <Row>
               <Col xs={12} className="text-center mt-2 pt-50">
                 <Button type="submit" className="me-1" color="primary">
                   ارسال
                 </Button>
-                {/* <Button
-                  type="reset"
-                  color="secondary"
-                  outline
-                  onClick={() => {
-                    handleReset();
-                    setShow(false);
-                  }}
-                >
-                  Discard
-                </Button> */}
               </Col>
             </Row>
           </form>

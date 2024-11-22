@@ -29,46 +29,12 @@ import Avatar from "@components/avatar";
 
 // ** Utils
 import { selectThemeColors } from "@utils";
-
+import { useActiveCourse } from "../../../core/services/api/Admin/handelreserve";
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
 import ModalCustom from "./Modal/Modal";
-
-const roleColors = {
-  editor: "light-info",
-  admin: "light-danger",
-  author: "light-warning",
-  maintainer: "light-success",
-  subscriber: "light-primary",
-};
-
-const statusColors = {
-  active: "light-success",
-  pending: "light-warning",
-  inactive: "light-secondary",
-};
-
-const statusOptions = [
-  { value: "active", label: "Active" },
-  { value: "inactive", label: "Inactive" },
-  { value: "suspended", label: "Suspended" },
-];
-
-const countryOptions = [
-  { value: "uk", label: "UK" },
-  { value: "usa", label: "USA" },
-  { value: "france", label: "France" },
-  { value: "russia", label: "Russia" },
-  { value: "canada", label: "Canada" },
-];
-
-const languageOptions = [
-  { value: "english", label: "English" },
-  { value: "spanish", label: "Spanish" },
-  { value: "french", label: "French" },
-  { value: "german", label: "German" },
-  { value: "dutch", label: "Dutch" },
-];
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const MySwal = withReactContent(Swal);
 // const UserInfoCard = ({ selectedUser }) => {
@@ -131,27 +97,6 @@ const UserInfoCard = ({ data }) => {
     }
   };
 
-  // const renderUserImg = (data) => {
-  //   return (
-  //     <Avatar
-  //       initials
-  //       color={"light-primary"}
-  //       className="rounded mt-3 mb-2"
-  //       content={data?.fName ? data?.fName : ""}
-  //       contentStyles={{
-  //         borderRadius: 0,
-  //         fontSize: "calc(48px)",
-  //         width: "100%",
-  //         height: "100%",
-  //       }}
-  //       style={{
-  //         height: "110px",
-  //         width: "110px",
-  //       }}
-  //     />
-  //   );
-  // };
-
   const onSubmit = (data) => {
     if (Object.values(data).every((field) => field.length > 0)) {
       setShow(false);
@@ -166,47 +111,38 @@ const UserInfoCard = ({ data }) => {
     }
   };
 
-  const handleReset = () => {
-    reset({
-      username: "amir",
-      lastName: "hosseni",
-      firstName: "amir",
-    });
+  const queryClient = useQueryClient();
+
+  const { mutate: ChangeActivity } = useActiveCourse();
+
+  const ActiveCourse = (id) => {
+    ChangeActivity(
+      { active: true, id },
+
+      {
+        onSuccess: (data) => {
+          if (data.success === true) {
+            queryClient.invalidateQueries("GetAllCourseDetailsAdmin");
+            toast.success("دوره با موفق فعال شد");
+          }
+        },
+      }
+    );
   };
 
-  const handleSuspendedClick = () => {
-    return MySwal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert user!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, Suspend user!",
-      customClass: {
-        confirmButton: "btn btn-primary",
-        cancelButton: "btn btn-outline-danger ms-1",
-      },
-      buttonsStyling: false,
-    }).then(function (result) {
-      if (result.value) {
-        MySwal.fire({
-          icon: "success",
-          title: "Suspended!",
-          text: "User has been suspended.",
-          customClass: {
-            confirmButton: "btn btn-success",
-          },
-        });
-      } else if (result.dismiss === MySwal.DismissReason.cancel) {
-        MySwal.fire({
-          title: "Cancelled",
-          text: "Cancelled Suspension :)",
-          icon: "error",
-          customClass: {
-            confirmButton: "btn btn-success",
-          },
-        });
+  const DeActiveCourse = (id) => {
+    ChangeActivity(
+      { active: false, id },
+
+      {
+        onSuccess: (data) => {
+          if (data.success === true) {
+            queryClient.invalidateQueries("GetAllCourseDetailsAdmin");
+            toast.success("دوره با موفقیت غیر فعال شد");
+          }
+        },
       }
-    });
+    );
   };
 
   return (
@@ -218,20 +154,7 @@ const UserInfoCard = ({ data }) => {
               {renderUserImg(data)}
               <div className="d-flex flex-column align-items-center text-center">
                 <div className="user-info">
-                  {/* <h4>
-                    {selectedUser !== null
-                      ? selectedUser.fullName
-                      : "Eleanor Aguilar"}
-                  </h4> */}
                   <h4>{data?.title ? data?.title : ""}</h4>
-                  {/* {selectedUser !== null ? (
-                    <Badge
-                      color={roleColors[selectedUser.role]}
-                      className="text-capitalize"
-                    >
-                      {selectedUser.role}
-                    </Badge>
-                  ) : null} */}
 
                   <Badge color={"blue"} className="text-capitalize">
                     رولللل
@@ -267,10 +190,21 @@ const UserInfoCard = ({ data }) => {
                 <span className="fw-bolder me-25"> استاد:</span>
                 <span>{data?.teacherName ? data?.teacherName : ""} </span>
               </li>
+
+              <li className="mb-75">
+                <span className="fw-bolder me-25"> سطح دوره:</span>
+                <span>
+                  {data?.courseLevelName ? data?.courseLevelName : ""}{" "}
+                </span>
+              </li>
               <li className="mb-75">
                 <span className="fw-bolder me-25"> وضعیت:</span>
                 <span>
-                  {data?.courseStatusName ? data?.courseStatusName : ""}{" "}
+                  {data?.isActive ? (
+                    <span className="text-success">فعال</span>
+                  ) : (
+                    <span className="text-danger">غیرفعال</span>
+                  )}
                 </span>
               </li>
               <li className="mb-75">
@@ -287,14 +221,31 @@ const UserInfoCard = ({ data }) => {
             <Button color="primary" onClick={() => setShow(true)}>
               ویرایش
             </Button>
-            <Button
-              className="ms-1"
-              color="danger"
-              outline
-              onClick={handleSuspendedClick}
-            >
-              Suspended
-            </Button>
+            {data?.isActive ? (
+              <Button
+                className="ms-1"
+                color="danger"
+                outline
+                // onClick={handleSuspendedClick}
+                onClick={() => {
+                  DeActiveCourse(data?.courseId);
+                }}
+              >
+                غیرفعال کردن
+              </Button>
+            ) : (
+              <Button
+                className="ms-1"
+                color="success"
+                outline
+                // onClick={handleSuspendedClick}
+                onClick={() => {
+                  ActiveCourse(data?.courseId);
+                }}
+              >
+                فعال کردن
+              </Button>
+            )}
           </div>
         </CardBody>
       </Card>
