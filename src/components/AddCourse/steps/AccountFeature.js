@@ -11,8 +11,7 @@ import Select from "react-select";
 import { selectThemeColors } from "@utils";
 import { current } from "@reduxjs/toolkit";
 
-const AccountFeature = ({ stepper, type, data , setCurrentValue }) => {
-
+const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
   //1
   const courseTypeDtos =
     (data &&
@@ -200,16 +199,14 @@ const AccountFeature = ({ stepper, type, data , setCurrentValue }) => {
           </Col>
         </Row>
 
-        <Row></Row>
+        {/* <Row></Row> */}
         <div className="d-flex justify-content-between">
           <Button color="secondary" className="btn-prev" outline disabled>
             <ArrowLeft
               size={14}
               className="align-middle me-sm-25 me-0"
             ></ArrowLeft>
-            <span className="align-middle d-sm-inline-block d-none">
-              Previous
-            </span>
+            <span className="align-middle d-sm-inline-block d-none">قبلی</span>
           </Button>
           <Button
             color="primary"

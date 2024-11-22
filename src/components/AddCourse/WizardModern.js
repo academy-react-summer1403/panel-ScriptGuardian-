@@ -25,8 +25,6 @@ const WizardModern = () => {
   // ** State
   const [stepper, setStepper] = useState(null);
 
-
-
   const [currentValue, setCurrentValue] = useState({
     currentCourseType: null,
     currentCourseLevelDtos: null,
@@ -35,6 +33,16 @@ const WizardModern = () => {
     currentTeachers: null,
     currentTermDtos: null,
     currentTechnologyDtos: null,
+    Title: "",
+    Cost: "",
+    Capacity: "",
+    SessionNumber: "",
+    miniDescribe: "",
+    StartTime: "",
+    StartTime: "",
+    EndTime: "",
+    ImageAddress: "Not-set",
+    TumbImageAddress: "Not-set",
   });
 
   console.log(currentValue, "this is best value for ever never bever");
@@ -56,10 +64,17 @@ const WizardModern = () => {
     },
     {
       id: "personal-info",
-      title: "توضیحات",
-      subtitle: "توضیحات رو کامل کنید",
+      title: "اطلاعات اولیه",
+      subtitle: "اطلاعات اولیه رو کامل کنید",
       icon: <User size={18} />,
-      content: <PersonalInfo stepper={stepper} type="wizard-modern" />,
+      content: (
+        <PersonalInfo
+          stepper={stepper}
+          type="wizard-modern"
+          setCurrentValue={setCurrentValue}
+          currentValue={currentValue}
+        />
+      ),
     },
     {
       id: "step-address",
