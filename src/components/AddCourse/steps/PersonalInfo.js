@@ -143,6 +143,18 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
             />
           </Col>
         </Row>
+
+        <Col md="12" sm="12" className="mb-5">
+          <Label className="form-label" for="inputFile">
+            Simple File Input
+          </Label>
+          <Input
+            type="file"
+            id="inputFile"
+            name="fileInput"
+            onChange={(e) => handleChange("ImageAddress", e.target.value)}
+          />
+        </Col>
         <div className="d-flex justify-content-between">
           <Button
             color="primary"

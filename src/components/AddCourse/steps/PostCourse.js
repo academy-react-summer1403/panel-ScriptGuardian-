@@ -51,7 +51,7 @@ const PostCourse = ({
       GoogleTitle: currentValue?.GoogleTitle, //14
       CoursePrerequisiteId: currentValue?.CoursePrerequisiteId,
       ShortLink: currentValue?.ShortLink,
-      TumbImageAddress: currentValue?.TumbImageAddress,
+      TumbImageAddress: currentValue?.ImageAddress,
       ImageAddress: currentValue?.ImageAddress,
     },
     // validationSchema: validationSchema,

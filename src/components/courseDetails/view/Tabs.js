@@ -64,7 +64,7 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
         </TabPane>
 
         <TabPane tabId="3">
-          <InvoiceList3 data={PayMentList} />
+          <InvoiceList3 data={PayMentList} id={id} />
         </TabPane>
         {/* <TabPane tabId='2'>
           <SecurityTab />
