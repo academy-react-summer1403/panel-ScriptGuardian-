@@ -232,7 +232,13 @@ const UserInfoCard = ({ data, ID }) => {
                 </span>
               </li>
               <li className="mb-75">
-                <span className="fw-bolder me-25"> توضیحات خبر:</span>
+                <span
+                  className="fw-bolder me-25"
+                  style={{ whiteSpace: "nowrap" }}
+                >
+                  {" "}
+                  توضیحات خبر:
+                </span>
                 <span>{data?.describe ? data?.describe : ""} </span>
               </li>
             </ul>
