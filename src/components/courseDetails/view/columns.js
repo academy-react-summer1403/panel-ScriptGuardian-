@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 // ** Custom Components
@@ -37,7 +37,7 @@ import default_image from "../../../images/default_image.png";
 import { useAcceptCourseReserve } from "../../../core/services/api/Admin/handelreserve";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
-
+import Modal2ForAcceptReserve from "./Modal/Modal2ForAcceptReserve";
 // ** Vars
 const invoiceStatusObj = {
   Sent: { color: "light-secondary", icon: Send },
@@ -149,7 +149,7 @@ export const columns = [
   },
 ];
 
-export const columns2 = [
+export const columns2 = (CourseDetails) => [
   {
     name: "نام دانشجو",
     sortable: true,
@@ -214,20 +214,25 @@ export const columns2 = [
 
     cell: (row) => {
       const queryClient = useQueryClient();
-
-      const { mutate: Accept } = useAcceptCourseReserve();
-      const handelAccept = (value) => {
-        Accept(value.reserveId, value.courseId, value.studentId, {
-          onSuccess: (data) => {
-            if (data.success == true) {
-              toast.success("با موفقیت رزرو پذیرفته شد");
-              queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
-            } else {
-              toast.error("    خطا در رزرو");
-            }
-          },
-        });
+      const [isOpenModal, setIsOpenModal] = useState(false);
+      const toggleAcceptModal = () => {
+        setIsOpenModal(!isOpenModal);
       };
+
+      // const { mutate: Accept } = useAcceptCourseReserve();
+      // const handelAccept = (value) => {
+      //   Accept(value.reserveId, value.courseId, value.studentId, {
+      //     onSuccess: (data) => {
+      //       if (data.success == true) {
+      //         toast.success("با موفقیت رزرو پذیرفته شد");
+      //         queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
+      //       } else {
+      //         toast.error("    خطا در رزرو");
+      //       }
+      //     },
+      //   });
+      // };
+      console.log("unicAAAAA", CourseDetails);
       return (
         <>
           {row.accept ? (
@@ -235,12 +240,22 @@ export const columns2 = [
           ) : (
             <Button
               onClick={() => {
-                handelAccept(row);
+                // handelAccept(row);
+                toggleAcceptModal();
               }}
             >
               پذیرفتن
             </Button>
           )}
+
+          <Modal2ForAcceptReserve
+            isOpenModal={isOpenModal}
+            toggleAcceptModal={toggleAcceptModal}
+            courseId={CourseDetails?.courseId}
+            teacherId={CourseDetails?.teacherId}
+            studentId={row?.studentId}
+            setIsOpenModal={setIsOpenModal}
+          />
         </>
       );
     },

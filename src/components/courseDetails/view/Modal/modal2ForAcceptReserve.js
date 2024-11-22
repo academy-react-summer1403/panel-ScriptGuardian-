@@ -23,7 +23,7 @@ import { useGetAllCourseDetailsAdmin } from "../../../../core/services/api/Admin
 import { useState } from "react";
 import { useFormik } from "formik";
 
-const modal2ForAcceptReserve = ({
+const Modal2ForAcceptReserve = ({
   isOpenModal,
   toggleAcceptModal,
   courseId,
@@ -61,7 +61,7 @@ const modal2ForAcceptReserve = ({
             if (data.success == true) {
               setIsOpenModal(false);
               toast.success("با موفقیت رزرو پذیرفته شد");
-              queryClient.invalidateQueries("GetAllCourseReserves");
+              queryClient.invalidateQueries("GetAllCourseDetailsReserves");
             } else {
               toast.error("    خطا در رزرو");
             }
@@ -198,4 +198,4 @@ const modal2ForAcceptReserve = ({
     </>
   );
 };
-export default modal2ForAcceptReserve;
+export default Modal2ForAcceptReserve;

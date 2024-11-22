@@ -56,7 +56,7 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
         <TabPane tabId="1">
           {/* <UserProjectsList />
           <UserTimeline /> */}
-          <InvoiceList data={reserveList} />
+          <InvoiceList data={reserveList} CourseDetails={data} />
         </TabPane>
 
         <TabPane tabId="2">
