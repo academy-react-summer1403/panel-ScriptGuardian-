@@ -1,7 +1,7 @@
 import Avatar from "@components/avatar";
 import default_image from "../../../images/default_image.png";
 import NoProfile from "../../../images/profile.png";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
   Archive,
   Check,
@@ -9,6 +9,7 @@ import {
   CheckSquare,
   Database,
   Edit2,
+  Eye,
   MoreVertical,
   Settings,
   Slack,
@@ -30,6 +31,9 @@ import {
 } from "../../../core/services/api/Admin/handelUsers";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import MyCustomModal from "./modal/MyCustomModal";
+import { useReplayCommentCoursesInCommentList } from "../../../core/services/api/Admin/handelComment";
 
 export const CustomColumns = (toggleSidebar2) => [
   {
@@ -438,9 +442,12 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
     cell: (row) => {
       return (
         <>
-          <span className="text-truncate text-capitalize align-middle">
+          <NavLink
+            to={`/CourseListPage/${row?.courseId}`}
+            className="text-truncate text-capitalize align-middle"
+          >
             {row.courseTitle}
-          </span>
+          </NavLink>
         </>
       );
     },
@@ -456,7 +463,12 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
       return (
         <>
           {" "}
-          <h5 className="text-truncate text-muted mb-0">{row.userFullName}</h5>
+          <NavLink
+            to={`/UsersPage/${row?.userId}`}
+            className="text-truncate text-muted mb-0"
+          >
+            {row.userFullName}
+          </NavLink>
         </>
       );
     },
@@ -480,6 +492,47 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
               {row.accept ? "پذیرفته شده" : "نپذیرفته"}
             </Badge>
           </h5>
+        </>
+      );
+    },
+  },
+
+  {
+    name: "تعداد پاسخ ",
+    sortable: true,
+    minWidth: "72px",
+    sortField: "userRoles",
+    selector: (row) => row.accept,
+    cell: (row) => {
+      const [show, setShow] = useState(false);
+      const { data: ReplayList, refetch } =
+        useReplayCommentCoursesInCommentList({
+          courseId: row?.courseId,
+          CommentId: row.commentId,
+        });
+      const ClickModal = () => {
+        setShow(!show);
+        refetch();
+      };
+
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              className="me-1 "
+              onClick={() => {
+                if (row.replyCount != "0") {
+                  ClickModal();
+                }
+              }}
+            >
+              {row.replyCount != "0" ? <Eye className="mr-1" /> : ""}
+              <span> {row?.replyCount}</span>
+            </Badge>
+          </h5>
+          <MyCustomModal setShow={setShow} show={show} data={ReplayList} />
         </>
       );
     },

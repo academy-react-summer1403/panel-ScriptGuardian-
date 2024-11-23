@@ -12,6 +12,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
+  UncontrolledButtonDropdown,
   UncontrolledDropdown,
   UncontrolledTooltip,
 } from "reactstrap";
@@ -31,6 +32,8 @@ import {
   MoreVertical,
   Archive,
   Trash2,
+  Check,
+  X,
 } from "react-feather";
 
 import default_image from "../../../images/default_image.png";
@@ -38,6 +41,11 @@ import { useAcceptCourseReserve } from "../../../core/services/api/Admin/handelr
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
 import Modal2ForAcceptReserve from "./Modal/Modal2ForAcceptReserve";
+import {
+  useAcceptCommentCourse,
+  useDeleteCommentCourse,
+  useDontAcceptCommentCourse,
+} from "../../../core/services/api/Admin/handelUsers";
 // ** Vars
 const invoiceStatusObj = {
   Sent: { color: "light-secondary", icon: Send },
@@ -321,40 +329,136 @@ export const columns3ForComment = [
       );
     },
   },
+  // {
+  //   name: "اقدامات",
+  //   minWidth: "100px",
+
+  //   cell: (row) => {
+  //     const queryClient = useQueryClient();
+
+  //     const { mutate: Accept } = useAcceptCourseReserve();
+  //     const handelAccept = (value) => {
+  //       Accept(value.reserveId, value.courseId, value.studentId, {
+  //         onSuccess: (data) => {
+  //           if (data.success == true) {
+  //             toast.success("با موفقیت رزرو پذیرفته شد");
+  //             queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
+  //           } else {
+  //             toast.error("    خطا در رزرو");
+  //           }
+  //         },
+  //       });
+  //     };
+  //     return (
+  //       <>
+  //         {row.accept ? (
+  //           <p className="text-success">پذیرفته شده</p>
+  //         ) : (
+  //           <Button
+  //             onClick={() => {
+  //               handelAccept(row);
+  //             }}
+  //           >
+  //             پذیرفتن
+  //           </Button>
+  //         )}
+  //       </>
+  //     );
+  //   },
+  // },
+
   {
     name: "اقدامات",
     minWidth: "100px",
 
     cell: (row) => {
+      //TODO
       const queryClient = useQueryClient();
 
-      const { mutate: Accept } = useAcceptCourseReserve();
-      const handelAccept = (value) => {
-        Accept(value.reserveId, value.courseId, value.studentId, {
-          onSuccess: (data) => {
-            if (data.success == true) {
-              toast.success("با موفقیت رزرو پذیرفته شد");
-              queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
-            } else {
-              toast.error("    خطا در رزرو");
-            }
+      const { mutate: AcceptComment } = useAcceptCommentCourse();
+      const { mutate: NotAcceptComment } = useDontAcceptCommentCourse();
+      const { mutate: DeleteComment } = useDeleteCommentCourse();
+
+      const handelAccept = (id) => {
+        console.log(id, "id for test");
+        AcceptComment(id, {
+          onSuccess: () => {
+            queryClient.invalidateQueries("GetAllCommentsList");
+            toast.success("با موفقیت با کامنت موفقیت شد");
+          },
+        });
+      };
+
+      const handelDontAccept = (id) => {
+        NotAcceptComment(id, {
+          onSuccess: () => {
+            queryClient.invalidateQueries("GetAllCommentsList");
+            toast.success("با موفقیت با کامنت مخالفت شد");
+          },
+        });
+      };
+
+      const handelDelete = (id) => {
+        DeleteComment(id, {
+          onSuccess: () => {
+            queryClient.invalidateQueries("GetAllCommentsList");
+            toast.success("با موفقیت  کامنت حذف شد");
           },
         });
       };
       return (
-        <>
-          {row.accept ? (
-            <p className="text-success">پذیرفته شده</p>
-          ) : (
-            <Button
-              onClick={() => {
-                handelAccept(row);
-              }}
-            >
-              پذیرفتن
-            </Button>
-          )}
-        </>
+        <div className="column-action">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="div" className="btn btn-sm">
+              <MoreVertical size={14} className="cursor-pointer" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem tag="a" className="w-100">
+                <Check color="green" size={16} />
+                <span
+                  className="align-middle"
+                  onClick={() => {
+                    console.log(row.id, "id for test1");
+                    handelAccept(row.id);
+                    console.log(row.id, "id for test2");
+                  }}
+                >
+                  تایید نظر{" "}
+                </span>
+              </DropdownItem>
+              <DropdownItem className="w-100">
+                <X color="red" size={14} />{" "}
+                <span
+                  className="align-middle"
+                  onClick={() => {
+                    handelDontAccept(row.id);
+                  }}
+                >
+                  رد نظر{" "}
+                </span>
+              </DropdownItem>
+              <DropdownItem size="sm">
+                <Trash2 size={14} className="me-50" />
+                <span
+                  className="align-middle"
+                  onClick={() => {
+                    handelDelete(row.id);
+                  }}
+                >
+                  حذف نظر
+                </span>
+              </DropdownItem>
+              {/* <UserAddRole
+              // modal={modal}
+              // id={row.id}
+              // userName={row.fname + " " + row.lname}
+              // toggleModal={toggleModal}
+              // userRoles={row.role}
+              // refetch={refetch}
+              /> */}
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </div>
       );
     },
   },
