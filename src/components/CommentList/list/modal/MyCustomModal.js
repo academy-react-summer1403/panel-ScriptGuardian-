@@ -17,9 +17,9 @@ import { useUpdateUser } from "../../../../core/services/api/Admin/handelChangeP
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
 import DataTable from "react-data-table-component";
+import { columnsForReplayComment } from "./comp/columns";
 
-const MyCustomModal = ({ show, setShow, data }) => {
-
+const MyCustomModal = ({ show, setShow, data, refetch }) => {
   return (
     <>
       <Modal
@@ -38,7 +38,7 @@ const MyCustomModal = ({ show, setShow, data }) => {
                 <DataTable
                   noHeader
                   sortServer
-                  // columns={columns3ForComment}
+                  columns={columnsForReplayComment(refetch)}
                   responsive={true}
                   // onSort={handleSort}
                   data={data}

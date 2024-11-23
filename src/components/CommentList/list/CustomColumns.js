@@ -532,7 +532,12 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
               <span> {row?.replyCount}</span>
             </Badge>
           </h5>
-          <MyCustomModal setShow={setShow} show={show} data={ReplayList} />
+          <MyCustomModal
+            setShow={setShow}
+            show={show}
+            data={ReplayList}
+            refetch={refetch}
+          />
         </>
       );
     },
