@@ -26,6 +26,13 @@ export default [
       },
 
       {
+        id: "CourseTeacherListPage",
+        title: "دوره های من (استاد)",
+        icon: <Circle size={12} />,
+        navLink: "/CourseTeacherListPage",
+      },
+
+      {
         id: "createCourse",
         title: "ایجاد دوره",
         icon: <Circle size={12} />,

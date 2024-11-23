@@ -78,13 +78,13 @@ export const ApiRoutes = {
   PANEL_GET_DETAILS_NEWS_COMMENTS_URL: "/News/GetAdminNewsComments?NewsId=",
   PANEL_ADD_NEW_USER_URL: "/User/CreateUser",
   PANEL_GET_ALL_COURSES_ADMIN_URL: "/Course/CourseList",
+  PANEL_GET_ALL_TEACHERS_COURSES_ADMIN_URL: "/Course/TeacherCourseList",
   PANEL_GET_DETAILS_COURSE_URL: "/Course/",
   PANEL_GET_DETAILS_NEWS_URL: "/News/",
   PANEL_GET_ALL_COMMENTS_ADMIN_URL: "/Course/CommentManagment",
   PANEL_GET_CREATE_COURSE_STEP_ONE_ADMIN_URL: "/Course/GetCreate",
   PANEL_ADD_NEW_COURSE_STEP_TWO_ADMIN_URL: "/Course",
-  PANEL_ADD_NEW_COURSE_STEP_THIRD_ADMIN_URL:
-    "/Course/AddCourseTechnology?",
+  PANEL_ADD_NEW_COURSE_STEP_THIRD_ADMIN_URL: "/Course/AddCourseTechnology?",
 
   PANEL_ACCEPT_COMMENTS_ADMIN_URL: "/Course/AcceptCourseComment?",
   PANEL_NOT_ACCEPT_COMMENTS_ADMIN_URL: "/Course/RejectCourseComment?",

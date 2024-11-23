@@ -129,6 +129,47 @@ export const useGetAllCourses = ({ currentPage, rowsPerPage, searchTerm }) => {
   });
 };
 
+//Get All MyCourses(TeacherCourses)
+
+const GetAllTeacherCourses = async ({
+  currentPage,
+  rowsPerPage,
+  searchTerm,
+}) => {
+  const AllParams = {
+    PageNumber: currentPage ? currentPage : 1,
+    RowsOfPage: rowsPerPage ? rowsPerPage : 10,
+    Query: searchTerm ? searchTerm : undefined,
+  };
+  try {
+    const response = await http.get(
+      ApiRoutes.PANEL_GET_ALL_TEACHERS_COURSES_ADMIN_URL,
+      {
+        params: AllParams,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllTeacherCourses  in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllTeacherCourses = ({
+  currentPage,
+  rowsPerPage,
+  searchTerm,
+}) => {
+  return useQuery({
+    queryKey: ["GetAllTeacherCourses ", currentPage, rowsPerPage, searchTerm],
+    queryFn: () => {
+      return GetAllTeacherCourses({ currentPage, rowsPerPage, searchTerm });
+    },
+  });
+};
+
 //Course Details
 
 //UserDetails
