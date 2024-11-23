@@ -7,6 +7,7 @@ import {
   Check,
   CheckCircle,
   CheckSquare,
+  CornerDownLeft,
   Database,
   Edit2,
   Eye,
@@ -34,6 +35,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import MyCustomModal from "./modal/MyCustomModal";
 import { useReplayCommentCoursesInCommentList } from "../../../core/services/api/Admin/handelComment";
+import MyCustomModalTwoForReplay from "./modal/MyCustomModalTwoForReplay";
 
 export const CustomColumns = (toggleSidebar2) => [
   {
@@ -582,6 +584,12 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
           },
         });
       };
+
+      const [show, setShow] = useState(false);
+
+      const toggelShow = () => {
+        setShow(!show);
+      };
       return (
         <div className="column-action">
           <UncontrolledDropdown>
@@ -589,51 +597,53 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem tag="a" className="w-100">
-                <Check color="green" size={16} />
-                <span
-                  className="align-middle"
+              {row?.accept ? (
+                <DropdownItem
+                  className="w-100"
+                  onClick={() => {
+                    handelDontAccept(row.commentId);
+                  }}
+                >
+                  <X color="red" size={14} />{" "}
+                  <span className="align-middle">رد نظر </span>
+                </DropdownItem>
+              ) : (
+                <DropdownItem
+                  tag="a"
+                  className="w-100"
                   onClick={() => {
                     console.log(row.commentId, "id for test1");
                     handelAccept(row.commentId);
                     console.log(row.commentId, "id for test2");
                   }}
                 >
-                  تایید نظر{" "}
-                </span>
-              </DropdownItem>
-              <DropdownItem className="w-100">
-                <X color="red" size={14} />{" "}
-                <span
-                  className="align-middle"
-                  onClick={() => {
-                    handelDontAccept(row.commentId);
-                  }}
-                >
-                  رد نظر{" "}
-                </span>
-              </DropdownItem>
-              <DropdownItem size="sm">
+                  <Check color="green" size={16} />
+                  <span className="align-middle">تایید نظر </span>
+                </DropdownItem>
+              )}
+
+              <DropdownItem
+                size="sm"
+                onClick={() => {
+                  handelDelete(row.commentId);
+                }}
+              >
                 <Trash2 size={14} className="me-50" />
-                <span
-                  className="align-middle"
-                  onClick={() => {
-                    handelDelete(row.commentId);
-                  }}
-                >
-                  حذف نظر
-                </span>
+                <span className="align-middle">حذف نظر</span>
               </DropdownItem>
-              {/* <UserAddRole
-              // modal={modal}
-              // id={row.id}
-              // userName={row.fname + " " + row.lname}
-              // toggleModal={toggleModal}
-              // userRoles={row.role}
-              // refetch={refetch}
-              /> */}
+
+              <DropdownItem size="sm" onClick={toggelShow}>
+                <CornerDownLeft size={14} className="me-50" />
+                <span className="align-middle">پاسخ دادن به نظر </span>
+              </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
+          <MyCustomModalTwoForReplay
+            setShow={setShow}
+            show={show}
+            commentId={row?.commentId}
+            courseId={row?.courseId}
+          />
         </div>
       );
     },

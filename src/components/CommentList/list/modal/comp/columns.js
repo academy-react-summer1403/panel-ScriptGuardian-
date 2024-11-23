@@ -97,43 +97,6 @@ export const columnsForReplayComment = (refetch) => [
       );
     },
   },
-  // {
-  //   name: "اقدامات",
-  //   minWidth: "100px",
-
-  //   cell: (row) => {
-  //     const queryClient = useQueryClient();
-
-  //     const { mutate: Accept } = useAcceptCourseReserve();
-  //     const handelAccept = (value) => {
-  //       Accept(value.reserveId, value.courseId, value.studentId, {
-  //         onSuccess: (data) => {
-  //           if (data.success == true) {
-  //             toast.success("با موفقیت رزرو پذیرفته شد");
-  //             queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
-  //           } else {
-  //             toast.error("    خطا در رزرو");
-  //           }
-  //         },
-  //       });
-  //     };
-  //     return (
-  //       <>
-  //         {row.accept ? (
-  //           <p className="text-success">پذیرفته شده</p>
-  //         ) : (
-  //           <Button
-  //             onClick={() => {
-  //               handelAccept(row);
-  //             }}
-  //           >
-  //             پذیرفتن
-  //           </Button>
-  //         )}
-  //       </>
-  //     );
-  //   },
-  // },
 
   {
     name: "اقدامات",
@@ -181,27 +144,31 @@ export const columnsForReplayComment = (refetch) => [
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem
-                tag="a"
-                className="w-100"
-                onClick={() => {
-                  console.log(row.id, "id for test1");
-                  handelAccept(row.id);
-                  console.log(row.id, "id for test2");
-                }}
-              >
-                <Check color="green" size={16} />
-                <span className="align-middle">تایید نظر </span>
-              </DropdownItem>
-              <DropdownItem
-                className="w-100"
-                onClick={() => {
-                  handelDontAccept(row.id);
-                }}
-              >
-                <X color="red" size={14} />{" "}
-                <span className="align-middle">رد نظر </span>
-              </DropdownItem>
+              {row?.accept ? (
+                <DropdownItem
+                  className="w-100"
+                  onClick={() => {
+                    handelDontAccept(row.id);
+                  }}
+                >
+                  <X color="red" size={14} />{" "}
+                  <span className="align-middle">رد نظر </span>
+                </DropdownItem>
+              ) : (
+                <DropdownItem
+                  tag="a"
+                  className="w-100"
+                  onClick={() => {
+                    console.log(row.id, "id for test1");
+                    handelAccept(row.id);
+                    console.log(row.id, "id for test2");
+                  }}
+                >
+                  <Check color="green" size={16} />
+                  <span className="align-middle">تایید نظر </span>
+                </DropdownItem>
+              )}
+
               <DropdownItem
                 size="sm"
                 onClick={() => {
