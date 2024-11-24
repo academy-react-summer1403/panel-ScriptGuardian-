@@ -31,8 +31,9 @@ import { useFormik } from "formik";
 
 import { useLogin } from "../core/services/api/Auth/Login/Login";
 import { validationSchema } from "../core/services/validation/validationSchema/Auth";
-import { setItem } from "../core/services/storage/storage.services";
+import { getItem, setItem } from "../core/services/storage/storage.services";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 const Login = () => {
   const { skin } = useSkin();
 
@@ -42,6 +43,13 @@ const Login = () => {
 
   const { mutate: login, isError, data } = useLogin();
   console.log("this use login Data", data);
+  const token = getItem("token");
+
+  useEffect(() => {
+    if (token) {
+      navigate("/home");
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues: {

@@ -1,4 +1,4 @@
-import { Mail, Home, Airplay, Circle } from "react-feather";
+import { Mail, Home, Airplay, Circle, Users } from "react-feather";
 
 export default [
   {
@@ -8,22 +8,83 @@ export default [
     navLink: "/home",
   },
   {
-    id: "secondPage",
-    title: "Second Page",
-    icon: <Mail size={20} />,
-    navLink: "/second-page",
+    id: "UsersPage",
+    title: "کاربران",
+    icon: <Users size={20} />,
+    navLink: "/UsersPage",
   },
   {
-    id: "smaplePage",
-    title: "Sample Page",
+    id: "Course",
+    title: "دوره ها",
+    icon: <Users size={20} />,
+    children: [
+      {
+        id: "CourseListPage",
+        title: "همه ی  دوره",
+        icon: <Circle size={12} />,
+        navLink: "/CourseListPage",
+      },
+
+      {
+        id: "CourseTeacherListPage",
+        title: "دوره های من (استاد)",
+        icon: <Circle size={12} />,
+        navLink: "/CourseTeacherListPage",
+      },
+
+      {
+        id: "createCourse",
+        title: "ایجاد دوره",
+        icon: <Circle size={12} />,
+        navLink: "/createCourse",
+      },
+      {
+        id: "CourseReserved",
+        title: " دوره های رزرو شده",
+        icon: <Circle size={12} />,
+        navLink: "/CourseReserved",
+      },
+    ],
+  },
+  {
+    id: "Comments",
+    title: "نظرات",
     icon: <Airplay size={20} />,
     // navLink: "/sample",
     children: [
       {
-        id: "invoiceList",
-        title: "List",
+        id: "AllComments",
+        title: "همه ی نظرها",
         icon: <Circle size={12} />,
-        navLink: "/apps/invoice/list",
+        navLink: "/CommentsListPage",
+      },
+    ],
+  },
+
+  {
+    id: "NewsListPage",
+    title: "اخبار",
+    icon: <Airplay size={20} />,
+    // navLink: "/sample",
+    children: [
+      {
+        id: "AllNewsListPage",
+        title: "همه ی خبر ها",
+        icon: <Circle size={12} />,
+        navLink: "/NewsListPage",
+      },
+
+      {
+        id: "AddNewsPage",
+        title: "اضافه کردن خبر جدید",
+        icon: <Circle size={12} />,
+        navLink: "/AddNewsPage",
+      },
+      {
+        id: "AddNewsCateGoryPage",
+        title: "اضافه کردن دسته بندی جدید",
+        icon: <Circle size={12} />,
+        navLink: "/AddNewsCateGoryPage",
       },
     ],
   },

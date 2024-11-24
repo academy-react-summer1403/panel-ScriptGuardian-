@@ -35,6 +35,7 @@ export const ApiRoutes = {
   DETAILS_COURSES_PAGE_URL: "/Home/GetCourseDetails?CourseId=",
   DETAILS_COURSES_ADD_TO_RESERVE_URL: "/CourseReserve/ReserveAdd",
   DETAILS_COURSES_COMMENTS_URL: "/Course/GetCourseCommnets/",
+  DETAILS_COURSES_PAYMENT_URL: "/CoursePayment?CourseId=",
   DETAILS_COURSES_RATE_URL: "/Course/SetCourseRating?",
   NEWS_DETAILS_ADD_COMMENT_URL: "/News/CreateNewsComment",
   NEWS_DETAILS_ADD_REPLAY_COMMENT_URL: "/News/CreateNewsReplyComment",
@@ -67,4 +68,43 @@ export const ApiRoutes = {
 
   //Student Panel Change pass
   PANEL_CHANGE_PASSWORD_URL: "/SharePanel/ChangePassword",
+
+  //panel Admin
+
+  PANEL_GET_ALL_USERS_URL: "/User/UserMannage",
+  PANEL_GET_DETAILS_USERS_URL: "/User/UserDetails/",
+  PANEL_GET_DETAILS_COURSE_RESERVE_URL: "/CourseReserve/",
+  PANEL_GET_LIST_COURSE_RESERVE_URL: "/CourseReserve",
+  PANEL_GET_DETAILS_NEWS_COMMENTS_URL: "/News/GetAdminNewsComments?NewsId=",
+  PANEL_ADD_NEW_USER_URL: "/User/CreateUser",
+  PANEL_GET_ALL_COURSES_ADMIN_URL: "/Course/CourseList",
+  PANEL_GET_ALL_TEACHERS_COURSES_ADMIN_URL: "/Course/TeacherCourseList",
+  PANEL_GET_DETAILS_COURSE_URL: "/Course/",
+  PANEL_GET_DETAILS_NEWS_URL: "/News/",
+  PANEL_GET_ALL_COMMENTS_ADMIN_URL: "/Course/CommentManagment",
+  PANEL_GET_CREATE_COURSE_STEP_ONE_ADMIN_URL: "/Course/GetCreate",
+  PANEL_ADD_NEW_COURSE_STEP_TWO_ADMIN_URL: "/Course",
+  PANEL_ADD_NEW_COURSE_STEP_THIRD_ADMIN_URL: "/Course/AddCourseTechnology?",
+
+  PANEL_ACCEPT_COMMENTS_ADMIN_URL: "/Course/AcceptCourseComment?",
+  PANEL_NOT_ACCEPT_COMMENTS_ADMIN_URL: "/Course/RejectCourseComment?",
+  PANEL_DELETE_COMMENTS_ADMIN_URL: "/Course/DeleteCourseComment?",
+
+  PANEL_GET_ALL_NEWS_ADMIN_URL: "/News/AdminNewsFilterList",
+  PANEL_GET_CATEGORY_NEWS_ADMIN_URL: "/News/GetListNewsCategory",
+  PANEL_CREATE_NEWS_ADMIN_URL: "/News/CreateNews",
+  PANEL_CREATE_NEWS_CATEGORY_ADMIN_URL: "/News/CreateNewsCategory",
+
+  //change profile
+
+  PANEL_UPDATE_USER_ADMIN_URL: "/User/UpdateUser",
+  PANEL_UPDATE_COURSE_ADMIN_URL: "/Course",
+  PANEL_UPDATE_NEWS_ADMIN_URL: "/News/UpdateNews",
+  PANEL_UPDATE_NEWS_COMMENT_URL: "/News/UpdateNewsComment",
+  PANEL_ACCEPT_RESERVE_ADMIN_URL: "/CourseReserve/SendReserveToCourse",
+  PANEL_CHANGE_ACTIVITY_ADMIN_URL: "/Course/ActiveAndDeactiveCourse",
+  PANEL_CHANGE_ACTIVITY_NEWS_ADMIN_URL: "/News/ActiveDeactiveNews",
+  PANEL_ADD_NEW_COURSE_GROUP_URL: "/CourseGroup",
+  // PANEL_COURSE_GROUP_ADMIN_URL: "/CourseGroup",
+  PANEL_COURSE_GROUP_ADMIN_URL: "/CourseGroup/GetCourseGroup?",
 };

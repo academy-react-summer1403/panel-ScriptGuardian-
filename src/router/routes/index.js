@@ -1,6 +1,6 @@
 // ** React Imports
-import { Fragment, lazy } from "react";
-import { Navigate } from "react-router-dom";
+import { Fragment, lazy, useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 // ** Layouts
 import BlankLayout from "@layouts/BlankLayout";
 import VerticalLayout from "@src/layouts/VerticalLayout";
@@ -12,6 +12,7 @@ import PublicRoute from "@components/routes/PublicRoute";
 
 // ** Utils
 import { isObjEmpty } from "@utils";
+import { getItem } from "../../core/services/storage/storage.services.js";
 
 const getLayout = {
   blank: <BlankLayout />,
@@ -23,13 +24,28 @@ const getLayout = {
 const TemplateTitle = "%s - Vuexy React Admin Template";
 
 // ** Default Route
-const DefaultRoute = "/home";
+const DefaultRoute = "/login";
 
 const Home = lazy(() => import("../../pages/Home"));
-const SecondPage = lazy(() => import("../../pages/SecondPage"));
+const UsersPage = lazy(() => import("../../pages/UsersPage"));
+const UserDetailsPage = lazy(() => import("../../pages/UserDetailsPage"));
+const CourseListPage = lazy(() => import("../../pages/CourseListPage"));
+const CourseTeacherListPage = lazy(() =>
+  import("../../pages/CourseTeacherListPage")
+);
+const CourseDetailPage = lazy(() => import("../../pages/CourseDetailPage"));
+const AddCoursePage = lazy(() => import("../../pages/AddCoursePage"));
+const CommentListPage = lazy(() => import("../../pages/CommentListPage"));
+const NewsListPage = lazy(() => import("../../pages/NewsListPage.js"));
+const AddNewsCateGoryPage = lazy(() =>
+  import("../../pages/AddNewsCateGoryPage")
+);
+const AddNewsPage = lazy(() => import("../../pages/AddNewsPage"));
 const Login = lazy(() => import("../../pages/Login"));
 const Register = lazy(() => import("../../pages/Register"));
+const NewsDetailsPage = lazy(() => import("../../pages/NewsDetailsPage"));
 const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
+const CourseReservedPage = lazy(() => import("../../pages/CourseReservedPage"));
 const Error = lazy(() => import("../../pages/Error"));
 const Sample = lazy(() => import("../../pages/Sample"));
 
@@ -49,8 +65,52 @@ const Routes = [
     element: <Sample />,
   },
   {
-    path: "/second-page",
-    element: <SecondPage />,
+    path: "/UsersPage",
+    element: <UsersPage />,
+  },
+  {
+    path: "/UsersPage/:id",
+    element: <UserDetailsPage />,
+  },
+  {
+    path: "/CourseListPage",
+    element: <CourseListPage />,
+  },
+  {
+    path: "/CourseTeacherListPage",
+    element: <CourseTeacherListPage />,
+  },
+  {
+    path: "/CourseListPage/:id",
+    element: <CourseDetailPage />,
+  },
+  {
+    path: "/createCourse",
+    element: <AddCoursePage />,
+  },
+  {
+    path: "/CourseReserved",
+    element: <CourseReservedPage />,
+  },
+  {
+    path: "/CommentsListPage",
+    element: <CommentListPage />,
+  },
+  {
+    path: "/AddNewsCateGoryPage",
+    element: <AddNewsCateGoryPage />,
+  },
+  {
+    path: "/NewsListPage/:id",
+    element: <NewsDetailsPage />,
+  },
+  {
+    path: "/NewsListPage",
+    element: <NewsListPage />,
+  },
+  {
+    path: "/AddNewsPage",
+    element: <AddNewsPage />,
   },
   {
     path: "/login",
@@ -101,6 +161,13 @@ const getRouteMeta = (route) => {
 
 // ** Return Filtered Array of Routes & Paths
 const MergeLayoutRoutes = (layout, defaultLayout) => {
+  const token = getItem("token");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
   const LayoutRoutes = [];
 
   if (Routes) {
