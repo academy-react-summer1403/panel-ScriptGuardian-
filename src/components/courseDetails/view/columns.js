@@ -329,43 +329,6 @@ export const columns3ForComment = [
       );
     },
   },
-  // {
-  //   name: "اقدامات",
-  //   minWidth: "100px",
-
-  //   cell: (row) => {
-  //     const queryClient = useQueryClient();
-
-  //     const { mutate: Accept } = useAcceptCourseReserve();
-  //     const handelAccept = (value) => {
-  //       Accept(value.reserveId, value.courseId, value.studentId, {
-  //         onSuccess: (data) => {
-  //           if (data.success == true) {
-  //             toast.success("با موفقیت رزرو پذیرفته شد");
-  //             queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
-  //           } else {
-  //             toast.error("    خطا در رزرو");
-  //           }
-  //         },
-  //       });
-  //     };
-  //     return (
-  //       <>
-  //         {row.accept ? (
-  //           <p className="text-success">پذیرفته شده</p>
-  //         ) : (
-  //           <Button
-  //             onClick={() => {
-  //               handelAccept(row);
-  //             }}
-  //           >
-  //             پذیرفتن
-  //           </Button>
-  //         )}
-  //       </>
-  //     );
-  //   },
-  // },
 
   {
     name: "اقدامات",
@@ -448,14 +411,6 @@ export const columns3ForComment = [
                   حذف نظر
                 </span>
               </DropdownItem>
-              {/* <UserAddRole
-              // modal={modal}
-              // id={row.id}
-              // userName={row.fname + " " + row.lname}
-              // toggleModal={toggleModal}
-              // userRoles={row.role}
-              // refetch={refetch}
-              /> */}
             </DropdownMenu>
           </UncontrolledDropdown>
         </div>
