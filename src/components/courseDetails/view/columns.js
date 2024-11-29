@@ -946,68 +946,16 @@ export const GroupOfCourseDetailsList = [
 
   {
     minWidth: "50px",
-    name: "تاریخ پرداخت",
-    cell: (row) => row.peymentDate && convertIsoToJalali(row.peymentDate),
+    name: "ظرفیت دوره",
+    cell: (row) => row.courseCapacity,
   },
-  {
-    name: "تصویر پرداخت ",
-    sortable: true,
-    minWidth: "50px",
-    sortField: "userRoles",
-    selector: (row) => row.paymentInvoiceImage,
-    cell: (row) => {
-      // ** States
-      const [show, setShow] = useState(false);
 
-      const toogelModal = () => {
-        setShow(!show);
-      };
-      return (
-        <>
-          {" "}
-          <h5 className="text-truncate text-muted mb-0">
-            {row.paymentInvoiceImage ? (
-              <div className="cursor-pointer	" onClick={toogelModal}>
-                نمایش
-                <Eye size={13} />
-              </div>
-            ) : (
-              "ثبت نشده"
-            )}
-          </h5>
-          <PaymentShowScreenModalInCourse
-            isOpenModal={show}
-            toggleAcceptModal={toogelModal}
-            paymentInvoiceImage={row?.paymentInvoiceImage}
-            groupName={row?.groupName}
-          />
-        </>
-      );
-    },
-  },
   {
-    name: "وضعیت پذیرش ",
-    sortable: true,
     minWidth: "50px",
-    sortField: "userRoles",
-    selector: (row) => row.accept,
-    cell: (row) => {
-      return (
-        <>
-          {" "}
-          <h5 className="text-truncate text-muted mb-0">
-            <Badge
-              pill
-              color={row.accept ? "light-primary" : "light-danger"}
-              className="me-1"
-            >
-              {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
-            </Badge>
-          </h5>
-        </>
-      );
-    },
+    name: "ظرفیت گروه",
+    cell: (row) => row.groupCapacity,
   },
+
   {
     name: "اقدامات",
     minWidth: "200px",

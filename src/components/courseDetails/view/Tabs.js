@@ -114,10 +114,11 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
         </TabPane>
 
         <TabPane tabId="5">
-          <ListOfGroupCourse data={PayMentList} id={id} />
+          <PaymentListInCourse data={PayMentList} id={id} />
         </TabPane>
 
         <TabPane tabId="6">
+         
           <ListOfGroupCourse data={AllGroup} />
         </TabPane>
       </TabContent>
