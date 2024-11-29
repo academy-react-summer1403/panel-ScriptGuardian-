@@ -517,6 +517,59 @@ export const columns4ForPayMent = [
   },
 ];
 
+export const columns6ForWhosPayAndWhosNotPayed = [
+  {
+    name: "نام دانشجو",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.studentName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <div className="user-info text-truncate ms-1">
+            <div
+              className="d-block fw-bold text-truncate"
+              to={`/UsersPage/${row.userId}`}
+            >
+              {row.studentName}
+            </div>
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    minWidth: "200px",
+    name: "نام گروه",
+    cell: (row) => <span>{row?.groupName}</span>,
+  },
+  {
+    name: "وضعیت اتمام اقساط ",
+    sortable: true,
+    minWidth: "150px",
+    sortField: "userRoles",
+    selector: (row) => row.peymentDone,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.peymentDone ? "light-primary" : "light-danger"}
+              className="me-1"
+            >
+              {row.peymentDone ? "به اتمام رسیده" : "تمام نشده"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+];
+
 export const columns5ForUserListInCourse = [
   {
     name: "نام دانشجو",

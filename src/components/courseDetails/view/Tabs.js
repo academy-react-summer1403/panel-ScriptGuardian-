@@ -1,11 +1,11 @@
 // ** React Imports
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 
 // ** Reactstrap Imports
 import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 
 // ** Icons Imports
-import { User, Lock, Bookmark, Bell, Link } from "react-feather";
+import { User, Lock, Bookmark, Bell, Link, DollarSign } from "react-feather";
 
 // ** User Components
 import InvoiceList from "./InvoiceList";
@@ -21,6 +21,7 @@ import { useCoursesDetail } from "../../../core/services/api/DetailCourses/GetDe
 import {
   useCoursesComment,
   useCoursesPayMent,
+  useCoursesPayMentDetailsWhoPayed,
   useCourseUserList,
 } from "../../../core/services/api/CourseDetils/handelCooment";
 import InvoiceList2 from "./InvoiceList2";
@@ -30,7 +31,15 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
   const { data: reserveList } = useGetAllCourseDetailsReserves(id);
   const { data: CommentList } = useCoursesComment(id);
   const { data: PayMentList } = useCoursesPayMent(id);
+  const { data: WhoPayed } = useCoursesPayMentDetailsWhoPayed(id);
   const { data: UserList } = useCourseUserList(id);
+
+  const [activeForBuy, setActiveForBuy] = useState("1");
+  const toggleTabForBuy = (tab) => {
+    if (activeForBuy !== tab) {
+      setActiveForBuy(tab);
+    }
+  };
 
   return (
     <Fragment>
@@ -56,8 +65,8 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
 
         <NavItem>
           <NavLink active={active === "4"} onClick={() => toggleTab("4")}>
-            <Lock className="font-medium-3 me-50" />
-            <span className="fw-bold">خرید های دوره</span>
+            <DollarSign className="font-medium-3 me-50" />
+            <span className="fw-bold">وضعیت پرداختی افراد</span>
           </NavLink>
         </NavItem>
       </Nav>
@@ -74,20 +83,26 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
         </TabPane>
 
         <TabPane tabId="4">
-          <InvoiceList3 data={PayMentList} id={id} />
+          <InvoiceList3
+            dataDonePay={WhoPayed?.donePays}
+            notDonePays={WhoPayed?.notDonePays}
+            id={id}
+            toggleTab={toggleTabForBuy}
+            active={activeForBuy}
+          />
         </TabPane>
-        {/* <TabPane tabId='2'>
-          <SecurityTab />
-        </TabPane>
-        <TabPane tabId='3'>
-          <BillingPlanTab />
-        </TabPane>
-        <TabPane tabId='4'>
-          <Notifications />
-        </TabPane>
-        <TabPane tabId='5'>
-          <Connections />
-        </TabPane> */}
+
+        <div>
+          {PayMentList &&
+            PayMentList.filter((item) => item.courseId === id).map(
+              (filteredItem) => (
+                <div key={filteredItem.id}>
+            s
+                  {filteredItem.name}
+                </div>
+              )
+            )}
+        </div>
       </TabContent>
       <modal2ForAcceptReserve />
     </Fragment>

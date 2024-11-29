@@ -61,3 +61,27 @@ export const useCourseUserList = (id) => {
     enabled: !!id,
   });
 };
+
+//use Course Details : Payment Accepted And Rejected
+
+const CoursesPayMentDetailsWhoPayed = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.DETAILS_COURSES_PAYMENT_WHO_PAYED_URL}${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error Four Get Detail Courses   CoursesPayMentDetailsWhoPayed ",
+      error
+    );
+    return false;
+  }
+};
+export const useCoursesPayMentDetailsWhoPayed = (id) => {
+  return useQuery({
+    queryKey: ["CoursesPayMentDetailsWhoPayed"],
+    queryFn: () => CoursesPayMentDetailsWhoPayed(id),
+    enabled: !!id,
+  });
+};
