@@ -195,7 +195,7 @@ export const columns2 = (CourseDetails) => [
   {
     minWidth: "200px",
     name: "تاریخ رزرو",
-    cell: (row) => row.reserverDate,
+    cell: (row) => row.reserverDate && convertIsoToJalali(row.reserverDate),
   },
   {
     name: "وضعیت پذیرش ",
@@ -772,6 +772,173 @@ export const PayColInCoursePage = [
           <div className="user-info text-truncate ms-1">
             <strong>{row?.paid}</strong> تومان
           </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    minWidth: "50px",
+    name: "تاریخ پرداخت",
+    cell: (row) => row.peymentDate && convertIsoToJalali(row.peymentDate),
+  },
+  {
+    name: "تصویر پرداخت ",
+    sortable: true,
+    minWidth: "50px",
+    sortField: "userRoles",
+    selector: (row) => row.paymentInvoiceImage,
+    cell: (row) => {
+      // ** States
+      const [show, setShow] = useState(false);
+
+      const toogelModal = () => {
+        setShow(!show);
+      };
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            {row.paymentInvoiceImage ? (
+              <div className="cursor-pointer	" onClick={toogelModal}>
+                نمایش
+                <Eye size={13} />
+              </div>
+            ) : (
+              "ثبت نشده"
+            )}
+          </h5>
+          <PaymentShowScreenModalInCourse
+            isOpenModal={show}
+            toggleAcceptModal={toogelModal}
+            paymentInvoiceImage={row?.paymentInvoiceImage}
+            groupName={row?.groupName}
+          />
+        </>
+      );
+    },
+  },
+  {
+    name: "وضعیت پذیرش ",
+    sortable: true,
+    minWidth: "50px",
+    sortField: "userRoles",
+    selector: (row) => row.accept,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.accept ? "light-primary" : "light-danger"}
+              className="me-1"
+            >
+              {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "اقدامات",
+    minWidth: "200px",
+
+    cell: (row) => {
+      const navigate = useNavigate();
+      const {
+        data: detailsPayment,
+        refetch,
+        isPending,
+      } = useGetUsersPaymentDetails(row?.id);
+      const [show, setShow] = useState(false);
+
+      const toogelModal = () => {
+        setShow(false);
+      };
+      const handelClickDetailsPayment = () => {
+        refetch();
+        setShow(!show);
+      };
+
+      console.log(detailsPayment, "detailsPayment");
+      return (
+        <div className="column-action">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="div" className="btn btn-sm">
+              <MoreVertical size={14} className="cursor-pointer" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem className="w-100">
+                <Archive size={14} className="me-50" />
+                <span
+                  className="align-middle"
+                  onClick={() => {
+                    navigate(`/CourseListPage/${row?.courseId}`);
+                  }}
+                >
+                  جزئیات دوره
+                </span>
+              </DropdownItem>
+
+              <DropdownItem
+                className="w-100"
+                onClick={handelClickDetailsPayment}
+              >
+                <Archive size={14} className="me-50" />
+                <span className="align-middle">جزئیات پرداخت </span>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+
+          <PaymentDetailsModalInCourseDetails
+            isOpenModal={show}
+            toggleAcceptModal={toogelModal}
+            detailsPayment={detailsPayment}
+            isPending={isPending}
+          />
+        </div>
+      );
+    },
+  },
+];
+
+export const GroupOfCourseDetailsList = [
+  {
+    name: "نام گروه",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.groupName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <NavLink
+            to={`/CourseGroupPage/${row?.groupId}`}
+            className="user-info text-truncate ms-1"
+          >
+            {row?.groupName}
+          </NavLink>
+        </div>
+      );
+    },
+  },
+  {
+    name: "نام استاد",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.teacherName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <NavLink
+            to={`/UsersPage/${row?.teacherId}`}
+            className="user-info text-truncate ms-1"
+          >
+            <strong>{row?.teacherName}</strong>
+          </NavLink>
         </div>
       );
     },

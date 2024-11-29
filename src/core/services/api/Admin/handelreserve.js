@@ -64,6 +64,7 @@ export const useGetGroupCourse = ({ teacherId, courseId }) => {
     queryFn: () => {
       return GetGroupCourse({ teacherId, courseId });
     },
+    enabled:!!teacherId
   });
 };
 

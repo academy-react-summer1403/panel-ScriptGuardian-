@@ -28,12 +28,18 @@ import InvoiceList2 from "./InvoiceList2";
 import InvoiceList3 from "./InvoiceList3";
 import InvoiceList4 from "./InvoiceList4";
 import PaymentListInCourse from "./PaymentListInCourse";
+import { useGetGroupCourse } from "../../../core/services/api/Admin/handelreserve";
+import ListOfGroupCourse from "./ListOfGroupCourse";
 const CourseTabs = ({ active, toggleTab, data, id }) => {
   const { data: reserveList } = useGetAllCourseDetailsReserves(id);
   const { data: CommentList } = useCoursesComment(id);
   const { data: PayMentList } = useCoursesPayMent(id);
   const { data: WhoPayed } = useCoursesPayMentDetailsWhoPayed(id);
   const { data: UserList } = useCourseUserList(id);
+  const { data: AllGroup } = useGetGroupCourse({
+    teacherId: data?.teacherId,
+    courseId: data?.courseId,
+  });
 
   const [activeForBuy, setActiveForBuy] = useState("1");
   const toggleTabForBuy = (tab) => {
@@ -77,6 +83,13 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
             <span className="fw-bold">لیست پرداختی ها</span>
           </NavLink>
         </NavItem>
+
+        <NavItem>
+          <NavLink active={active === "6"} onClick={() => toggleTab("6")}>
+            <DollarSign className="font-medium-3 me-50" />
+            <span className="fw-bold">لیست گروه ها </span>
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId="1">
@@ -101,16 +114,11 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
         </TabPane>
 
         <TabPane tabId="5">
-          <PaymentListInCourse data={PayMentList} id={id} />
+          <ListOfGroupCourse data={PayMentList} id={id} />
+        </TabPane>
 
-          {/* <div>
-            {PayMentList &&
-              PayMentList.filter((item) => item.courseId === id).map(
-                (filteredItem) => (
-                  <div key={filteredItem.id}>s{filteredItem.name}</div>
-                )
-              )}
-          </div> */}
+        <TabPane tabId="6">
+          <ListOfGroupCourse data={AllGroup} />
         </TabPane>
       </TabContent>
       <modal2ForAcceptReserve />
