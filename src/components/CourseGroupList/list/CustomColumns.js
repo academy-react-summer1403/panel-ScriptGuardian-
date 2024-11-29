@@ -1,7 +1,7 @@
 import Avatar from "@components/avatar";
 import default_image from "../../../images/default_image.png";
 import NoProfile from "../../../images/profile.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   Archive,
   Database,
@@ -24,6 +24,7 @@ import {
 import { useActiveCourse } from "../../../core/services/api/Admin/handelreserve";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { useDeleteCourseGroup } from "../../../core/services/api/Admin/handelUsers";
 
 export const CustomColumns = (toggleSidebar2) => [
   {
@@ -284,6 +285,56 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
           {" "}
           <h5 className="text-truncate text-muted mb-0">{row.groupCapacity}</h5>
         </>
+      );
+    },
+  },
+
+  {
+    name: "اقدامات",
+    minWidth: "200px",
+
+    cell: (row) => {
+      const navigate = useNavigate();
+      const queryClient = useQueryClient();
+
+      const { mutate: Delete } = useDeleteCourseGroup();
+
+      const handelDelete = (id) => {
+        const newData = new FormData();
+        newData.append("Id", id);
+        Delete(newData, {
+          onSuccess: (data) => {
+            if (data.success) {
+              queryClient.invalidateQueries("GetAllCoursesGroups");
+              toast.success("حذف  با موفقیت انجام شد");
+              toast.success(data.message);
+            } else {
+              toast.error(
+                "این گروه به دلیل استفاده در اجزای دوره غیر قابل حذف است"
+              );
+            }
+          },
+        });
+      };
+      return (
+        <div className="column-action">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="div" className="btn btn-sm">
+              <MoreVertical size={14} className="cursor-pointer" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                className="w-100"
+                onClick={() => {
+                  handelDelete(row?.groupId);
+                }}
+              >
+                <Trash2 size={14} className="me-50" />
+                حذف گروه
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </div>
       );
     },
   },
