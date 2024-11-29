@@ -44,6 +44,7 @@ import Modal2ForAcceptReserve from "./Modal/Modal2ForAcceptReserve";
 import {
   useAcceptCommentCourse,
   useDeleteCommentCourse,
+  useDeleteCourseGroup,
   useDontAcceptCommentCourse,
   useGetUsersPaymentDetails,
 } from "../../../core/services/api/Admin/handelUsers";
@@ -962,22 +963,25 @@ export const GroupOfCourseDetailsList = [
 
     cell: (row) => {
       const navigate = useNavigate();
-      const {
-        data: detailsPayment,
-        refetch,
-        isPending,
-      } = useGetUsersPaymentDetails(row?.id);
-      const [show, setShow] = useState(false);
+      const queryClient = useQueryClient();
 
-      const toogelModal = () => {
-        setShow(false);
-      };
-      const handelClickDetailsPayment = () => {
-        refetch();
-        setShow(!show);
-      };
+      const { mutate: Delete } = useDeleteCourseGroup();
 
-      console.log(detailsPayment, "detailsPayment");
+      const handelDelete = (id) => {
+        const newData = new FormData();
+        newData.append("Id", id);
+        Delete(newData, {
+          onSuccess: (data) => {
+            if (data.success) {
+              queryClient.invalidateQueries("GetGroupCourse");
+              toast.success("حذف  با موفقیت انجام شد");
+              toast.success(data.message);
+            } else {
+              toast.error("این گروه به دلیل استفاده غیر قابل حذف است");
+            }
+          },
+        });
+      };
       return (
         <div className="column-action">
           <UncontrolledDropdown>
@@ -985,34 +989,17 @@ export const GroupOfCourseDetailsList = [
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem className="w-100">
-                <Archive size={14} className="me-50" />
-                <span
-                  className="align-middle"
-                  onClick={() => {
-                    navigate(`/CourseListPage/${row?.courseId}`);
-                  }}
-                >
-                  جزئیات دوره
-                </span>
-              </DropdownItem>
-
               <DropdownItem
                 className="w-100"
-                onClick={handelClickDetailsPayment}
+                onClick={() => {
+                  handelDelete(row?.groupId);
+                }}
               >
-                <Archive size={14} className="me-50" />
-                <span className="align-middle">جزئیات پرداخت </span>
+                <Trash2 size={14} className="me-50" />
+                حذف گروه
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
-
-          <PaymentDetailsModalInCourseDetails
-            isOpenModal={show}
-            toggleAcceptModal={toogelModal}
-            detailsPayment={detailsPayment}
-            isPending={isPending}
-          />
         </div>
       );
     },

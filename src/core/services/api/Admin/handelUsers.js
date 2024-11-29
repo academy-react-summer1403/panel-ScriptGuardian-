@@ -635,3 +635,37 @@ export const useGetAllCourseGroupDetails = (id) => {
     },
   });
 };
+
+//Delete Course Group
+
+// delete payment
+
+const DeleteCourseGroup = async (user) => {
+  console.log("this is DeleteCourseGroup", user);
+  try {
+    const response = await http.delete(
+      ApiRoutes.PANEL_DELETE_COURSE_GROUP_URL,
+
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        data: user,
+      }
+    );
+    console.log(response.message, "this response DeleteCourseGroup");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useDeleteCourseGroup = () => {
+  return useMutation({
+    mutationKey: ["DeleteCourseGroup"],
+    mutationFn: (data) => {
+      console.log("this is user DeleteCourseGroup =", data);
+      return DeleteCourseGroup(data);
+    },
+  });
+};
