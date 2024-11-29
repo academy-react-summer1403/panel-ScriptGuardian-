@@ -1,6 +1,6 @@
 // ** React Imports
 import { Fragment, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 // ** Custom Components
 import Avatar from "@components/avatar";
@@ -45,7 +45,11 @@ import {
   useAcceptCommentCourse,
   useDeleteCommentCourse,
   useDontAcceptCommentCourse,
+  useGetUsersPaymentDetails,
 } from "../../../core/services/api/Admin/handelUsers";
+import { convertIsoToJalali } from "../../../core/utils/dateUtils";
+import PaymentShowScreenModalInCourse from "./Modal/PaymentShowScreenModalInCourse";
+import PaymentDetailsModalInCourseDetails from "./Modal/PaymentDetailsModalInCourseDetails";
 // ** Vars
 const invoiceStatusObj = {
   Sent: { color: "light-secondary", icon: Send },
@@ -734,4 +738,168 @@ export const columns5ForUserListInCourse = [
   //     );
   //   },
   // },
+];
+
+export const PayColInCoursePage = [
+  {
+    name: "نام دانشجو",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.studentName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <NavLink
+            to={`/UsersPage/${row?.studentId}`}
+            className="user-info text-truncate ms-1"
+          >
+            {row?.studentName}
+          </NavLink>
+        </div>
+      );
+    },
+  },
+  {
+    name: "پرداخت شده",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.paid,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <div className="user-info text-truncate ms-1">
+            <strong>{row?.paid}</strong> تومان
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    minWidth: "50px",
+    name: "تاریخ پرداخت",
+    cell: (row) => row.peymentDate && convertIsoToJalali(row.peymentDate),
+  },
+  {
+    name: "تصویر پرداخت ",
+    sortable: true,
+    minWidth: "50px",
+    sortField: "userRoles",
+    selector: (row) => row.paymentInvoiceImage,
+    cell: (row) => {
+      // ** States
+      const [show, setShow] = useState(false);
+
+      const toogelModal = () => {
+        setShow(!show);
+      };
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            {row.paymentInvoiceImage ? (
+              <div className="cursor-pointer	" onClick={toogelModal}>
+                نمایش
+                <Eye size={13} />
+              </div>
+            ) : (
+              "ثبت نشده"
+            )}
+          </h5>
+          <PaymentShowScreenModalInCourse
+            isOpenModal={show}
+            toggleAcceptModal={toogelModal}
+            paymentInvoiceImage={row?.paymentInvoiceImage}
+            groupName={row?.groupName}
+          />
+        </>
+      );
+    },
+  },
+  {
+    name: "وضعیت پذیرش ",
+    sortable: true,
+    minWidth: "50px",
+    sortField: "userRoles",
+    selector: (row) => row.accept,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.accept ? "light-primary" : "light-danger"}
+              className="me-1"
+            >
+              {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "اقدامات",
+    minWidth: "200px",
+
+    cell: (row) => {
+      const navigate = useNavigate();
+      const {
+        data: detailsPayment,
+        refetch,
+        isPending,
+      } = useGetUsersPaymentDetails(row?.id);
+      const [show, setShow] = useState(false);
+
+      const toogelModal = () => {
+        setShow(false);
+      };
+      const handelClickDetailsPayment = () => {
+        refetch();
+        setShow(!show);
+      };
+
+      console.log(detailsPayment, "detailsPayment");
+      return (
+        <div className="column-action">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="div" className="btn btn-sm">
+              <MoreVertical size={14} className="cursor-pointer" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem className="w-100">
+                <Archive size={14} className="me-50" />
+                <span
+                  className="align-middle"
+                  onClick={() => {
+                    navigate(`/CourseListPage/${row?.courseId}`);
+                  }}
+                >
+                  جزئیات دوره
+                </span>
+              </DropdownItem>
+
+              <DropdownItem
+                className="w-100"
+                onClick={handelClickDetailsPayment}
+              >
+                <Archive size={14} className="me-50" />
+                <span className="align-middle">جزئیات پرداخت </span>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+
+          <PaymentDetailsModalInCourseDetails
+            isOpenModal={show}
+            toggleAcceptModal={toogelModal}
+            detailsPayment={detailsPayment}
+            isPending={isPending}
+          />
+        </div>
+      );
+    },
+  },
 ];

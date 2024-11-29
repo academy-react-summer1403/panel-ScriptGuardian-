@@ -27,6 +27,7 @@ import {
 import InvoiceList2 from "./InvoiceList2";
 import InvoiceList3 from "./InvoiceList3";
 import InvoiceList4 from "./InvoiceList4";
+import PaymentListInCourse from "./PaymentListInCourse";
 const CourseTabs = ({ active, toggleTab, data, id }) => {
   const { data: reserveList } = useGetAllCourseDetailsReserves(id);
   const { data: CommentList } = useCoursesComment(id);
@@ -69,6 +70,13 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
             <span className="fw-bold">وضعیت پرداختی افراد</span>
           </NavLink>
         </NavItem>
+
+        <NavItem>
+          <NavLink active={active === "5"} onClick={() => toggleTab("5")}>
+            <DollarSign className="font-medium-3 me-50" />
+            <span className="fw-bold">لیست پرداختی ها</span>
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId="1">
@@ -92,17 +100,18 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
           />
         </TabPane>
 
-        <div>
-          {PayMentList &&
-            PayMentList.filter((item) => item.courseId === id).map(
-              (filteredItem) => (
-                <div key={filteredItem.id}>
-            s
-                  {filteredItem.name}
-                </div>
-              )
-            )}
-        </div>
+        <TabPane tabId="5">
+          <PaymentListInCourse data={PayMentList} id={id} />
+
+          {/* <div>
+            {PayMentList &&
+              PayMentList.filter((item) => item.courseId === id).map(
+                (filteredItem) => (
+                  <div key={filteredItem.id}>s{filteredItem.name}</div>
+                )
+              )}
+          </div> */}
+        </TabPane>
       </TabContent>
       <modal2ForAcceptReserve />
     </Fragment>

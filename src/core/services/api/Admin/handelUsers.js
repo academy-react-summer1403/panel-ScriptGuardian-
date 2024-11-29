@@ -512,13 +512,13 @@ const DeleteUserPayment = async (user) => {
   console.log("this is DeleteUserPayment", user);
   try {
     const response = await http.delete(
-      `${ApiRoutes.PANEL_DELETE_USERS_PAYMENT_DETAILS_URL}`,
+      ApiRoutes.PANEL_DELETE_USERS_PAYMENT_DETAILS_URL,
 
       {
-        data:  user ,
         headers: {
           "Content-Type": "multipart/form-data",
         },
+        data: user,
       }
     );
     console.log(response.message, "this response DeleteUserPayment");
