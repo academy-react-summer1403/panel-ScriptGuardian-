@@ -516,3 +516,169 @@ export const columns4ForPayMent = [
     },
   },
 ];
+
+export const columns5ForUserListInCourse = [
+  {
+    name: "نام دانشجو",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.studentName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <div className="user-info text-truncate ms-1">
+            <NavLink
+              className="d-block fw-bold text-truncate"
+              to={`/UsersPage/${row.studentId}`}
+            >
+              {row.studentName}
+            </NavLink>
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    minWidth: "200px",
+    name: "نمره دانشجو",
+    cell: (row) => <span>{row?.courseGrade ?? "ثبت نشده"}</span>,
+  },
+
+  {
+    name: "وضعیت پرداخت",
+    sortable: true,
+    minWidth: "50px",
+    sortField: "userRoles",
+    selector: (row) => row.peymentDone,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.peymentDone ? "light-success" : "light-danger"}
+              className="me-1"
+            >
+              {row.peymentDone ? "پرداخت شده" : "پرداخت نشده"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+
+  {
+    name: "اعلان",
+    sortable: true,
+    minWidth: "50px",
+    sortField: "userRoles",
+    selector: (row) => row.isActive,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.notification ? "light-primary" : "light-danger"}
+              className="me-1"
+            >
+              {row.notification ? "فعال" : "غیرفعال"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+
+  // {
+  //   name: "اقدامات",
+  //   minWidth: "100px",
+
+  //   cell: (row) => {
+  //     //TODO
+  //     const queryClient = useQueryClient();
+
+  //     const { mutate: AcceptComment } = useAcceptCommentCourse();
+  //     const { mutate: NotAcceptComment } = useDontAcceptCommentCourse();
+  //     const { mutate: DeleteComment } = useDeleteCommentCourse();
+
+  //     const handelAccept = (id) => {
+  //       console.log(id, "id for test");
+  //       AcceptComment(id, {
+  //         onSuccess: () => {
+  //           queryClient.invalidateQueries("GetAllCommentsList");
+  //           toast.success("با موفقیت با کامنت موفقیت شد");
+  //         },
+  //       });
+  //     };
+
+  //     const handelDontAccept = (id) => {
+  //       NotAcceptComment(id, {
+  //         onSuccess: () => {
+  //           queryClient.invalidateQueries("GetAllCommentsList");
+  //           toast.success("با موفقیت با کامنت مخالفت شد");
+  //         },
+  //       });
+  //     };
+
+  //     const handelDelete = (id) => {
+  //       DeleteComment(id, {
+  //         onSuccess: () => {
+  //           queryClient.invalidateQueries("GetAllCommentsList");
+  //           toast.success("با موفقیت  کامنت حذف شد");
+  //         },
+  //       });
+  //     };
+  //     return (
+  //       <div className="column-action">
+  //         <UncontrolledDropdown>
+  //           <DropdownToggle tag="div" className="btn btn-sm">
+  //             <MoreVertical size={14} className="cursor-pointer" />
+  //           </DropdownToggle>
+  //           <DropdownMenu>
+  //             <DropdownItem tag="a" className="w-100">
+  //               <Check color="green" size={16} />
+  //               <span
+  //                 className="align-middle"
+  //                 onClick={() => {
+  //                   console.log(row.id, "id for test1");
+  //                   handelAccept(row.id);
+  //                   console.log(row.id, "id for test2");
+  //                 }}
+  //               >
+  //                 تایید نظر{" "}
+  //               </span>
+  //             </DropdownItem>
+  //             <DropdownItem className="w-100">
+  //               <X color="red" size={14} />{" "}
+  //               <span
+  //                 className="align-middle"
+  //                 onClick={() => {
+  //                   handelDontAccept(row.id);
+  //                 }}
+  //               >
+  //                 رد نظر{" "}
+  //               </span>
+  //             </DropdownItem>
+  //             <DropdownItem size="sm">
+  //               <Trash2 size={14} className="me-50" />
+  //               <span
+  //                 className="align-middle"
+  //                 onClick={() => {
+  //                   handelDelete(row.id);
+  //                 }}
+  //               >
+  //                 حذف نظر
+  //               </span>
+  //             </DropdownItem>
+  //           </DropdownMenu>
+  //         </UncontrolledDropdown>
+  //       </div>
+  //     );
+  //   },
+  // },
+];

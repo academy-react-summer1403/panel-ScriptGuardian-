@@ -48,3 +48,26 @@ export const useGetAllCourseReserves = () => {
     },
   });
 };
+
+const GetAllPaymentList = async () => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_LIST_COURSE_PAYMENT_URL}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllPaymentList in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllPaymentList = () => {
+  return useQuery({
+    queryKey: ["GetAllPaymentList"],
+    queryFn: () => {
+      return GetAllPaymentList();
+    },
+  });
+};

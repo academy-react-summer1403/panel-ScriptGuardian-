@@ -23,7 +23,7 @@ import Select from "react-select";
 import { Check, Briefcase, X, DollarSign, User } from "react-feather";
 import { useForm, Controller } from "react-hook-form";
 import withReactContent from "sweetalert2-react-content";
-
+import { convertIsoToJalali } from "../../../core/utils/dateUtils";
 // ** Custom Components
 import Avatar from "@components/avatar";
 
@@ -209,11 +209,17 @@ const UserInfoCard = ({ data }) => {
               </li>
               <li className="mb-75">
                 <span className="fw-bolder me-25"> زمان شروع:</span>
-                <span>{data?.startTime ? data?.startTime : ""} </span>
+                <span>
+                  <strong>
+                    {data?.startTime && convertIsoToJalali(data?.startTime)}
+                  </strong>{" "}
+                </span>
               </li>
               <li className="mb-75">
-                <span className="fw-bolder me-25"> زمان شروع:</span>
-                <span>{data?.endTime ? data?.endTime : ""} </span>
+                <span className="fw-bolder me-25"> زمان پایان:</span>
+                <strong>
+                  {data?.endTime && convertIsoToJalali(data?.endTime)}
+                </strong>
               </li>
             </ul>
           </div>

@@ -33,8 +33,8 @@ const PostCourse = ({
     initialValues: {
       Title: currentValue?.Title, //1
       Describe: currentValue?.Describe, //2
-      MiniDescribe: currentValue?.MiniDescribe, //3
-      MiniDescribe: currentValue?.MiniDescribe, //4
+      MiniDescribe: currentValue?.miniDescribe, //3
+      // MiniDescribe: currentValue?.MiniDescribe, //4
       Capacity: currentValue?.Capacity, //5
       CourseTypeId: currentValue?.currentCourseType?.value, //6
       SessionNumber: currentValue?.SessionNumber, //7
@@ -85,7 +85,7 @@ const PostCourse = ({
         <Row>
           <Col md="6" className="mb-1">
             <Label className="form-label" for={`first-name-${type}`}>
-              عنوان گوگل {currentValue?.Title}
+              عنوان گوگل
             </Label>
             <Input
               type="text"

@@ -41,3 +41,23 @@ export const useCoursesPayMent = (id) => {
 };
 
 //!TODO
+
+//
+const CourseUserList = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.DETAILS_COURSES_USER_LIST_URL}${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log("This error Four Get Detail Courses   CourseUserList ", error);
+    return false;
+  }
+};
+export const useCourseUserList = (id) => {
+  return useQuery({
+    queryKey: ["CourseUserList"],
+    queryFn: () => CourseUserList(id),
+    enabled: !!id,
+  });
+};

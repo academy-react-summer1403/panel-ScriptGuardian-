@@ -1,5 +1,5 @@
 // ** React Imports
-import { Fragment } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 // ** Third Party Components
 import Select from "react-select";
@@ -10,18 +10,104 @@ import { selectThemeColors } from "@utils";
 
 // ** Reactstrap Imports
 import { Label, Row, Col, Form, Input, Button } from "reactstrap";
-
+import {
+  convertIsoToJalali,
+  convertJalaliToIso,
+} from "../../../core/utils/dateUtils";
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
+
+import { Calendar } from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import persian_en from "react-date-object/locales/persian_en";
 
 const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
   const handleChange = (key, value) => {
     setCurrentValue((prev) => ({
       ...prev,
-      [key]: value, // بروزرسانی مقدار ورودی مشخص
+      [key]: value,
     }));
   };
 
+  //calender
+  const [calendar, setCalendar] = useState(false);
+  const CalenderRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (CalenderRef.current && !CalenderRef.current.contains(event.target)) {
+        setCalendar(false);
+      }
+    };
+
+    if (calendar) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    } else {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [calendar]);
+
+  const handelChangeData = (dateOfDatePiker) => {
+    const convert = `${
+      dateOfDatePiker
+        ? dateOfDatePiker.convert(persian, persian_en).format()
+        : ""
+    }`;
+
+    const Iso = convertJalaliToIso(convert);
+
+    //set value
+    handleChange("StartTime", Iso);
+    setCalendar(false);
+  };
+
+  const [calendarEnd, setCalendarEnd] = useState(false);
+  const CalenderRefEnd = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (
+        CalenderRefEnd.current &&
+        !CalenderRefEnd.current.contains(event.target)
+      ) {
+        setCalendarEnd(false);
+      }
+    };
+
+    if (calendarEnd) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    } else {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [calendarEnd]);
+
+  const handelChangeDataOfCalenderEnd = (dateOfDatePiker) => {
+    const convert = `${
+      dateOfDatePiker
+        ? dateOfDatePiker.convert(persian, persian_en).format()
+        : ""
+    }`;
+
+    const Iso = convertJalaliToIso(convert);
+
+    //set value
+    handleChange("EndTime", Iso);
+    setCalendarEnd(false);
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    handleChange("ImageAddress", file);
+  };
   return (
     <Fragment>
       <div className="content-header">
@@ -109,9 +195,30 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
               name="first-name"
               id={`first-name-${type}`}
               placeholder=" تاریخ شروع دوره را وارد کنید"
-              value={currentValue.StartTime}
+              value={
+                currentValue.StartTime
+                  ? convertIsoToJalali(currentValue.StartTime)
+                  : ""
+              }
               onChange={(e) => handleChange("StartTime", e.target.value)}
+              onFocus={() => {
+                setCalendar(true);
+              }}
             />
+
+            {calendar && (
+              <Calendar
+                ref={CalenderRef}
+                // value={
+                //   formik.values.birthDay &&
+                //   convertIsoToJalali(formik?.values?.birthDay)
+                // }
+                onChange={handelChangeData}
+                calendar={persian}
+                locale={persian_fa}
+                className="position-absolute"
+              />
+            )}
           </Col>
           <Col md="3" className="mb-1">
             <Label className="form-label" for={`first-name-${type}`}>
@@ -122,9 +229,30 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
               name="first-name"
               id={`first-name-${type}`}
               placeholder=" تاریخ پایان دوره را وارد کنید"
-              value={currentValue.EndTime}
+              value={
+                currentValue.EndTime
+                  ? convertIsoToJalali(currentValue.EndTime)
+                  : ""
+              }
               onChange={(e) => handleChange("EndTime", e.target.value)}
+              onFocus={() => {
+                setCalendarEnd(true);
+              }}
             />
+
+            {calendarEnd && (
+              <Calendar
+                ref={CalenderRefEnd}
+                // value={
+                //   formik.values.birthDay &&
+                //   convertIsoToJalali(formik?.values?.birthDay)
+                // }
+                onChange={handelChangeDataOfCalenderEnd}
+                calendar={persian}
+                locale={persian_fa}
+                className="position-absolute"
+              />
+            )}
           </Col>
         </Row>
 
@@ -146,13 +274,14 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
 
         <Col md="12" sm="12" className="mb-5">
           <Label className="form-label" for="inputFile">
-            Simple File Input
+            تصویر دوره{" "}
           </Label>
           <Input
             type="file"
             id="inputFile"
             name="fileInput"
-            onChange={(e) => handleChange("ImageAddress", e.target.value)}
+            // onChange={(e) => handleChange("ImageAddress", e.target.value)}
+            onChange={handleFileChange}
           />
         </Col>
         <div className="d-flex justify-content-between">

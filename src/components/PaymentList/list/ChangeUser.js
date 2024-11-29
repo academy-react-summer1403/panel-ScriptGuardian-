@@ -23,7 +23,6 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { validationSchemaForAddNewUser } from "../../../core/services/validation/AdminPanel";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 
 const defaultValues = {
   email: "",
@@ -67,7 +66,7 @@ const checkIsValid = (data) => {
   );
 };
 
-const AddNewUserModal = ({ open, toggleSidebar }) => {
+const ChangeUserModal = ({ open, toggleSidebar }) => {
   // ** States
   const [data, setData] = useState(null);
   const [plan, setPlan] = useState("basic");
@@ -86,9 +85,8 @@ const AddNewUserModal = ({ open, toggleSidebar }) => {
 
   //API
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
-  const { mutate: addUser, data: Data } = useAddNewUser();
+  const { mutate: addUser } = useAddNewUser();
 
   const formik = useFormik({
     initialValues: {
@@ -109,7 +107,6 @@ const AddNewUserModal = ({ open, toggleSidebar }) => {
 
             toast.success("کاربر با موفقیت اضافه شد");
             toggleSidebar();
-            navigate(`/UsersPage/${data.id}`)
           }
         },
         // onError: (error) => {
@@ -131,7 +128,7 @@ const AddNewUserModal = ({ open, toggleSidebar }) => {
     <Sidebar
       size="lg"
       open={open}
-      title="کاربر جدید"
+      title="تغییر کاربر"
       headerClassName="mb-1"
       contentClassName="pt-0"
       toggleSidebar={toggleSidebar}
@@ -276,4 +273,4 @@ const AddNewUserModal = ({ open, toggleSidebar }) => {
   );
 };
 
-export default AddNewUserModal;
+export default ChangeUserModal;

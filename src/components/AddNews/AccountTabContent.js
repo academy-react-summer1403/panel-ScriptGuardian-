@@ -29,6 +29,8 @@ import { useCreateNews } from "../../core/services/api/Admin/handelCreateNews";
 import { useFormik } from "formik";
 import { validationSchema } from "../../core/services/validation/validationSchema/Auth";
 import { validationForCreateNews } from "../../core/services/validation/AdminPanel";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // const currencyOptions = [
 //   { label: "USD" },
@@ -46,7 +48,7 @@ const AccountTabs = () => {
     value: "",
     label: " لطفا یک دسته بندی انتخاب کنید",
   });
-
+  const navigate = useNavigate();
   const { mutate: createNews } = useCreateNews();
 
   // ** USE Formik
@@ -60,7 +62,7 @@ const AccountTabs = () => {
       Keyword: "",
       IsSlider: false,
       NewsCatregoryId: currentRole?.value,
-      Image: "",
+      Image: "Not-set",
     },
     // validationSchema: validationForCreateNews,
     onSubmit: (values) => {
@@ -68,7 +70,16 @@ const AccountTabs = () => {
       for (const key in values) {
         formData.append(key, values[key]);
       }
-      createNews(formData);
+      createNews(formData, {
+        onSuccess: (data) => {
+          if (data.success == true) {
+            toast.success("خبر با موفقیت ساخته شد");
+            navigate(`/NewsListPage/${data.id}`);
+          } else {
+            toast.error("خطا در ایجاد خبر");
+          }
+        },
+      });
     },
   });
   // تبدیل داده‌ها به فرمت قابل استفاده در کامپوننت Select
@@ -274,7 +285,10 @@ const AccountTabs = () => {
                 <Input
                   id="Image"
                   placeholder="تصویر  را وارد کنید"
-                  {...formik.getFieldProps("Image")}
+                  // {...formik.getFieldProps("Image")}
+                  type="file"
+                  name="fileInput"
+                  onChange={(e) => handleChange("Image", e.target.files[0])}
                 />
 
                 {formik.errors.Image && (
@@ -308,11 +322,11 @@ const AccountTabs = () => {
               </Col>
               <Col className="mt-2" sm="12">
                 <Button type="submit" className="me-1" color="primary">
-                  Save changes
+                  ایجاد خبر{" "}
                 </Button>
-                <Button color="secondary" outline>
+                {/* <Button color="secondary" outline>
                   Discard
-                </Button>
+                </Button> */}
               </Col>
             </Row>
           </form>

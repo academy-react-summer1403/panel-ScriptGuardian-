@@ -36,6 +36,7 @@ export const ApiRoutes = {
   DETAILS_COURSES_ADD_TO_RESERVE_URL: "/CourseReserve/ReserveAdd",
   DETAILS_COURSES_COMMENTS_URL: "/Course/GetCourseCommnets/",
   DETAILS_COURSES_PAYMENT_URL: "/CoursePayment?CourseId=",
+  DETAILS_COURSES_USER_LIST_URL: "/CourseUser/GetCourseUserList?CourseId=",
   DETAILS_COURSES_RATE_URL: "/Course/SetCourseRating?",
   NEWS_DETAILS_ADD_COMMENT_URL: "/News/CreateNewsComment",
   NEWS_DETAILS_ADD_REPLAY_COMMENT_URL: "/News/CreateNewsReplyComment",
@@ -73,8 +74,14 @@ export const ApiRoutes = {
 
   PANEL_GET_ALL_USERS_URL: "/User/UserMannage",
   PANEL_GET_DETAILS_USERS_URL: "/User/UserDetails/",
+  PANEL_GET_DETAILS_USERS_PAYMENT_LIST_URL: "/CoursePayment/UserPayList?",
+  PANEL_GET_DETAILS_USERS_PAYMENT_DETAILS_URL: "/CoursePayment/",
+  PANEL_ACCEPT_USERS_PAYMENT_DETAILS_URL: "/CoursePayment/Accept",
+  PANEL_DELETE_USERS_PAYMENT_DETAILS_URL: "/CoursePayment",
   PANEL_GET_DETAILS_COURSE_RESERVE_URL: "/CourseReserve/",
   PANEL_GET_LIST_COURSE_RESERVE_URL: "/CourseReserve",
+  PANEL_GET_LIST_COURSE_PAYMENT_URL:
+    "/CoursePayment?CourseId=bc94984e-3328-ef11-b6c7-cc06a3e06235",
   PANEL_GET_DETAILS_NEWS_COMMENTS_URL: "/News/GetAdminNewsComments?NewsId=",
   PANEL_ADD_NEW_USER_URL: "/User/CreateUser",
   PANEL_GET_ALL_COURSES_ADMIN_URL: "/Course/CourseList",

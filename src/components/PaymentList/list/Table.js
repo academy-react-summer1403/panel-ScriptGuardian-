@@ -56,10 +56,15 @@ import { Link } from "react-router-dom";
 
 import Avatar from "@components/avatar";
 import NoProfile from "../../../images/profile.png";
-import { CustomColumns, CustomColumnsForListCourse } from "./CustomColumns";
+import {
+  CustomColumns,
+  CustomColumnsForListCourse,
+  CustomColumnsForListOfAllOfPayMent,
+  CustomColumnsForListReserve,
+} from "./CustomColumns";
 import AddNewUserModal from "./AddNewUserModal";
 import ChangeUserModal from "./ChangeUser";
-import CustomSpinner from "../../common/animation/CustomSpiner";
+import { useGetAllCourseReserves, useGetAllPaymentList } from "../../../core/services/api/Admin/handelReserveCourse";
 
 // ** Table Header
 const CustomHeader = ({
@@ -211,15 +216,8 @@ const UsersList = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarOpen2, setSidebarOpen2] = useState(false);
 
-  //Page
-  const { data, isPending } = useGetAllCourses({
-    currentPage,
-    rowsPerPage,
-    searchTerm,
-  });
-  const listUser = data?.courseDtos;
-  const totalUser = data?.totalCount;
-  console.log(data, "this is a data");
+  const { data } = useGetAllPaymentList();
+  console.log(data, "data is a list");
 
   // ** Function to toggle sidebar
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
@@ -245,7 +243,7 @@ const UsersList = () => {
 
   // ** Custom Pagination
   const CustomPagination = () => {
-    const count = Number(Math.ceil(totalUser / rowsPerPage));
+    const count = Number(Math.ceil(data?.length / rowsPerPage));
 
     return (
       <ReactPaginate
@@ -286,12 +284,12 @@ const UsersList = () => {
             pagination
             responsive
             paginationServer
-            columns={CustomColumnsForListCourse(toggleSidebar2)}
+            columns={CustomColumnsForListOfAllOfPayMent(toggleSidebar2)}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
             className="react-dataTable"
             paginationComponent={CustomPagination}
-            data={listUser}
+            data={data}
             subHeaderComponent={
               <CustomHeader
                 store={store}

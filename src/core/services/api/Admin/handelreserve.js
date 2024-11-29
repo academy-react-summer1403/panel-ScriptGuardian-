@@ -126,7 +126,7 @@ export const useActiveCourse = () => {
 };
 
 const ActiveNews = async (formData) => {
-  console.log("this is  Active News",  formData );
+  console.log("this is  Active News", formData);
 
   try {
     const response = await http.put(

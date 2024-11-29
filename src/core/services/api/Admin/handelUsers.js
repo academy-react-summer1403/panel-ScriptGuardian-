@@ -421,3 +421,119 @@ export const useGetAllCateGoryList = () => {
     },
   });
 };
+
+//user details: user payment list
+
+//UserDetails
+
+const GetAllListUsersPayment = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_USERS_PAYMENT_LIST_URL}StudentId=${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllListUsersPayment in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllListUsersPayment = (id) => {
+  return useQuery({
+    queryKey: ["GetAllListUsersPayment"],
+    queryFn: () => {
+      return GetAllListUsersPayment(id);
+    },
+  });
+};
+
+//payment Details
+
+const GetUsersPaymentDetails = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_USERS_PAYMENT_DETAILS_URL}${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetUsersPaymentDetails in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetUsersPaymentDetails = (id) => {
+  return useQuery({
+    queryKey: ["GetUsersPaymentDetails"],
+    queryFn: () => {
+      return GetUsersPaymentDetails(id);
+    },
+    enabled: false,
+  });
+};
+
+//accept the payment from teacher
+
+const AcceptUserPayment = async (user) => {
+  console.log("this is AcceptUserPayment", user);
+  try {
+    const response = await http.put(
+      `${ApiRoutes.PANEL_ACCEPT_USERS_PAYMENT_DETAILS_URL}`,
+      user,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(response.message, "this response AcceptUserPayment");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useAcceptUserPayment = () => {
+  return useMutation({
+    mutationKey: ["AcceptUserPayment"],
+    mutationFn: (data) => {
+      console.log("this is user AcceptUserPayment =", data);
+      return AcceptUserPayment(data);
+    },
+  });
+};
+
+// delete payment
+
+const DeleteUserPayment = async (user) => {
+  console.log("this is DeleteUserPayment", user);
+  try {
+    const response = await http.delete(
+      `${ApiRoutes.PANEL_DELETE_USERS_PAYMENT_DETAILS_URL}`,
+
+      {
+        data:  user ,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(response.message, "this response DeleteUserPayment");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useDeleteUserPayment = () => {
+  return useMutation({
+    mutationKey: ["DeleteUserPayment"],
+    mutationFn: (data) => {
+      console.log("this is user DeleteUserPayment =", data);
+      return DeleteUserPayment(data);
+    },
+  });
+};

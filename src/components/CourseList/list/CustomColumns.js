@@ -213,44 +213,6 @@ export const CustomColumns = (toggleSidebar2) => [
 ];
 
 export const CustomColumnsForListCourse = (toggleSidebar2) => [
-  // {
-  //   name: " دوره عنوان",
-  //   sortable: true,
-  //   minWidth: "172px",
-  //   sortField: "title",
-  //   selector: (row) => row.title,
-  //   cell: (row) => {
-  //     return (
-  //       <div className="d-flex justify-content-left align-items-center">
-  //         <Avatar
-  //           className="me-1"
-  //           img={
-  //             row.pictureAddress &&
-  //             row.pictureAddress != null &&
-  //             row.pictureAddress !== "Not-set"
-  //               ? row.pictureAddress
-  //               : NoProfile
-  //           }
-  //           width="32"
-  //           height="32"
-  //         />
-  //         <div className="d-flex flex-column">
-  //           <Link
-  //             to={`/users/${row.id}`}
-  //             className="user_name text-truncate text-body"
-  //             // onClick={() => store.dispatch(getUser(row.id))}
-  //           >
-  //             <span className="fw-bolder">
-  //               {row.title} {row.lname}
-  //             </span>
-  //           </Link>
-  //           <small className="text-truncate text-muted mb-0">{row.gmail}</small>
-  //         </div>
-  //       </div>
-  //     );
-  //   },
-  // },
-
   {
     name: "عنوان دوره",
     minWidth: "250px",

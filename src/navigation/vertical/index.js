@@ -44,6 +44,12 @@ export default [
         icon: <Circle size={12} />,
         navLink: "/CourseReserved",
       },
+      {
+        id: "PaymentListPage",
+        title: "لیست پرداخت ها",
+        icon: <Circle size={12} />,
+        navLink: "/PaymentListPage",
+      },
     ],
   },
   {

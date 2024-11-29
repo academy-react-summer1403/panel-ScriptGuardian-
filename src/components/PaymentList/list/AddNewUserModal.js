@@ -23,7 +23,6 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { validationSchemaForAddNewUser } from "../../../core/services/validation/AdminPanel";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 
 const defaultValues = {
   email: "",
@@ -86,9 +85,8 @@ const AddNewUserModal = ({ open, toggleSidebar }) => {
 
   //API
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
-  const { mutate: addUser, data: Data } = useAddNewUser();
+  const { mutate: addUser } = useAddNewUser();
 
   const formik = useFormik({
     initialValues: {
@@ -109,7 +107,6 @@ const AddNewUserModal = ({ open, toggleSidebar }) => {
 
             toast.success("کاربر با موفقیت اضافه شد");
             toggleSidebar();
-            navigate(`/UsersPage/${data.id}`)
           }
         },
         // onError: (error) => {

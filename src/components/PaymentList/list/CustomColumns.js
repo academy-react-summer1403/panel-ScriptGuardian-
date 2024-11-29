@@ -1,7 +1,7 @@
 import Avatar from "@components/avatar";
 import default_image from "../../../images/default_image.png";
 import NoProfile from "../../../images/profile.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   Archive,
   Database,
@@ -25,8 +25,10 @@ import { useState } from "react";
 import {
   useGetAllCourseDetailsAdmin,
   useGetAllCourseDetailsAdminForReserve,
+  useGetUsersPaymentDetails,
 } from "../../../core/services/api/Admin/handelUsers";
 import { convertIsoToJalali } from "../../../core/utils/dateUtils";
+import PayMentDetailsModalInPayMentList from "./modal/PayMentDetailsModalInPayMentList";
 export const CustomColumns = (toggleSidebar2) => [
   {
     name: "نام کاربر",
@@ -557,6 +559,209 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
             studentId={row?.studentId}
           />
         </>
+      );
+    },
+  },
+];
+
+export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
+  {
+    name: "نام دانشجو",
+    minWidth: "250px",
+    sortable: (row) => row.studentName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <div className="user-info text-truncate ms-1">
+            <NavLink
+              className="d-block fw-bold text-truncate"
+              to={`/UsersPage/${row.studentId}`}
+            >
+              {row.studentName}
+            </NavLink>
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    name: "عنوان دوره",
+    sortable: true,
+    minWidth: "172px",
+    sortField: "userRoles",
+    selector: (row) => row.title,
+    cell: (row) => {
+      return (
+        <>
+          <NavLink
+            to={`/CourseListPage/${row?.studentId}`}
+            className="text-truncate text-capitalize align-middle"
+          >
+            {row.title}
+          </NavLink>
+        </>
+      );
+    },
+  },
+
+  {
+    name: "زمان پرداخت ",
+    sortable: true,
+    minWidth: "172px",
+    sortField: "userRoles",
+    selector: (row) => row.peymentDate,
+
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            {row?.peymentDate && convertIsoToJalali(row.peymentDate)}
+          </h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "مقدار  پرداخت ",
+    sortable: true,
+    minWidth: "172px",
+    sortField: "userRoles",
+    selector: (row) => row.paid,
+
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0"> {row?.paid} تومان</h5>
+        </>
+      );
+    },
+  },
+
+  {
+    name: "باقی مانده",
+    sortable: true,
+    minWidth: "172px",
+    sortField: "userRoles",
+    selector: (row) => row.currentRemainder,
+
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            {" "}
+            {row?.currentRemainder ? (
+              <>{row?.currentRemainder} تومان </>
+            ) : (
+              "تسویه شده"
+            )}
+          </h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "باقی مانده",
+    sortable: true,
+    minWidth: "172px",
+    sortField: "userRoles",
+    selector: (row) => row.paymentInvoiceImage,
+
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            {" "}
+            {row?.paymentInvoiceImage ? "بارگذاری شده" : "بارگذاری نشده"}
+          </h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "وضعیت ",
+    sortable: true,
+    minWidth: "172px",
+    sortField: "userRoles",
+    selector: (row) => row.accept,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.accept ? "light-success" : "light-danger"}
+              className="me-1"
+            >
+              {row.accept ? "پذیرفته شده" : "نپذیرفته شده"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "اقدامات",
+    minWidth: "200px",
+
+    cell: (row) => {
+      const navigate = useNavigate();
+      const {
+        data: detailsPayment,
+        refetch,
+        isPending,
+      } = useGetUsersPaymentDetails(row?.id);
+      const [show, setShow] = useState(false);
+
+      const toogelModal = () => {
+        setShow(false);
+      };
+      const handelClickDetailsPayment = () => {
+        refetch();
+        setShow(!show);
+      };
+
+      console.log(detailsPayment, "detailsPayment");
+      return (
+        <div className="column-action">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="div" className="btn btn-sm">
+              <MoreVertical size={14} className="cursor-pointer" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem className="w-100">
+                <Archive size={14} className="me-50" />
+                <span
+                  className="align-middle"
+                  onClick={() => {
+                    navigate(`/CourseListPage/${row?.courseId}`);
+                  }}
+                >
+                  جزئیات دوره
+                </span>
+              </DropdownItem>
+
+              <DropdownItem
+                className="w-100"
+                onClick={handelClickDetailsPayment}
+              >
+                <Archive size={14} className="me-50" />
+                <span className="align-middle">جزئیات پرداخت </span>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+
+          <PayMentDetailsModalInPayMentList
+            isOpenModal={show}
+            toggleAcceptModal={toogelModal}
+            detailsPayment={detailsPayment}
+            isPending={isPending}
+          />
+        </div>
       );
     },
   },
