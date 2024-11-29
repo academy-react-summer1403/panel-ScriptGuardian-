@@ -30,38 +30,9 @@ const AddNewsCateGory = () => {
 
   return (
     <Fragment>
-      {/* <Breadcrumbs
-        title="Account Settings"
-        data={[{ title: "Pages" }, { title: "Account Settings" }]}
-      /> */}
-
       <Row>
         <Col xs={12}>
-          {/* <Tabs
-              className="mb-2"
-              activeTab={activeTab}
-              toggleTab={toggleTab}
-            /> */}
-
           <AccountTabContent />
-
-          {/* <TabContent activeTab={activeTab}>
-              <TabPane tabId="1">
-                <AccountTabContent data={data.general} />
-              </TabPane>
-              <TabPane tabId="2">
-                <SecurityTabContent />
-              </TabPane>
-              <TabPane tabId="3">
-                <BillingTabContent />
-              </TabPane>
-              <TabPane tabId="4">
-                <NotificationsTabContent />
-              </TabPane>
-              <TabPane tabId="5">
-                <ConnectionsTabContent />
-              </TabPane>
-            </TabContent> */}
         </Col>
       </Row>
     </Fragment>

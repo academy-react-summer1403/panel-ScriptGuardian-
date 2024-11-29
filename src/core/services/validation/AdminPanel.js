@@ -43,14 +43,42 @@ export const validationForCreateNews = Yup.object().shape({
     ),
 });
 
-
-
+export const validationForCreateNewsCateGory = Yup.object().shape({
+  CategoryName: Yup.string()
+    .required("نام دسته‌بندی الزامی است")
+    .min(3, "نام دسته‌بندی باید حداقل ۳ کاراکتر باشد")
+    .max(50, "نام دسته‌بندی نمی‌تواند بیشتر از ۵۰ کاراکتر باشد"),
+  // Image: Yup.mixed()
+  //   .required("آپلود تصویر الزامی است")
+  //   .test("fileSize", "حجم تصویر نباید بیشتر از ۲ مگابایت باشد", (value) => {
+  //     return value && value.size <= 2 * 1024 * 1024;
+  //   })
+  //   .test("fileType", "فایل باید از نوع تصویر باشد", (value) => {
+  //     return (
+  //       value &&
+  //       ["image/jpeg", "image/png", "image/gif", "image/jpg"].includes(
+  //         value.type
+  //       )
+  //     );
+  //   }),
+  IconAddress: Yup.string()
+    // .url("آدرس آیکون باید معتبر باشد")
+    .required("آدرس آیکون الزامی است"),
+  IconName: Yup.string()
+    .required("نام آیکون الزامی است")
+    .min(3, "نام آیکون باید حداقل ۳ کاراکتر باشد")
+    .max(50, "نام آیکون نمی‌تواند بیشتر از ۵۰ کاراکتر باشد"),
+  GoogleTitle: Yup.string()
+    .required("عنوان گوگل الزامی است")
+    .min(40, "عنوان گوگل باید حداقل 40 کاراکتر باشد")
+    .max(70, "عنوان گوگل نمی‌تواند بیشتر از 70 کاراکتر باشد"),
+  GoogleDescribe: Yup.string()
+    .required("توضیحات گوگل الزامی است")
+    .min(70, "توضیحات گوگل باید حداقل 70 کاراکتر باشد")
+    .max(150, "توضیحات گوگل نمی‌تواند بیشتر از 150  کاراکتر باشد"),
+});
 
 export const validationSchemaForAddNewCourses = Yup.object().shape({
-  currentCourseType: Yup
-    .object()
-    .required("لطفاً نوع دوره را انتخاب کنید."),
-  currentCourseLevel: Yup
-    .object()
-    .required("لطفاً سطح دوره را انتخاب کنید."),
+  currentCourseType: Yup.object().required("لطفاً نوع دوره را انتخاب کنید."),
+  currentCourseLevel: Yup.object().required("لطفاً سطح دوره را انتخاب کنید."),
 });

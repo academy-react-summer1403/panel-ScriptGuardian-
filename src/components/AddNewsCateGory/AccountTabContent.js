@@ -31,7 +31,12 @@ import {
 } from "../../core/services/api/Admin/handelCreateNews";
 import { useFormik } from "formik";
 import { validationSchema } from "../../core/services/validation/validationSchema/Auth";
-import { validationForCreateNews } from "../../core/services/validation/AdminPanel";
+import {
+  validationForCreateNews,
+  validationForCreateNewsCateGory,
+} from "../../core/services/validation/AdminPanel";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 // const currencyOptions = [
 //   { label: "USD" },
@@ -44,26 +49,36 @@ const AccountTabs = () => {
   // ** API
   //TODO
   const { data } = useGetAllCateGoryList();
-
+  const navigate = useNavigate();
   const { mutate: createCateGoryNews } = useCreateCateGoryNews();
 
   // ** USE Formik
   const formik = useFormik({
     initialValues: {
       CategoryName: "",
-      Image: "",
+      Image: "Not-set",
       IconAddress: "",
       IconName: "",
       GoogleTitle: "",
       GoogleDescribe: "",
     },
-    // validationSchema: validationForCreateNews,
+    validationSchema: validationForCreateNewsCateGory,
     onSubmit: (values) => {
       const formData = new FormData();
       for (const key in values) {
         formData.append(key, values[key]);
       }
-      createCateGoryNews(formData);
+      createCateGoryNews(formData, {
+        onSuccess: (data) => {
+          if (data.success == true) {
+            formik.resetForm();
+            toast.success("دسته بندی با موفقیت اضافه شد");
+            navigate("/AddNewsPage");
+          } else {
+            toast.error("خطا در اضافه کردن دسته بندی");
+          }
+        },
+      });
     },
   });
 
@@ -101,9 +116,12 @@ const AccountTabs = () => {
                 </Label>
 
                 <Input
-                  id="Title"
+                  id="Image"
+                  type="file"
                   placeholder="عکس دسته بندی را وارد کنید"
-                  {...formik.getFieldProps("Image")}
+                  onChange={(event) =>
+                    formik.setFieldValue("Image", event.currentTarget.files[0])
+                  }
                 />
 
                 {formik.errors.Image && (
