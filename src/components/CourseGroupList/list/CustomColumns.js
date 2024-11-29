@@ -223,7 +223,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
           <div className="user-info text-truncate ms-1">
             <NavLink
               className="d-block fw-bold text-truncate"
-              // to={`/CourseListPage/${row.courseId}`}
+              to={`/CourseGroupPage/${row.groupId}`}
             >
               {row.groupName}
             </NavLink>

@@ -610,3 +610,28 @@ export const useGetAllCoursesGroups = ({
     },
   });
 };
+
+//Course Group Details
+
+const GetAllCourseGroupDetails = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_COURSE_GROUP_URL}Id=${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllCourseGroupDetails in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllCourseGroupDetails = (id) => {
+  return useQuery({
+    queryKey: ["GetAllCourseGroupDetails", id],
+    queryFn: () => {
+      return GetAllCourseGroupDetails(id);
+    },
+  });
+};

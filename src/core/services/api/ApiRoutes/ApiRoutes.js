@@ -90,6 +90,7 @@ export const ApiRoutes = {
   PANEL_GET_ALL_COURSE_GROUPS_ADMIN_URL: "/CourseGroup",
   PANEL_GET_ALL_TEACHERS_COURSES_ADMIN_URL: "/Course/TeacherCourseList",
   PANEL_GET_DETAILS_COURSE_URL: "/Course/",
+  PANEL_GET_DETAILS_COURSE_GROUP_URL: "/CourseGroup/Details?",
   PANEL_GET_DETAILS_NEWS_URL: "/News/",
   PANEL_GET_ALL_COMMENTS_ADMIN_URL: "/Course/CommentManagment",
   PANEL_GET_CREATE_COURSE_STEP_ONE_ADMIN_URL: "/Course/GetCreate",
