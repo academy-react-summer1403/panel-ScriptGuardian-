@@ -150,47 +150,7 @@ const CustomHeader = ({
             />
           </div>
 
-          <div className="d-flex align-items-center table-header-actions">
-            {/* <UncontrolledDropdown className="me-1">
-              <DropdownToggle color="secondary" caret outline>
-                <Share className="font-small-4 me-50" />
-                <span className="align-middle">Export</span>
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem className="w-100">
-                  <Printer className="font-small-4 me-50" />
-                  <span className="align-middle">Print</span>
-                </DropdownItem>
-                <DropdownItem
-                  className="w-100"
-                  onClick={() => downloadCSV(store.data)}
-                >
-                  <FileText className="font-small-4 me-50" />
-                  <span className="align-middle">CSV</span>
-                </DropdownItem>
-                <DropdownItem className="w-100">
-                  <Grid className="font-small-4 me-50" />
-                  <span className="align-middle">Excel</span>
-                </DropdownItem>
-                <DropdownItem className="w-100">
-                  <File className="font-small-4 me-50" />
-                  <span className="align-middle">PDF</span>
-                </DropdownItem>
-                <DropdownItem className="w-100">
-                  <Copy className="font-small-4 me-50" />
-                  <span className="align-middle">Copy</span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown> */}
-
-            <Button
-              className="add-new-user"
-              color="primary"
-              onClick={toggleSidebar}
-            >
-              افزودن دوره جدید{" "}
-            </Button>
-          </div>
+          <div className="d-flex align-items-center table-header-actions"></div>
         </Col>
       </Row>
     </div>
@@ -205,6 +165,15 @@ const UsersList = () => {
   // ** States
   const [sort, setSort] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(undefined);
+  //Search
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedSearchQuery(searchTerm);
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState("id");
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -215,7 +184,8 @@ const UsersList = () => {
   const { data, isPending } = useGetAllCourses({
     currentPage,
     rowsPerPage,
-    searchTerm,
+    // searchTerm,
+    debouncedSearchQuery,
   });
   const listUser = data?.courseDtos;
   const totalUser = data?.totalCount;
@@ -301,6 +271,21 @@ const UsersList = () => {
                 handlePerPage={handlePerPage}
                 toggleSidebar={toggleSidebar}
               />
+            }
+            noDataComponent={
+              <>
+                {!listUser ? (
+                  <CustomSpinner
+                    style={"text-primary"}
+                    style2={{ marginTop: "100px", marginBottom: "100px" }}
+                    color={""}
+                  />
+                ) : (
+                  <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                    دوره ای وجود ندارد
+                  </h2>
+                )}
+              </>
             }
           />
         </div>

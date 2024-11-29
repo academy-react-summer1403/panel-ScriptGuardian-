@@ -66,7 +66,7 @@ import {
 } from "./CustomColumns";
 import AddNewUserModal from "./AddNewUserModal";
 import ChangeUserModal from "./ChangeUser";
-
+import CustomSpinner from "../../../components/common/animation/CustomSpiner";
 // ** Table Header
 const CustomHeader = ({
   toggleSidebar,
@@ -228,7 +228,15 @@ const UsersList = () => {
   // ** States
   const [sort, setSort] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(undefined);
+  //Search
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedSearchQuery(searchTerm);
+    }, 1000);
 
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState("id");
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -245,7 +253,8 @@ const UsersList = () => {
   const { data } = useGetAllNewsList({
     currentPage,
     rowsPerPage,
-    searchTerm,
+    debouncedSearchQuery,
+    // searchTerm,
     active,
   });
   const listUser = data?.news;
@@ -336,6 +345,21 @@ const UsersList = () => {
                 handleChange={handleChange}
                 active={active}
               />
+            }
+            noDataComponent={
+              <>
+                {!listUser ? (
+                  <CustomSpinner
+                    style={"text-primary"}
+                    style2={{ marginTop: "100px", marginBottom: "100px" }}
+                    color={""}
+                  />
+                ) : (
+                  <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                    خبر ای وجود ندارد
+                  </h2>
+                )}
+              </>
             }
           />
         </div>

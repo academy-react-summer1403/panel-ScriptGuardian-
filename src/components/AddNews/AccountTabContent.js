@@ -74,7 +74,7 @@ const AccountTabs = () => {
         onSuccess: (data) => {
           if (data.success == true) {
             toast.success("خبر با موفقیت ساخته شد");
-            navigate(`/NewsListPage/${data.id}`);
+            navigate(`/NewsListPage`);
           } else {
             toast.error("خطا در ایجاد خبر");
           }

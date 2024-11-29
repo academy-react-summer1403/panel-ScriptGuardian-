@@ -5,14 +5,15 @@ import { ApiRoutes } from "../ApiRoutes/ApiRoutes";
 const GetAllUsers = async ({
   currentPage,
   rowsPerPage,
-  searchTerm,
+  debouncedSearchQuery,
   IsActiveUser,
   roleId,
 }) => {
   const AllParams = {
     PageNumber: currentPage ? currentPage : 1,
     RowsOfPage: rowsPerPage ? rowsPerPage : 10,
-    Query: searchTerm ? searchTerm : undefined,
+    // Query: searchTerm ? searchTerm : undefined,
+    Query: debouncedSearchQuery ? debouncedSearchQuery : undefined,
     IsActiveUser: IsActiveUser,
     roleId: roleId ? roleId : undefined,
   };
@@ -29,7 +30,7 @@ const GetAllUsers = async ({
 export const useGetAllUsers = ({
   currentPage,
   rowsPerPage,
-  searchTerm,
+  debouncedSearchQuery,
   IsActiveUser,
   roleId,
 }) => {
@@ -38,7 +39,7 @@ export const useGetAllUsers = ({
       "GetAllUsers",
       currentPage,
       rowsPerPage,
-      searchTerm,
+      debouncedSearchQuery,
       IsActiveUser,
       roleId,
     ],
@@ -46,7 +47,7 @@ export const useGetAllUsers = ({
       return GetAllUsers({
         currentPage,
         rowsPerPage,
-        searchTerm,
+        debouncedSearchQuery,
         IsActiveUser,
         roleId,
       });
@@ -104,11 +105,16 @@ export const useAddNewUser = () => {
 
 //get All Courses
 
-const GetAllCourses = async ({ currentPage, rowsPerPage, searchTerm }) => {
+const GetAllCourses = async ({
+  currentPage,
+  rowsPerPage,
+  debouncedSearchQuery,
+}) => {
   const AllParams = {
     PageNumber: currentPage ? currentPage : 1,
     RowsOfPage: rowsPerPage ? rowsPerPage : 10,
-    Query: searchTerm ? searchTerm : undefined,
+    Query: debouncedSearchQuery ? debouncedSearchQuery : undefined,
+    // Query: searchTerm ? searchTerm : undefined,
   };
   try {
     const response = await http.get(ApiRoutes.PANEL_GET_ALL_COURSES_ADMIN_URL, {
@@ -120,11 +126,15 @@ const GetAllCourses = async ({ currentPage, rowsPerPage, searchTerm }) => {
     return false;
   }
 };
-export const useGetAllCourses = ({ currentPage, rowsPerPage, searchTerm }) => {
+export const useGetAllCourses = ({
+  currentPage,
+  rowsPerPage,
+  debouncedSearchQuery,
+}) => {
   return useQuery({
-    queryKey: ["GetAllCourses", currentPage, rowsPerPage, searchTerm],
+    queryKey: ["GetAllCourses", currentPage, rowsPerPage, debouncedSearchQuery],
     queryFn: () => {
-      return GetAllCourses({ currentPage, rowsPerPage, searchTerm });
+      return GetAllCourses({ currentPage, rowsPerPage, debouncedSearchQuery });
     },
   });
 };
@@ -364,13 +374,14 @@ export const useDeleteCommentCourse = () => {
 const GetAllNewsList = async ({
   currentPage,
   rowsPerPage,
-  searchTerm,
+  debouncedSearchQuery,
   active,
 }) => {
   const AllParams = {
     PageNumber: currentPage ? currentPage : 1,
     RowsOfPage: rowsPerPage ? rowsPerPage : 10,
-    Query: searchTerm ? searchTerm : undefined,
+    Query: debouncedSearchQuery ? debouncedSearchQuery : undefined,
+    // Query: searchTerm ? searchTerm : undefined,
     IsActive: active,
   };
   try {
@@ -386,13 +397,13 @@ const GetAllNewsList = async ({
 export const useGetAllNewsList = ({
   currentPage,
   rowsPerPage,
-  searchTerm,
+  debouncedSearchQuery,
   active,
 }) => {
   return useQuery({
-    queryKey: ["GetAllNewsList", currentPage, rowsPerPage, searchTerm, active],
+    queryKey: ["GetAllNewsList", currentPage, rowsPerPage, debouncedSearchQuery, active],
     queryFn: () => {
-      return GetAllNewsList({ currentPage, rowsPerPage, searchTerm, active });
+      return GetAllNewsList({ currentPage, rowsPerPage, debouncedSearchQuery, active });
     },
   });
 };
