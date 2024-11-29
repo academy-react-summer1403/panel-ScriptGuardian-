@@ -33,6 +33,12 @@ export default [
       },
 
       {
+        id: "CourseGroupPage",
+        title: "گروه دوره ها",
+        icon: <Circle size={12} />,
+        navLink: "/CourseGroupPage",
+      },
+      {
         id: "createCourse",
         title: "ایجاد دوره",
         icon: <Circle size={12} />,

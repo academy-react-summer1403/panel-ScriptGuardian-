@@ -401,9 +401,20 @@ export const useGetAllNewsList = ({
   active,
 }) => {
   return useQuery({
-    queryKey: ["GetAllNewsList", currentPage, rowsPerPage, debouncedSearchQuery, active],
+    queryKey: [
+      "GetAllNewsList",
+      currentPage,
+      rowsPerPage,
+      debouncedSearchQuery,
+      active,
+    ],
     queryFn: () => {
-      return GetAllNewsList({ currentPage, rowsPerPage, debouncedSearchQuery, active });
+      return GetAllNewsList({
+        currentPage,
+        rowsPerPage,
+        debouncedSearchQuery,
+        active,
+      });
     },
   });
 };
@@ -545,6 +556,57 @@ export const useDeleteUserPayment = () => {
     mutationFn: (data) => {
       console.log("this is user DeleteUserPayment =", data);
       return DeleteUserPayment(data);
+    },
+  });
+};
+
+//Course Groups
+
+const GetAllCoursesGroups = async ({
+  currentPage,
+  rowsPerPage,
+  debouncedSearchQuery,
+}) => {
+  const AllParams = {
+    PageNumber: currentPage ? currentPage : 1,
+    RowsOfPage: rowsPerPage ? rowsPerPage : 10,
+    Query: debouncedSearchQuery ? debouncedSearchQuery : undefined,
+    // Query: searchTerm ? searchTerm : undefined,
+  };
+  try {
+    const response = await http.get(
+      ApiRoutes.PANEL_GET_ALL_COURSE_GROUPS_ADMIN_URL,
+      {
+        params: AllParams,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllCoursesGroups in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllCoursesGroups = ({
+  currentPage,
+  rowsPerPage,
+  debouncedSearchQuery,
+}) => {
+  return useQuery({
+    queryKey: [
+      "GetAllCoursesGroups",
+      currentPage,
+      rowsPerPage,
+      debouncedSearchQuery,
+    ],
+    queryFn: () => {
+      return GetAllCoursesGroups({
+        currentPage,
+        rowsPerPage,
+        debouncedSearchQuery,
+      });
     },
   });
 };
