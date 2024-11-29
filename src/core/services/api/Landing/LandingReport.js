@@ -7,13 +7,45 @@ const LandingReport = async () => {
     const response = await http.get(ApiRoutes.LANDING_REPORT_URL);
     return response;
   } catch (error) {
+    console.log("This error For Landing Report.js", error);
     return false;
-    console.log("This error Four Landing Report.js", error);
   }
 };
 export const useLandingReport = () => {
   return useQuery({
     queryKey: ["LandingReport"],
     queryFn: LandingReport,
+  });
+};
+
+const DashBoardReport = async () => {
+  try {
+    const response = await http.get(ApiRoutes.LANDING_REPORT_DASHBOARD_URL);
+    return response;
+  } catch (error) {
+    console.log("This error For DashBoardReport Report.js", error);
+    return false;
+  }
+};
+export const useDashBoardReport = () => {
+  return useQuery({
+    queryKey: ["DashBoardReport"],
+    queryFn: DashBoardReport,
+  });
+};
+
+const DashboardTechnologyReport = async () => {
+  try {
+    const response = await http.get(ApiRoutes.LANDING_REPORT_TECHNOLOGY_URL);
+    return response;
+  } catch (error) {
+    console.log("This error For DashboardTechnologyReport Report.js", error);
+    return false;
+  }
+};
+export const useDashboardTechnologyReport = () => {
+  return useQuery({
+    queryKey: ["DashboardTechnologyReport"],
+    queryFn: DashboardTechnologyReport,
   });
 };

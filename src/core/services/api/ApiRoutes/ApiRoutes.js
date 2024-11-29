@@ -10,6 +10,8 @@ export const ApiRoutes = {
 
   //Landing
   LANDING_REPORT_URL: "/Home/LandingReport",
+  LANDING_REPORT_DASHBOARD_URL: "/Report/DashboardReport",
+  LANDING_REPORT_TECHNOLOGY_URL: "/Report/DashboardTechnologyReport",
   LANDING_COURSES_URL: "/Home/GetCoursesTop",
   LANDING_TEACHERS_URL: "/Home/GetTeachers",
 
