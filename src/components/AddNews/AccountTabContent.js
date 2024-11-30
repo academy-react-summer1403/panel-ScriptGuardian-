@@ -64,7 +64,7 @@ const AccountTabs = () => {
       NewsCatregoryId: currentRole?.value,
       Image: "Not-set",
     },
-    // validationSchema: validationForCreateNews,
+    validationSchema: validationForCreateNews,
     onSubmit: (values) => {
       const formData = new FormData();
       for (const key in values) {
@@ -319,6 +319,12 @@ const AccountTabs = () => {
                     setCurrentRole(data);
                   }}
                 />
+
+                {formik.errors.NewsCatregoryId && (
+                  <div className="text-danger top-0 end-0 me-3">
+                    {formik.errors.NewsCatregoryId}
+                  </div>
+                )}
               </Col>
               <Col className="mt-2" sm="12">
                 <Button type="submit" className="me-1" color="primary">
