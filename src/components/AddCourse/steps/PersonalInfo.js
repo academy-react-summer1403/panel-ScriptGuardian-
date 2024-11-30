@@ -24,6 +24,7 @@ import persian_en from "react-date-object/locales/persian_en";
 
 const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
   const [error, setError] = useState({});
+  const [error2, setError2] = useState({});
 
   const [selectedData, setSelectedData] = useState({
     Title: "",
@@ -70,9 +71,14 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
   console.log(error);
 
   const handelNextPage = () => {
-    if (!isAnyValueNull) {
+    if (
+      !isAnyValueNull &&
+      selectedData.Cost >= 1000 &&
+      selectedData.Capacity != 0
+    ) {
       stepper.next();
-    } else {
+    }
+    if (isAnyValueNull) {
       Object.keys(selectedData).forEach((key) => {
         if (selectedData[key] === "") {
           setError((prev) => ({
@@ -81,6 +87,20 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
           }));
         }
       });
+    } else {
+      if (selectedData.Cost < 1000) {
+        setError2((prevState) => ({
+          ...prevState,
+          Cost: "قیمت نباید کمتر از 1000 تومن باشد",
+        }));
+      }
+
+      if (selectedData.Capacity == 0) {
+        setError2((prevState) => ({
+          ...prevState,
+          Capacity: "ظرفیت باید بالای صفر باشد",
+        }));
+      }
     }
   };
 
@@ -218,6 +238,9 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
                 قیمت دوره {error.Cost}
               </div>
             )}
+            {error2.Cost && (
+              <div className="invalid-feedback d-block">{error2.Cost}</div>
+            )}
           </Col>
         </Row>
         <Row>
@@ -237,6 +260,11 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
             {error.Capacity && (
               <div className="invalid-feedback d-block">
                 ظرفیت دوره {error.Capacity}
+              </div>
+            )}
+            {error2.Capacity && (
+              <div className="invalid-feedback d-block">
+                ظرفیت دوره {error2.Capacity}
               </div>
             )}
           </Col>
@@ -287,6 +315,7 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
             </Label>
             <Input
               type="text"
+              readOnly
               name="first-name"
               id={`first-name-${type}`}
               placeholder=" تاریخ شروع دوره را وارد کنید"
@@ -328,6 +357,7 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
             <Input
               type="text"
               name="first-name"
+              readOnly
               id={`first-name-${type}`}
               placeholder=" تاریخ پایان دوره را وارد کنید"
               value={

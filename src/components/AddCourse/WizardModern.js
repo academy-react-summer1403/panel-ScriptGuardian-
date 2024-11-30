@@ -10,7 +10,16 @@ import SocialLinks from "./steps/SocialLinks";
 import PersonalInfo from "./steps/PersonalInfo";
 
 // ** Icons Imports
-import { FileText, User, MapPin, Link } from "react-feather";
+import {
+  FileText,
+  User,
+  MapPin,
+  Link,
+  Settings,
+  Info,
+  Layers,
+  Cpu,
+} from "react-feather";
 import AccountFeature from "./steps/AccountFeature";
 import { useCreateCourseStepOne } from "../../core/services/api/Admin/handelAddCourse";
 import PostCourse from "./steps/PostCourse";
@@ -60,7 +69,7 @@ const WizardModern = () => {
       id: "account-details",
       title: "ویژگی های دوره",
       subtitle: "ویژگی های دوره خود را وارد کنید",
-      icon: <FileText size={18} />,
+      icon: <Settings size={18} />,
       content: (
         <AccountFeature
           stepper={stepper}
@@ -74,7 +83,7 @@ const WizardModern = () => {
       id: "personal-info",
       title: "اطلاعات اولیه",
       subtitle: "اطلاعات اولیه رو کامل کنید",
-      icon: <User size={18} />,
+      icon: <Info size={18} />,
       content: (
         <PersonalInfo
           stepper={stepper}
@@ -88,7 +97,7 @@ const WizardModern = () => {
       id: "step-address",
       title: "اطلاعات تخصصی",
       subtitle: "اطلاعات تخصصی را وارد کنید",
-      icon: <MapPin size={18} />,
+      icon: <Layers size={18} />,
       content: (
         <PostCourse
           stepper={stepper}
@@ -103,7 +112,7 @@ const WizardModern = () => {
       id: "social-links",
       title: "افزودن تکنولوژی",
       subtitle: "تکنولوژی مورد نظر خود را انتخاب کنید",
-      icon: <Link size={18} />,
+      icon: <Cpu size={18} />,
       content: (
         <SocialLinks
           stepper={stepper}
