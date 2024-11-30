@@ -39,8 +39,8 @@ const WizardModern = () => {
     Capacity: "", //10
     SessionNumber: "", //11
     miniDescribe: "", //12
-    StartTime: "2025-08-05T00:00:00", //13
-    EndTime: "2026-08-05T00:00:00", //14
+    StartTime: "", //13
+    EndTime: "", //14
     ImageAddress: "Not-set", //15
     TumbImageAddress: "Not-set", //16
     GoogleTitle: "", //17

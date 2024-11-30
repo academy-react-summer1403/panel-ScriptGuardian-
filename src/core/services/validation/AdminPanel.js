@@ -89,3 +89,13 @@ export const validationSchemaForAddNewCourses = Yup.object().shape({
   currentCourseType: Yup.object().required("لطفاً نوع دوره را انتخاب کنید."),
   currentCourseLevel: Yup.object().required("لطفاً سطح دوره را انتخاب کنید."),
 });
+
+//Add Course
+
+export const validationForAddNewCourse = Yup.object({
+  GoogleTitle: Yup.string().required("عنوان گوگل الزامی است"),
+  GoogleSchema: Yup.number().required("اسکیمای گوگل الزامی است"),
+  ShortLink: Yup.string().required("لینک کوتاه الزامی است"),
+
+  UniqeUrlString: Yup.string().required("URL مخصوص الزامی است"),
+});

@@ -7,6 +7,7 @@ import { ArrowLeft } from "react-feather";
 // ** Reactstrap Imports
 import { Label, Row, Col, Form, Input, Button } from "reactstrap";
 import Select from "react-select";
+import * as Yup from "yup";
 
 import { selectThemeColors } from "@utils";
 import { useFormik } from "formik";
@@ -16,6 +17,10 @@ import {
 } from "../../../core/services/api/Admin/handelAddCourse";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import {
+  validationForAddNewCourse,
+  validationSchemaForAddNewUser,
+} from "../../../core/services/validation/AdminPanel";
 const SocialLinks = ({
   stepper,
   type,
@@ -54,7 +59,11 @@ const SocialLinks = ({
           : [],
       courseId: getId,
     },
-    // validationSchema: validationSchema,
+    validationSchema: Yup.object({
+      techId: Yup.array()
+        .min(1, "لطفا حداقل یک تکنولوژی انتخاب کنید")
+        .required("انتخاب تکنولوژی الزامی است"),
+    }),
     enableReinitialize: true,
     onSubmit: (values) => {
       AddTec(values, {
@@ -92,9 +101,17 @@ const SocialLinks = ({
               defaultValue={technologyDtos[0]}
               onChange={(data) => handleChange("currentTechnologyDtos", data)}
             />
+
+            {formik.touched.techId &&
+              formik.errors.techId && (
+                <div className="text-danger">
+                  {formik.errors.techId}
+                </div>
+              )}
           </Col>
         </Row>
         <div className="d-flex justify-content-between">
+          <div className=""></div>
           <Button
             color="success"
             className="btn-submit"

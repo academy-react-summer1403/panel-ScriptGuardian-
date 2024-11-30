@@ -23,13 +23,78 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import persian_en from "react-date-object/locales/persian_en";
 
 const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
+  const [error, setError] = useState({});
+
+  const [selectedData, setSelectedData] = useState({
+    Title: "",
+    Cost: "",
+    Capacity: "",
+    SessionNumber: "",
+    StartTime: "",
+    EndTime: "",
+    miniDescribe: "",
+    Describe: "",
+  });
+  const isAnyValueNull = Object.values(selectedData).some(
+    (item) => item === ""
+  );
+
   const handleChange = (key, value) => {
+    // validateSelection(key, value);
     setCurrentValue((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+
+    setSelectedData((prev) => ({
       ...prev,
       [key]: value,
     }));
   };
 
+  //handel validation
+
+  const validateSelection = (key, data) => {
+    // if (data.value == "") {
+    //   setError((prev) => ({
+    //     ...prev,
+    //     [key]: "  اجباری است",
+    //   }));
+    // } else {
+    //   setError((prev) => ({
+    //     ...prev,
+    //     [key]: null,
+    //   }));
+    // }
+  };
+  console.log(error);
+
+  const handelNextPage = () => {
+    if (!isAnyValueNull) {
+      stepper.next();
+    } else {
+      Object.keys(selectedData).forEach((key) => {
+        if (selectedData[key] === "") {
+          setError((prev) => ({
+            ...prev,
+            [key]: "اجباری است",
+          }));
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    Object.keys(selectedData).forEach((key) => {
+      if (selectedData[key] !== "") {
+        setError((prev) => ({
+          ...prev,
+          [key]: "",
+        }));
+      }
+    });
+  }, [selectedData]);
+  //
   //calender
   const [calendar, setCalendar] = useState(false);
   const CalenderRef = useRef(null);
@@ -128,6 +193,12 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
               value={currentValue.Title}
               onChange={(e) => handleChange("Title", e.target.value)}
             />
+
+            {error.Title && (
+              <div className="invalid-feedback d-block">
+                عنوان دوره {error.Title}
+              </div>
+            )}
           </Col>
           <Col md="6" className="mb-1">
             <Label className="form-label" for={`first-name-${type}`}>
@@ -141,6 +212,12 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
               value={currentValue.Cost}
               onChange={(e) => handleChange("Cost", e.target.value)}
             />
+
+            {error.Cost && (
+              <div className="invalid-feedback d-block">
+                قیمت دوره {error.Cost}
+              </div>
+            )}
           </Col>
         </Row>
         <Row>
@@ -149,13 +226,19 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
               ظرفیت دوره{" "}
             </Label>
             <Input
-              type="text"
+              type="Number"
               name="first-name"
               id={`first-name-${type}`}
               placeholder="ظرفیت دوره را وارد کنید"
               value={currentValue.Capacity}
               onChange={(e) => handleChange("Capacity", e.target.value)}
             />
+
+            {error.Capacity && (
+              <div className="invalid-feedback d-block">
+                ظرفیت دوره {error.Capacity}
+              </div>
+            )}
           </Col>
           <Col md="6" className="mb-1">
             <Label className="form-label" for={`first-name-${type}`}>
@@ -169,6 +252,12 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
               value={currentValue.SessionNumber}
               onChange={(e) => handleChange("SessionNumber", e.target.value)}
             />
+
+            {error.SessionNumber && (
+              <div className="invalid-feedback d-block">
+                تعداد جلسات دوره دوره {error.SessionNumber}
+              </div>
+            )}
           </Col>
         </Row>
 
@@ -185,6 +274,12 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
               value={currentValue.miniDescribe}
               onChange={(e) => handleChange("miniDescribe", e.target.value)}
             />
+
+            {error.miniDescribe && (
+              <div className="invalid-feedback d-block">
+                توضیحات کوتاه دوره {error.miniDescribe}
+              </div>
+            )}
           </Col>
           <Col md="3" className="mb-1">
             <Label className="form-label" for={`first-name-${type}`}>
@@ -205,6 +300,12 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
                 setCalendar(true);
               }}
             />
+
+            {error.StartTime && (
+              <div className="invalid-feedback d-block">
+                تاریخ شروع دوره {error.StartTime}
+              </div>
+            )}
 
             {calendar && (
               <Calendar
@@ -239,6 +340,11 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
                 setCalendarEnd(true);
               }}
             />
+            {error.EndTime && (
+              <div className="invalid-feedback d-block">
+                تاریخ شروع دوره {error.EndTime}
+              </div>
+            )}
 
             {calendarEnd && (
               <Calendar
@@ -269,6 +375,12 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
               value={currentValue.Describe}
               onChange={(e) => handleChange("Describe", e.target.value)}
             />
+
+            {error.Describe && (
+              <div className="invalid-feedback d-block">
+                توضیحات دوره {error.Describe}
+              </div>
+            )}
           </Col>
         </Row>
 
@@ -296,11 +408,7 @@ const PersonalInfo = ({ stepper, type, setCurrentValue, currentValue }) => {
             ></ArrowLeft>
             <span className="align-middle d-sm-inline-block d-none">قبلی</span>
           </Button>
-          <Button
-            color="primary"
-            className="btn-next"
-            onClick={() => stepper.next()}
-          >
+          <Button color="primary" className="btn-next" onClick={handelNextPage}>
             <span className="align-middle d-sm-inline-block d-none">بعدی</span>
             <ArrowRight
               size={14}
