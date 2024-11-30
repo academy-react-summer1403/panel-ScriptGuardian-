@@ -211,7 +211,7 @@ export const columns2 = (CourseDetails) => [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.accept ? "light-primary" : "light-danger"}
+              color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
@@ -232,19 +232,7 @@ export const columns2 = (CourseDetails) => [
         setIsOpenModal(!isOpenModal);
       };
 
-      // const { mutate: Accept } = useAcceptCourseReserve();
-      // const handelAccept = (value) => {
-      //   Accept(value.reserveId, value.courseId, value.studentId, {
-      //     onSuccess: (data) => {
-      //       if (data.success == true) {
-      //         toast.success("با موفقیت رزرو پذیرفته شد");
-      //         queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
-      //       } else {
-      //         toast.error("    خطا در رزرو");
-      //       }
-      //     },
-      //   });
-      // };
+
       console.log("unicAAAAA", CourseDetails);
       return (
         <>
@@ -324,7 +312,7 @@ export const columns3ForComment = [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.accept ? "light-primary" : "light-danger"}
+              color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
@@ -473,7 +461,7 @@ export const columns4ForPayMent = [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.accept ? "light-primary" : "light-danger"}
+              color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
@@ -563,7 +551,7 @@ export const columns6ForWhosPayAndWhosNotPayed = [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.peymentDone ? "light-primary" : "light-danger"}
+              color={row.peymentDone ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.peymentDone ? "به اتمام رسیده" : "تمام نشده"}
@@ -641,7 +629,7 @@ export const columns5ForUserListInCourse = [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.notification ? "light-primary" : "light-danger"}
+              color={row.notification ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.notification ? "فعال" : "غیرفعال"}
@@ -832,7 +820,7 @@ export const PayColInCoursePage = [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.accept ? "light-primary" : "light-danger"}
+              color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}

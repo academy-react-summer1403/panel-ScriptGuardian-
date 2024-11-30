@@ -121,7 +121,7 @@ export const CustomColumns = (toggleSidebar2) => [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.active === "True" ? "light-primary" : "light-danger"}
+              color={row.active === "True" ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.active === "True" ? "فعال" : "غیرفعال"}

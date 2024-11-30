@@ -288,7 +288,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.isActive ? "light-primary" : "light-danger"}
+              color={row.isActive ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.isActive ? "فعال" : "غیرفعال"}

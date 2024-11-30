@@ -576,12 +576,23 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
       };
 
       const handelDelete = (id) => {
-        DeleteComment(id, {
-          onSuccess: () => {
-            queryClient.invalidateQueries("GetAllCommentsList");
-            toast.success("با موفقیت  کامنت حذف شد");
-          },
-        });
+        if (row.replyCount !== 0) {
+          toast.error(
+            " کامنت زیر نظر دارد برای پاکسازی کامنت ابتدا زیر نظرات کامنت را پاک کنید"
+          );
+          
+        } else {
+          DeleteComment(id, {
+            onSuccess: (data) => {
+              if (data.success == true) {
+                queryClient.invalidateQueries("GetAllCommentsList");
+                toast.success("با موفقیت  کامنت حذف شد");
+              } else {
+                toast.error("خطا در حذف کامنت");
+              }
+            },
+          });
+        }
       };
 
       const [show, setShow] = useState(false);

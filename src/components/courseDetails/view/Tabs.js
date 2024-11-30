@@ -5,7 +5,7 @@ import { Fragment, useState } from "react";
 import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 
 // ** Icons Imports
-import { User, Lock, Bookmark, Bell, Link, DollarSign } from "react-feather";
+import { User, Lock, Bookmark, Bell, Link, DollarSign, BookOpen, MessageCircle, Layers, Grid } from "react-feather";
 
 // ** User Components
 import InvoiceList from "./InvoiceList";
@@ -59,13 +59,13 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
         </NavItem>
         <NavItem>
           <NavLink active={active === "2"} onClick={() => toggleTab("2")}>
-            <User className="font-medium-3 me-50" />
+            <BookOpen className="font-medium-3 me-50" />
             <span className="fw-bold">رزرو ها</span>
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink active={active === "3"} onClick={() => toggleTab("3")}>
-            <Lock className="font-medium-3 me-50" />
+            <MessageCircle className="font-medium-3 me-50" />
             <span className="fw-bold"> نظرات دوره</span>
           </NavLink>
         </NavItem>
@@ -86,7 +86,7 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
 
         <NavItem>
           <NavLink active={active === "6"} onClick={() => toggleTab("6")}>
-            <DollarSign className="font-medium-3 me-50" />
+            <Grid className="font-medium-3 me-50" />
             <span className="fw-bold">لیست گروه ها </span>
           </NavLink>
         </NavItem>
