@@ -5,7 +5,18 @@ import { Fragment, useState } from "react";
 import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 
 // ** Icons Imports
-import { User, Lock, Bookmark, Bell, Link, DollarSign, BookOpen, MessageCircle, Layers, Grid } from "react-feather";
+import {
+  User,
+  Lock,
+  Bookmark,
+  Bell,
+  Link,
+  DollarSign,
+  BookOpen,
+  MessageCircle,
+  Layers,
+  Grid,
+} from "react-feather";
 
 // ** User Components
 import InvoiceList from "./InvoiceList";
@@ -23,6 +34,7 @@ import {
   useCoursesPayMent,
   useCoursesPayMentDetailsWhoPayed,
   useCourseUserList,
+  useGetAllListCourseCommentFilterCourseId,
 } from "../../../core/services/api/CourseDetils/handelCooment";
 import InvoiceList2 from "./InvoiceList2";
 import InvoiceList3 from "./InvoiceList3";
@@ -32,7 +44,13 @@ import { useGetGroupCourse } from "../../../core/services/api/Admin/handelreserv
 import ListOfGroupCourse from "./ListOfGroupCourse";
 const CourseTabs = ({ active, toggleTab, data, id }) => {
   const { data: reserveList } = useGetAllCourseDetailsReserves(id);
-  const { data: CommentList } = useCoursesComment(id);
+  // const { data: CommentList } = useCoursesComment(id);
+
+  const { data: CommentList } = useGetAllListCourseCommentFilterCourseId({
+    total: 1012,
+    curentPage: 1,
+  });
+
   const { data: PayMentList } = useCoursesPayMent(id);
   const { data: WhoPayed } = useCoursesPayMentDetailsWhoPayed(id);
   const { data: UserList } = useCourseUserList(id);
@@ -100,7 +118,7 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
         </TabPane>
 
         <TabPane tabId="3">
-          <InvoiceList2 data={CommentList} />
+          <InvoiceList2 data={CommentList} id={id} />
         </TabPane>
 
         <TabPane tabId="4">
@@ -118,7 +136,6 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
         </TabPane>
 
         <TabPane tabId="6">
-         
           <ListOfGroupCourse data={AllGroup} />
         </TabPane>
       </TabContent>

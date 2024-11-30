@@ -79,7 +79,7 @@ export const ApiRoutes = {
   PANEL_GET_ALL_USERS_URL: "/User/UserMannage",
   PANEL_GET_DETAILS_USERS_URL: "/User/UserDetails/",
   PANEL_GET_DETAILS_USERS_PAYMENT_LIST_URL: "/CoursePayment/UserPayList?",
-  PANEL_GET_DETAILS_USERS_COMMENT_LIST_URL: "/Course/CommentManagment?",
+  PANEL_GET_DETAILS_USERS_COMMENT_LIST_WITH_FILTER_URL: "/Course/CommentManagment",
   PANEL_GET_DETAILS_USERS_PAYMENT_DETAILS_URL: "/CoursePayment/",
   PANEL_ACCEPT_USERS_PAYMENT_DETAILS_URL: "/CoursePayment/Accept",
   PANEL_DELETE_USERS_PAYMENT_DETAILS_URL: "/CoursePayment",

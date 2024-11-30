@@ -32,6 +32,43 @@ const CoursesPayMent = async (id) => {
     return false;
   }
 };
+
+//With Filter
+
+const GetAllListCourseCommentFilterCourseId = async ({ total, curentPage }) => {
+  const AllParams = {
+    PageNumber: curentPage ? curentPage : 1,
+    RowsOfPage: total ? total : 10,
+  };
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_USERS_COMMENT_LIST_WITH_FILTER_URL}`,
+      {
+        params: AllParams,
+      }
+    );
+    return response.comments;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllListCourseCommentFilterCourseId in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllListCourseCommentFilterCourseId = ({
+  total,
+  curentPage,
+}) => {
+  return useQuery({
+    queryKey: ["GetAllListCourseCommentFilterCourseId", total, curentPage],
+    queryFn: () => {
+      return GetAllListCourseCommentFilterCourseId({ total, curentPage });
+    },
+    // enabled: !!id,
+  });
+};
+
 export const useCoursesPayMent = (id) => {
   return useQuery({
     queryKey: ["CoursesPayMentDetails"],

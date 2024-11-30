@@ -11,6 +11,7 @@ import {
   Database,
   Edit2,
   Eye,
+  MessageCircle,
   MoreVertical,
   Settings,
   Slack,
@@ -643,7 +644,7 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
               </DropdownItem>
 
               <DropdownItem size="sm" onClick={toggelShow}>
-                <CornerDownLeft size={14} className="me-50" />
+                <MessageCircle  size={14} className="me-50" />
                 <span className="align-middle">پاسخ دادن به نظر </span>
               </DropdownItem>
             </DropdownMenu>

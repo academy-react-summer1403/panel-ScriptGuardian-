@@ -33,8 +33,10 @@ import {
   Trash2,
   Check,
   X,
+  Repeat,
+  MessageCircle,
 } from "react-feather";
-
+import { useReplayCommentCoursesInCommentList } from "../../../core/services/api/Admin/handelComment";
 import default_image from "../../../images/default_image.png";
 import { useAcceptCourseReserve } from "../../../core/services/api/Admin/handelreserve";
 import { toast } from "react-toastify";
@@ -52,6 +54,8 @@ import {
 import { convertIsoToJalali } from "../../../core/utils/dateUtils";
 import PaymentShowScreenModal from "./Modal/PaymentShowScreenModal";
 import PaymentDetailsModal from "./Modal/PaymentDetailsModal";
+import ShowReplaysModal from "./Modal/ShowReplaysModal";
+import ReplayCustomModalTwo from "./Modal/ReplayCustomModalTwo";
 
 // ** Vars
 const invoiceStatusObj = {
@@ -505,6 +509,51 @@ export const columns3ForComment = [
   },
 
   {
+    name: "تعداد پاسخ ",
+    sortable: true,
+    minWidth: "72px",
+    sortField: "userRoles",
+    selector: (row) => row.accept,
+    cell: (row) => {
+      const [show, setShow] = useState(false);
+      const { data: ReplayList, refetch } =
+        useReplayCommentCoursesInCommentList({
+          courseId: row?.courseId,
+          CommentId: row.commentId,
+        });
+      const ClickModal = () => {
+        setShow(!show);
+        refetch();
+      };
+
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <div
+              onClick={() => {
+                if (row.replyCount != "0") {
+                  ClickModal();
+                }
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              {row.replyCount != "0" ? <Eye className="mr-1" size={16} /> : ""}
+              <span> {row?.replyCount}</span>
+            </div>
+          </h5>
+          <ShowReplaysModal
+            setShow={setShow}
+            show={show}
+            data={ReplayList}
+            refetch={refetch}
+          />
+        </>
+      );
+    },
+  },
+
+  {
     name: "اقدامات",
     minWidth: "100px",
 
@@ -520,7 +569,7 @@ export const columns3ForComment = [
         console.log(id, "id for test");
         AcceptComment(id, {
           onSuccess: () => {
-            queryClient.invalidateQueries("GetAllCommentsList");
+            queryClient.invalidateQueries("GetAllListUsersComment");
             toast.success("با موفقیت با کامنت موفقیت شد");
           },
         });
@@ -529,7 +578,7 @@ export const columns3ForComment = [
       const handelDontAccept = (id) => {
         NotAcceptComment(id, {
           onSuccess: () => {
-            queryClient.invalidateQueries("GetAllCommentsList");
+            queryClient.invalidateQueries("GetAllListUsersComment");
             toast.success("با موفقیت با کامنت مخالفت شد");
           },
         });
@@ -538,10 +587,16 @@ export const columns3ForComment = [
       const handelDelete = (id) => {
         DeleteComment(id, {
           onSuccess: () => {
-            queryClient.invalidateQueries("GetAllCommentsList");
+            queryClient.invalidateQueries("GetAllListUsersComment");
             toast.success("با موفقیت  کامنت حذف شد");
           },
         });
+      };
+
+      const [show, setShow] = useState(false);
+
+      const toggelShow = () => {
+        setShow(!show);
       };
       return (
         <div className="column-action">
@@ -580,8 +635,23 @@ export const columns3ForComment = [
                 <Trash2 size={14} className="me-50" />
                 <span className="align-middle">حذف نظر</span>
               </DropdownItem>
+
+              <DropdownItem
+                size="sm"
+                onClick={toggelShow}
+              >
+                <MessageCircle size={14} className="me-50" />
+                <span className="align-middle">پاسخ دادن به نظر </span>
+              </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
+
+          <ReplayCustomModalTwo
+            setShow={setShow}
+            show={show}
+            commentId={row?.commentId}
+            courseId={row?.courseId}
+          />
         </div>
       );
     },
