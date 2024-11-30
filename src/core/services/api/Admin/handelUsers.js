@@ -462,6 +462,33 @@ export const useGetAllCateGoryList = () => {
 
 //UserDetails
 
+//getAll UserComment
+
+const GetAllListUsersComment = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_USERS_COMMENT_LIST_URL}userId=${id}`
+    );
+    return response.comments;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllListUsersComment in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllListUsersComment = (id) => {
+  return useQuery({
+    queryKey: ["GetAllListUsersComment"],
+    queryFn: () => {
+      return GetAllListUsersComment(id);
+    },
+    enabled: !!id,
+  });
+};
+
+//
 const GetAllListUsersPayment = async (id) => {
   try {
     const response = await http.get(

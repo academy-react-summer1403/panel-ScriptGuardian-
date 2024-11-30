@@ -226,18 +226,18 @@ const Login = () => {
                 </Label>
               </div>
               <Button type="submit" color="primary" block>
-                Sign in
+                ورود{" "}
               </Button>
             </form>
-
+            {/* 
             <p className="text-center mt-2">
               <span className="me-25">New on our platform?</span>
               <Link to="/register">
                 <span>Create an account</span>
               </Link>
-            </p>
+            </p> */}
             <div className="divider my-2">
-              <div className="divider-text">or</div>
+              {/* <div className="divider-text">or</div> */}
             </div>
             <div className="auth-footer-btn d-flex justify-content-center">
               <Button color="facebook">

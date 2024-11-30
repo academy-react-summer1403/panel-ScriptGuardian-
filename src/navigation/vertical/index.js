@@ -1,4 +1,13 @@
-import { Mail, Home, Airplay, Circle, Users, Book, MessageCircle, FileText } from "react-feather";
+import {
+  Mail,
+  Home,
+  Airplay,
+  Circle,
+  Users,
+  Book,
+  MessageCircle,
+  FileText,
+} from "react-feather";
 
 export default [
   {
@@ -16,7 +25,7 @@ export default [
   {
     id: "Course",
     title: " مدیریت دوره ها",
-    icon: <Book  size={20} />,
+    icon: <Book size={20} />,
     children: [
       {
         id: "CourseListPage",
@@ -60,7 +69,7 @@ export default [
   {
     id: "Comments",
     title: "مدیریت نظرات",
-    icon: <MessageCircle  size={20} />,
+    icon: <MessageCircle size={20} />,
     // navLink: "/sample",
     children: [
       {
@@ -74,7 +83,7 @@ export default [
 
   {
     id: "NewsListPage",
-    title: "اخبار",
+    title: "مدیریت اخبار",
     icon: <FileText size={20} />,
     // navLink: "/sample",
     children: [
