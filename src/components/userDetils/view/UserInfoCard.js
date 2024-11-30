@@ -32,6 +32,10 @@ import Avatar from "@components/avatar";
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
 import ModalCustom from "./Modal/Modal";
+import { toast } from "react-toastify";
+import { useFormik } from "formik";
+import { useUpdateUser } from "../../../core/services/api/Admin/handelChangeProfileUser";
+import { useQueryClient } from "@tanstack/react-query";
 
 const roleColors = {
   editor: "light-info",
@@ -120,76 +124,141 @@ const UserInfoCard = ({ data }) => {
     }
   };
 
-  // const renderUserImg = (data) => {
-  //   return (
-  //     <Avatar
-  //       initials
-  //       color={"light-primary"}
-  //       className="rounded mt-3 mb-2"
-  //       content={data?.fName ? data?.fName : ""}
-  //       contentStyles={{
-  //         borderRadius: 0,
-  //         fontSize: "calc(48px)",
-  //         width: "100%",
-  //         height: "100%",
-  //       }}
-  //       style={{
-  //         height: "110px",
-  //         width: "110px",
-  //       }}
-  //     />
-  //   );
-  // };
+  //API
+  const queryClient = useQueryClient();
 
-  const onSubmit = (data) => {
-    if (Object.values(data).every((field) => field.length > 0)) {
-      setShow(false);
-    } else {
-      for (const key in data) {
-        if (dat && data[key].length === 0) {
-          setError(key, {
-            type: "manual",
-          });
-        }
-      }
-    }
-  };
+  const { mutate: UpdateProfile } = useUpdateUser();
 
-  const handleReset = () => {
-    reset({
-      username: "amir",
-      lastName: "hosseni",
-      firstName: "amir",
-    });
-  };
+  const formik = useFormik({
+    initialValues: {
+      id: data?.id ? data?.id : "",
+      fName: data?.fName ? data?.fName : "",
+      lName: data?.lName ? data?.lName : "",
+      userName: data?.userName ? data?.userName : "",
+      gmail: data?.gmail ? data?.gmail : "",
+      phoneNumber: data?.phoneNumber ? data?.phoneNumber : "",
+      active: data?.active,
+      isDelete: data?.isDelete,
+      isTecher: data?.isTecher,
+      isStudent: data?.isStudent,
+      recoveryEmail: data?.recoveryEmail ? data?.recoveryEmail : "",
+      twoStepAuth: data?.twoStepAuth,
+      userAbout: data?.userAbout ? data?.userAbout : "",
+      currentPictureAddress: data?.currentPictureAddress
+        ? data?.currentPictureAddress
+        : "",
+      linkdinProfile: data?.linkdinProfile ? data?.linkdinProfile : "",
+      telegramLink: data?.telegramLink ? data?.telegramLink : "",
+      receiveMessageEvent: data?.receiveMessageEvent,
+      homeAdderess: data?.homeAdderess ? data?.homeAdderess : "",
+      nationalCode: data?.nationalCode ? data?.nationalCode : "",
+      gender: data?.gender,
+      latitude: data?.latitude ? data?.latitude : "51.3890",
+      longitude: data?.latitude ? data?.latitude : "35.6892",
+      insertDate: data?.insertDate ? data?.insertDate : "",
+      birthDay: data?.birthDay ? data?.birthDay : "",
+      roles:
+        data?.roles?.map((role) => ({
+          id: role.id || "",
+          roleName: role.roleName || "",
+          roleParentName: role.roleParentName || "",
+        })) || [],
+      courses:
+        data?.courses?.map((course) => ({
+          title: course.title || "",
+          describe: course.describe || "",
+          tumbImageAddress: course.tumbImageAddress || "",
+          lastUpdate: course.lastUpdate || "",
+          courseId: course.courseId || "",
+        })) || [],
+      coursesReseves:
+        data?.coursesReseves?.map((reserve) => ({
+          reserveId: reserve.reserveId || "",
+          courseId: reserve.courseId || "",
+          courseName: reserve.courseName || "",
+          studentId: reserve.studentId || "",
+          studentName: reserve.studentName || "",
+          reserverDate: reserve.reserverDate || "",
+          accept: reserve.accept,
+        })) || [],
+      userProfileId: data?.userProfileId ? data?.userProfileId : undefined,
+    },
+    enableReinitialize: true,
+    // validationSchema: validationSchema,
+    onSubmit: (values) => {
+      UpdateProfile(values, {
+        onSuccess: (data) => {
+          if (data.success == true) {
+            // toast.success("ویرایش با موفقیت انجام شد");
+            queryClient.invalidateQueries("GetStudentProfile");
+            queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
+            queryClient.invalidateQueries("GetAllUsers");
+          }
+        },
+      });
+    },
+  });
 
   const handleSuspendedClick = () => {
     return MySwal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert user!",
+      title: "آیا مطمعنید که میخاهید کاربر رو غیرفعال کنید",
+      text: "البته یک عمل قابل بازگشت است",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, Suspend user!",
+      confirmButtonText: "یله",
+      cancelButtonText: "لغو",
       customClass: {
         confirmButton: "btn btn-primary",
         cancelButton: "btn btn-outline-danger ms-1",
       },
       buttonsStyling: false,
     }).then(function (result) {
+      formik.setFieldValue("active", false);
+      formik.submitForm();
       if (result.value) {
         MySwal.fire({
           icon: "success",
-          title: "Suspended!",
-          text: "User has been suspended.",
+          title: "موفقیت آمیز بود",
+          text: "کاربر با موفقیت غیرفعال شد",
           customClass: {
             confirmButton: "btn btn-success",
           },
         });
-      } else if (result.dismiss === MySwal.DismissReason.cancel) {
+      }
+      // else if (result.dismiss === MySwal.DismissReason.cancel) {
+      //   MySwal.fire({
+      //     title: "Cancelled",
+      //     text: "Cancelled Suspension :)",
+      //     icon: "error",
+      //     customClass: {
+      //       confirmButton: "btn btn-success",
+      //     },
+      //   });
+      // }
+    });
+  };
+
+  const handleSuspendedClick2 = () => {
+    return MySwal.fire({
+      title: "آیا مطمعنید که میخاهید کاربر رو فعال کنید",
+      text: "البته یک عمل قابل بازگشت است",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "یله",
+      cancelButtonText: "لغو",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-outline-danger ms-1",
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      formik.setFieldValue("active", true);
+      formik.submitForm();
+      if (result.value) {
         MySwal.fire({
-          title: "Cancelled",
-          text: "Cancelled Suspension :)",
-          icon: "error",
+          icon: "success",
+          title: "موفقیت آمیز بود",
+          text: "کاربر با موفقیت فعال شد",
           customClass: {
             confirmButton: "btn btn-success",
           },
@@ -317,14 +386,26 @@ const UserInfoCard = ({ data }) => {
             <Button color="primary" onClick={() => setShow(true)}>
               ویرایش
             </Button>
-            {/* <Button
-              className="ms-1"
-              color="danger"
-              outline
-              onClick={handleSuspendedClick}
-            >
-              Suspended
-            </Button> */}
+
+            {data?.active ? (
+              <Button
+                className="ms-1"
+                color="danger"
+                outline
+                onClick={handleSuspendedClick}
+              >
+                غیرفعال کردن
+              </Button>
+            ) : (
+              <Button
+                className="ms-1"
+                color="success"
+                outline
+                onClick={handleSuspendedClick2}
+              >
+                فعال کردن{" "}
+              </Button>
+            )}
           </div>
         </CardBody>
       </Card>
