@@ -260,11 +260,16 @@ export const useGetAllNewsDetailsAdmin = (id) => {
 
 //get All Comments
 
-const GetAllCommentsList = async ({ currentPage, rowsPerPage, searchTerm }) => {
+const GetAllCommentsList = async ({
+  currentPage,
+  rowsPerPage,
+  debouncedSearchQuery,
+}) => {
   const AllParams = {
     PageNumber: currentPage ? currentPage : 1,
     RowsOfPage: rowsPerPage ? rowsPerPage : 10,
-    Query: searchTerm ? searchTerm : undefined,
+    Query: debouncedSearchQuery ? debouncedSearchQuery : undefined,
+    // Query: searchTerm ? searchTerm : undefined,
   };
   try {
     const response = await http.get(
@@ -282,12 +287,21 @@ const GetAllCommentsList = async ({ currentPage, rowsPerPage, searchTerm }) => {
 export const useGetAllCommentsList = ({
   currentPage,
   rowsPerPage,
-  searchTerm,
+  debouncedSearchQuery,
 }) => {
   return useQuery({
-    queryKey: ["GetAllCommentsList", currentPage, rowsPerPage, searchTerm],
+    queryKey: [
+      "GetAllCommentsList",
+      currentPage,
+      rowsPerPage,
+      debouncedSearchQuery,
+    ],
     queryFn: () => {
-      return GetAllCommentsList({ currentPage, rowsPerPage, searchTerm });
+      return GetAllCommentsList({
+        currentPage,
+        rowsPerPage,
+        debouncedSearchQuery,
+      });
     },
   });
 };

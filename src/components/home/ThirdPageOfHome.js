@@ -123,7 +123,7 @@ const ThirdPageOfHome = (DashBoardReport) => {
           </h3>
         </Col>
         <Col xs="4" className="py-1">
-          <CardText className="text-muted mb-0">نپذیرفته</CardText>
+          <CardText className="text-muted mb-0">در انتظار تایید</CardText>
           <h3 className="fw-bolder mb-0">
             {" "}
             {DashBoardReport?.DashBoardReport?.allReserveNotAccept &&

@@ -488,7 +488,7 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.accept ? "light-primary" : "light-danger"}
+              color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.accept ? "پذیرفته شده" : "نپذیرفته"}
@@ -521,18 +521,17 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
         <>
           {" "}
           <h5 className="text-truncate text-muted mb-0">
-            <Badge
-              pill
-              className="me-1 "
+            <div
               onClick={() => {
                 if (row.replyCount != "0") {
                   ClickModal();
                 }
               }}
+              style={{ cursor: "pointer" }}
             >
-              {row.replyCount != "0" ? <Eye className="mr-1" /> : ""}
+              {row.replyCount != "0" ? <Eye className="mr-1" size={16} /> : ""}
               <span> {row?.replyCount}</span>
-            </Badge>
+            </div>
           </h5>
           <MyCustomModal
             setShow={setShow}

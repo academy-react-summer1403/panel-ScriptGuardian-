@@ -1,13 +1,13 @@
 // Logo Import
 import logo from "@src/assets/images/logo/logo.svg";
-
+import Logos from "../images/Logoss.png";
 // You can customize the template with the help of this file
 
 //Template config options
 const themeConfig = {
   app: {
-    appName: "ScriptGuardian",
-    appLogoImage: logo,
+    appName: "اسکریپت گاردین",
+    appLogoImage: Logos,
   },
   layout: {
     isRTL: true,

@@ -20,7 +20,7 @@ import {
 } from "../../../../core/services/api/Admin/handelreserve";
 import { toast } from "react-toastify";
 import { useGetAllCourseDetailsAdmin } from "../../../../core/services/api/Admin/handelUsers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 
 const Modal2ForAcceptReserve = ({
@@ -33,6 +33,7 @@ const Modal2ForAcceptReserve = ({
 }) => {
   const queryClient = useQueryClient();
   const [addNewGroupIsOpen, setAddNewGroupIsOpen] = useState(false);
+  const [showNot, setShowNot] = useState(false);
 
   const ToggelIsOpen = () => {
     setAddNewGroupIsOpen(!addNewGroupIsOpen);
@@ -43,12 +44,16 @@ const Modal2ForAcceptReserve = ({
     courseId: courseId,
   });
 
-  if (isOpenModal && isOpenModal === true) {
-    if (AllGroup && AllGroup?.length === 0) {
-      toast.info("گروهی برای رزرو وجود ندارد لطفا ایجاد  کنید");
+  useEffect(() => {
+    if (isOpenModal && AllGroup?.length === 0 && showNot === false) {
+      toast.info("گروهی برای رزرو وجود ندارد لطفا ایجاد کنید");
+      setShowNot(true);
     }
-  }
 
+    if (!isOpenModal) {
+      setShowNot(false);
+    }
+  }, [isOpenModal, AllGroup, showNot]);
   const { mutate: Accept } = useAcceptCourseReserve();
   const [selectedGroup, setSelectedGroup] = useState("");
 

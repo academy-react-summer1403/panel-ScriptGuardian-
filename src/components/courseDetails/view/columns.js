@@ -222,7 +222,7 @@ export const columns2 = (CourseDetails) => [
     },
   },
   {
-    name: "اقدامات",
+    name: "اقدامات ",
     minWidth: "100px",
 
     cell: (row) => {

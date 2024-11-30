@@ -1,4 +1,4 @@
-import { Mail, Home, Airplay, Circle, Users } from "react-feather";
+import { Mail, Home, Airplay, Circle, Users, Book, MessageCircle, FileText } from "react-feather";
 
 export default [
   {
@@ -9,40 +9,32 @@ export default [
   },
   {
     id: "UsersPage",
-    title: "کاربران",
+    title: "مدیریت کاربران",
     icon: <Users size={20} />,
     navLink: "/UsersPage",
   },
   {
     id: "Course",
-    title: "دوره ها",
-    icon: <Users size={20} />,
+    title: " مدیریت دوره ها",
+    icon: <Book  size={20} />,
     children: [
       {
         id: "CourseListPage",
-        title: "همه ی  دوره",
+        title: "همه ی  دورها",
         icon: <Circle size={12} />,
         navLink: "/CourseListPage",
-      },
-
-      {
-        id: "CourseTeacherListPage",
-        title: "دوره های من (استاد)",
-        icon: <Circle size={12} />,
-        navLink: "/CourseTeacherListPage",
-      },
-
-      {
-        id: "CourseGroupPage",
-        title: "گروه دوره ها",
-        icon: <Circle size={12} />,
-        navLink: "/CourseGroupPage",
       },
       {
         id: "createCourse",
         title: "ایجاد دوره",
         icon: <Circle size={12} />,
         navLink: "/createCourse",
+      },
+      {
+        id: "CourseTeacherListPage",
+        title: "دوره های من (استاد)",
+        icon: <Circle size={12} />,
+        navLink: "/CourseTeacherListPage",
       },
       {
         id: "CourseReserved",
@@ -56,12 +48,19 @@ export default [
         icon: <Circle size={12} />,
         navLink: "/PaymentListPage",
       },
+
+      {
+        id: "CourseGroupPage",
+        title: "گروه دوره ها",
+        icon: <Circle size={12} />,
+        navLink: "/CourseGroupPage",
+      },
     ],
   },
   {
     id: "Comments",
-    title: "نظرات",
-    icon: <Airplay size={20} />,
+    title: "مدیریت نظرات",
+    icon: <MessageCircle  size={20} />,
     // navLink: "/sample",
     children: [
       {
@@ -76,7 +75,7 @@ export default [
   {
     id: "NewsListPage",
     title: "اخبار",
-    icon: <Airplay size={20} />,
+    icon: <FileText size={20} />,
     // navLink: "/sample",
     children: [
       {

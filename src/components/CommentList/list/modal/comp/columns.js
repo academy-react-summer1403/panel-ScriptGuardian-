@@ -87,7 +87,7 @@ export const columnsForReplayComment = (refetch) => [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.accept ? "light-primary" : "light-danger"}
+              color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}

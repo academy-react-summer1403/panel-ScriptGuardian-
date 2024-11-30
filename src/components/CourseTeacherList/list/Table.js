@@ -117,7 +117,7 @@ const CustomHeader = ({
       <Row>
         <Col xl="6" className="d-flex align-items-center p-0">
           <div className="d-flex align-items-center w-100">
-            <label htmlFor="rows-per-page">Show</label>
+            <label htmlFor="rows-per-page">نمایش</label>
             <Input
               className="mx-50"
               type="select"
@@ -130,7 +130,7 @@ const CustomHeader = ({
               <option value="25">25</option>
               <option value="50">50</option>
             </Input>
-            <label htmlFor="rows-per-page">Entries</label>
+            {/* <label htmlFor="rows-per-page">Entries</label> */}
           </div>
         </Col>
         <Col
@@ -147,6 +147,7 @@ const CustomHeader = ({
               type="text"
               value={searchTerm}
               onChange={(e) => handleFilter(e.target.value)}
+              placeholder="عنوان دوره مورد نظر را وارد کنید"
             />
           </div>
 
