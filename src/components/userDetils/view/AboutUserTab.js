@@ -103,7 +103,7 @@ const AboutUserTab = ({ data }) => {
             </div>
             <div className="d-flex align-item-center justify-content-between flex-grow-1">
               <div className="me-1">
-                <p className="fw-bolder mb-0"> تاریخ ثبت نام</p>
+                <p className="fw-bolder mb-0"> آدرس کاربر</p>
                 <strong>{data?.homeAdderess ? data?.homeAdderess : ""}</strong>
               </div>
             </div>
