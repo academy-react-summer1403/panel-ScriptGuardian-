@@ -73,25 +73,19 @@ export const columns = [
     name: "نام دوره",
     sortable: true,
     sortField: "id",
-    minWidth: "170px",
+    minWidth: "200px",
     selector: (row) => row.id,
     cell: (row) => {
       return (
         <div className="d-flex align-items-center">
-          <Avatar
-            img={
-              row?.tumbImageAddress && row?.tumbImageAddress !== "Not-set"
-                ? row?.tumbImageAddress
-                : default_image
-            }
-          />
-
-          <div className="user-info text-truncate ms-1">
+          <div className="user-info text-truncate ms-1" title={row.courseName}>
             <NavLink
               className="d-block fw-bold text-truncate"
               to={`/CourseListPage/${row.courseId}`}
             >
-              {row.courseName}
+              {row.courseName.length > 15
+                ? row.courseName.substring(0, 15) + "..."
+                : row.courseName}
             </NavLink>
           </div>
         </div>
@@ -100,7 +94,7 @@ export const columns = [
   },
 
   {
-    minWidth: "200px",
+    minWidth: "100px",
     name: "تاریخ رزرو",
     cell: (row) => row.reserverDate && convertIsoToJalali(row.reserverDate),
   },
@@ -187,7 +181,7 @@ export const columns2 = [
     name: "عنوان دوره",
     sortable: true,
     sortField: "id",
-    minWidth: "200px",
+    minWidth: "150px",
     selector: (row) => row.id,
     cell: (row) => {
       return (
@@ -220,7 +214,7 @@ export const columns2 = [
     name: "توضیحات دوره",
     sortable: true,
     sortField: "id",
-    minWidth: "170px",
+    minWidth: "250px",
     selector: (row) => row.id,
     cell: (row) => {
       return (
