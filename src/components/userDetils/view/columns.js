@@ -458,12 +458,14 @@ export const columns3ForComment = [
     cell: (row) => {
       return (
         <div className="d-flex align-items-center">
-          <div className="user-info text-truncate ms-1">
+          <div className="user-info text-truncate ms-1" title={row.courseTitle}>
             <NavLink
               className="d-block fw-bold text-truncate"
-              to={`/UsersPage/${row.userId}`}
+              to={`/CourseListPage/${row.userId}`}
             >
-              {row.courseTitle}
+              {row.courseTitle.length > 15
+                ? row.courseTitle.slice(0, 15) + "..."
+                : row.courseTitle}
             </NavLink>
           </div>
         </div>
@@ -472,9 +474,16 @@ export const columns3ForComment = [
   },
 
   {
-    minWidth: "200px",
+    minWidth: "150px",
     name: "عنوان کامنت",
-    cell: (row) => <span>{row?.describe}</span>,
+    cell: (row) => (
+      <span 
+      title={row.commentTitle}>
+        {row.commentTitle.length > 15
+          ? row.commentTitle.slice(0, 15) + "..."
+          : row.commentTitle}
+      </span>
+    ),
   },
   {
     name: "وضعیت پذیرش ",
