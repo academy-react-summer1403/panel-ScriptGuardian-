@@ -52,6 +52,7 @@ import {
   useActiveCourse,
   useActiveNews,
 } from "../../../core/services/api/Admin/handelreserve";
+import { convertIsoToJalali } from "../../../core/utils/dateUtils";
 
 const UserInfoCard = ({ data, ID }) => {
   // ** State
@@ -219,16 +220,31 @@ const UserInfoCard = ({ data, ID }) => {
               </li>
               <li className="mb-75">
                 <span className="fw-bolder me-25"> وضعیت:</span>
-                <span
-                  className={`${data?.active ? "text-success" : "text-danger"}`}
-                >
+                <Badge color={`${data?.active ? "success" : "danger"}`}>
                   {data?.active ? "فعال" : "غیرفعال"}
-                </span>
+                </Badge>
               </li>
               <li className="mb-75">
                 <span className="fw-bolder me-25"> نام گروه:</span>
                 <span>
                   {data?.newsCatregoryName ? data?.newsCatregoryName : ""}{" "}
+                </span>
+              </li>
+
+              <li className="mb-75">
+                <span className="fw-bolder me-25"> تاریخ ساخت خبر:</span>
+                <span>
+                  {data?.insertDate ? convertIsoToJalali(data?.insertDate) : ""}{" "}
+                </span>
+              </li>
+
+              <li className="mb-75">
+                <span className="fw-bolder me-25">
+                  {" "}
+                  تاریخ اخرین ویرایش خبر :
+                </span>
+                <span>
+                  {data?.updateDate ? convertIsoToJalali(data?.updateDate) : ""}{" "}
                 </span>
               </li>
               <li className="mb-75">
@@ -237,9 +253,9 @@ const UserInfoCard = ({ data, ID }) => {
                   style={{ whiteSpace: "nowrap" }}
                 >
                   {" "}
-                  توضیحات خبر:
+                  توضیحات کوتاه خبر:
                 </span>
-                <span>{data?.describe ? data?.describe : ""} </span>
+                <span>{data?.miniDescribe ? data?.miniDescribe : ""} </span>
               </li>
             </ul>
           </div>

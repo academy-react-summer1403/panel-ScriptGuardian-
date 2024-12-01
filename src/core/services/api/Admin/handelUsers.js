@@ -77,6 +77,7 @@ export const useGetAllUsersDetailsAdmin = (id) => {
     queryFn: () => {
       return GetAllUsersDetailsAdmin(id);
     },
+    enabled: !!id,
   });
 };
 

@@ -40,6 +40,7 @@ const UserDropdown = () => {
   const handelLogOut = () => {
     removeItem("token");
     removeItem("id");
+    removeItem("roles");
     navigate("/login");
   };
 
@@ -48,6 +49,8 @@ const UserDropdown = () => {
   const handelGoToUserDetails = () => {
     navigate(`UsersPage/${userId}`);
   };
+  const Roles = getItem("roles");
+  console.log(Roles, "Roles");
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       {/* TODO */}
@@ -61,7 +64,15 @@ const UserDropdown = () => {
           <span className="user-name fw-bold">
             {Information?.fName} {Information?.lName}
           </span>
-          <span className="user-status">ادمین</span>
+          <span className="user-status">
+            {Roles.includes("Administrator") && Roles.includes("Teacher")
+              ? "ادمین و استاد"
+              : Roles.includes("Administrator")
+              ? "ادمین"
+              : Roles.includes("Teacher")
+              ? "استاد"
+              : ""}
+          </span>
         </div>
         <Avatar
           img={
@@ -76,41 +87,17 @@ const UserDropdown = () => {
         />
       </DropdownToggle>
       <DropdownMenu end>
-        <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
-          <User size={14} className="me-75" />
-          <span className="align-middle" onClick={handelGoToUserDetails}>
-            پروفایل
-          </span>
-        </DropdownItem>
-        {/* <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
-          <Mail size={14} className="me-75" />
-          <span className="align-middle">Inbox</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
-          <CheckSquare size={14} className="me-75" />
-          <span className="align-middle">Tasks</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
-          <MessageSquare size={14} className="me-75" />
-          <span className="align-middle">Chats</span>
-        </DropdownItem>
-        <DropdownItem divider />
         <DropdownItem
           tag={Link}
-          to="/pages/"
-          onClick={(e) => e.preventDefault()}
+          to="/"
+          onClick={(e) => {
+            e.preventDefault();
+            handelGoToUserDetails();
+          }}
         >
-          <Settings size={14} className="me-75" />
-          <span className="align-middle">Settings</span>
+          <User size={14} className="me-75" />
+          <span className="align-middle">پروفایل</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
-          <CreditCard size={14} className="me-75" />
-          <span className="align-middle">Pricing</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to="/" onClick={(e) => e.preventDefault()}>
-          <HelpCircle size={14} className="me-75" />
-          <span className="align-middle">FAQ</span>
-        </DropdownItem> */}
         <DropdownItem onClick={handelLogOut}>
           <Power size={14} className="me-75" />
           <span className="align-middle">خروج</span>

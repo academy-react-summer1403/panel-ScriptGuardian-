@@ -5,7 +5,9 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   Archive,
   Database,
+  DollarSign,
   Edit2,
+  ExternalLink,
   MoreVertical,
   Settings,
   Slack,
@@ -663,7 +665,7 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
     },
   },
   {
-    name: "باقی مانده",
+    name: "تصویر پرداخت",
     sortable: true,
     minWidth: "172px",
     sortField: "userRoles",
@@ -697,7 +699,7 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
               color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
-              {row.accept ? "پذیرفته شده" : "نپذیرفته شده"}
+              {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
             </Badge>
           </h5>
         </>
@@ -734,7 +736,7 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem className="w-100">
-                <Archive size={14} className="me-50" />
+                <ExternalLink size={14} className="me-50" />
                 <span
                   className="align-middle"
                   onClick={() => {
@@ -749,7 +751,7 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
                 className="w-100"
                 onClick={handelClickDetailsPayment}
               >
-                <Archive size={14} className="me-50" />
+                <DollarSign size={14} className="me-50" />
                 <span className="align-middle">جزئیات پرداخت </span>
               </DropdownItem>
             </DropdownMenu>

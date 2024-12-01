@@ -77,7 +77,7 @@ const PayMentDetailsModalInPayMentList = ({
             <img
               src={detailsPayment?.paymentInvoiceImage}
               alt="Invoice"
-              style={{ width: "90%", marginBottom: "1rem" }}
+              style={{ width: "90%", marginBottom: "1rem", height: "300px" }}
               className="rounded-lg shadow-md"
             />
           </div>
@@ -143,8 +143,10 @@ const PayMentDetailsModalInPayMentList = ({
         </div>
         {/* دکمه‌های پذیرش و رد */}
 
-        {detailsPayment?.detailsPayment ? (
-          ""
+        {detailsPayment?.accept ? (
+          <div className="d-flex justify-content-around mt-4">
+            <h2>پذیرفته شده </h2>
+          </div>
         ) : (
           <>
             {detailsPayment?.paymentInvoiceImage ? (
@@ -171,8 +173,7 @@ const PayMentDetailsModalInPayMentList = ({
             ) : (
               <div className="d-flex justify-content-around mt-4">
                 <h2>
-                  به دلیل آپلود نکردن فیش پرداخت توسط کاربر امکان حذف یا تایید
-                  نیست
+                  به دلیل آپلود نکردن فیش پرداخت توسط کاربر امکان تایید نیست
                 </h2>
               </div>
             )}

@@ -4,8 +4,10 @@ import NoProfile from "../../../images/profile.png";
 import { Link, NavLink } from "react-router-dom";
 import {
   Archive,
+  Check,
   Database,
   Edit2,
+  ExternalLink,
   MoreVertical,
   Settings,
   Slack,
@@ -487,7 +489,7 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
               color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
-              {row.accept ? "پذیرفته شده" : "نپذیرفته شده"}
+              {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
             </Badge>
           </h5>
         </>
@@ -527,7 +529,7 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
                     className="w-100"
                     onClick={toggleAcceptModal}
                   >
-                    <Archive size={14} className="me-50" />
+                    <Check size={14} className="me-50" />
                     <span className="align-middle"> موافقت </span>
                   </DropdownItem>
                 )}
@@ -537,11 +539,11 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
                   href={`/CourseListPage/${row.courseId}`}
                   className="w-100"
                 >
-                  <Trash2 size={14} className="me-50" />
+                  <ExternalLink size={14} className="me-50" />
                   <span className="align-middle"> جزییات دوره</span>
                 </DropdownItem>
                 <DropdownItem size="sm" href={`/UsersPage/${row.studentId}`}>
-                  <UserMinus size={14} className="me-50" />
+                  <User size={14} className="me-50" />
                   <span className="align-middle">جزییات کاربر</span>
                 </DropdownItem>
               </DropdownMenu>

@@ -1,11 +1,13 @@
 import Avatar from "@components/avatar";
 import default_image from "../../../images/default_image.png";
 import NoProfile from "../../../images/profile.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   Archive,
+  Check,
   Database,
   Edit2,
+  ExternalLink,
   MoreVertical,
   Settings,
   Slack,
@@ -270,7 +272,12 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
       return (
         <>
           {" "}
-          <h5 className="text-truncate text-muted mb-0">{row.cost}</h5>
+          <h5 className="text-truncate text-muted mb-0">
+            {" "}
+            {parseFloat(row?.cost).toFixed(2) % 1 === 0
+              ? parseInt(row?.cost)
+              : row?.cost}{" "}
+          </h5>
         </>
       );
     },
@@ -304,6 +311,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
 
     cell: (row) => {
       const queryClient = useQueryClient();
+      const navigate = useNavigate();
 
       const { mutate: ChangeActivity } = useActiveCourse();
 
@@ -343,13 +351,6 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem tag="a" className="w-100">
-                <Archive size={14} className="me-50" />
-                <span className="align-middle" onClick={toggleSidebar2}>
-                  ویرایش دوره
-                  {/* //TODO */}
-                </span>
-              </DropdownItem>
               {row?.isActive ? (
                 <>
                   <DropdownItem
@@ -370,15 +371,20 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
                       ActiveCourse(row?.courseId);
                     }}
                   >
-                    <Trash2 size={14} className="me-50" />
+                    <Check size={14} className="me-50" />
                     <span className="align-middle">فعال کردن دوره</span>
                   </DropdownItem>
                 </>
               )}
 
-              <DropdownItem size="sm">
-                <Archive size={14} className="me-50" />
-                <span className="align-middle">دسترسی</span>
+              <DropdownItem
+                className="w-100"
+                onClick={() => {
+                  navigate(`/CourseListPage/${row.courseId}`);
+                }}
+              >
+                <ExternalLink size={14} className="me-50" />
+                <span className="align-middle">جزییات دوره</span>
               </DropdownItem>
               {/* <UserAddRole
               // modal={modal}

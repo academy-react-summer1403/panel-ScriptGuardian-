@@ -1,10 +1,11 @@
 import Avatar from "@components/avatar";
 import NoProfile from "../../../images/profile.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Archive,
   Database,
   Edit2,
+  ExternalLink,
   MoreVertical,
   Settings,
   Slack,
@@ -16,6 +17,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
+  NavLink,
   UncontrolledDropdown,
 } from "reactstrap";
 
@@ -136,6 +138,7 @@ export const CustomColumns = (toggleSidebar2) => [
     minWidth: "100px",
 
     cell: (row) => {
+      const navigate = useNavigate();
       return (
         <div className="column-action">
           <UncontrolledDropdown>
@@ -143,62 +146,15 @@ export const CustomColumns = (toggleSidebar2) => [
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
-              {/* <DropdownItem
-                tag={Link}
-                className="w-100"
-                to={`${row.id}`}
-                // onClick={() => store.dispatch(getUser(row.id))}
-              >
-                <FileText size={14} className="me-50" />
-                <span className="align-middle">جزئیات کاربر</span>
-              </DropdownItem> */}
               <DropdownItem
-               onClick={toggleSidebar2}
-                tag="a"
-                // href="/"
                 className="w-100"
-                // onClick={(e) => {
-                //   e.preventDefault();
-                //   dispatch(dispatch(toggleEditSidebar));
-                //   setData2(row);
-                // }}
+                style={{ display: "flex", alignItems: "center" }}
+                onClick={() => navigate(`/UsersPage/${row?.id}`)}
               >
-                <Archive size={14} className="me-50" />
-                <span className="align-middle">
-                  ویرایش کاربر
-                </span>
+                <ExternalLink size={14} className="me-50" />
+
+                <span> جزییات کاربر</span>
               </DropdownItem>
-              <DropdownItem
-                tag="a"
-                href="/"
-                className="w-100"
-                // onClick={(e) => {
-                //   e.preventDefault();
-                //   // const params = {}
-                //   // store.dispatch(deleteUser(row.id));
-                //   deleteUserFn.mutate(
-                //     row.id
-                //     // {
-                //     //   onSuccess:()=> {useQueryClient(queryClient)}
-                //     // }
-                //   );
-                // }}
-              >
-                <Trash2 size={14} className="me-50" />
-                <span className="align-middle">حذف کاربر</span>
-              </DropdownItem>
-              <DropdownItem size="sm">
-                <Archive size={14} className="me-50" />
-                <span className="align-middle">دسترسی</span>
-              </DropdownItem>
-              {/* <UserAddRole
-              // modal={modal}
-              // id={row.id}
-              // userName={row.fname + " " + row.lname}
-              // toggleModal={toggleModal}
-              // userRoles={row.role}
-              // refetch={refetch}
-              /> */}
             </DropdownMenu>
           </UncontrolledDropdown>
         </div>
