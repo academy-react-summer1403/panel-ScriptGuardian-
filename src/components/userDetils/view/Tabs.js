@@ -15,6 +15,7 @@ import {
   Book,
   BookOpen,
   MessageCircle,
+  MoreHorizontal,
 } from "react-feather";
 
 // ** User Components
@@ -26,6 +27,7 @@ import {
 } from "../../../core/services/api/Admin/handelUsers";
 import PaymentList from "./PaymentList";
 import UserCommentList from "./UserCommentList";
+import AboutUserTab from "./AboutUserTab";
 // import SecurityTab from './SecurityTab'
 // import Connections from './Connections'
 // import BillingPlanTab from './BillingTab'
@@ -66,6 +68,13 @@ const UserTabs = ({ active, toggleTab, data, id }) => {
             <span className="fw-bold">نظرات کاربر</span>
           </NavLink>
         </NavItem>
+
+        <NavItem>
+          <NavLink active={active === "5"} onClick={() => toggleTab("5")}>
+            <MoreHorizontal className="font-medium-3 me-50" />
+            <span className="fw-bold">سایر اطلاعات کاربر</span>
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId="1">
@@ -89,6 +98,10 @@ const UserTabs = ({ active, toggleTab, data, id }) => {
 
         <TabPane tabId="4">
           <UserCommentList data={UserCommentListAPi} />
+        </TabPane>
+
+        <TabPane tabId="5">
+          <AboutUserTab data={data} />
         </TabPane>
       </TabContent>
     </Fragment>

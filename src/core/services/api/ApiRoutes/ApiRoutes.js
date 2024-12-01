@@ -20,6 +20,7 @@ export const ApiRoutes = {
   ADD_RATE_NEWS_URL: "/News/NewsRate?",
 
   //Courses Page
+  PANEL_GET_DETAILS_USERS_COMMENT_LIST_URL:"/Course/CommentManagment?",
   COURSES_PAGE_URL: "/Home/GetCoursesWithPagination",
   ADD_LIKE_COURSES_URL: "/Course/AddCourseLike?CourseId=",
   ADD_DISS_LIKE_COURSES_URL: "/Course/AddCourseDissLike?CourseId=",

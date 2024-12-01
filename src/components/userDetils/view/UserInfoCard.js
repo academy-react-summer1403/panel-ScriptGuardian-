@@ -20,7 +20,7 @@ import {
 // ** Third Party Components
 import Swal from "sweetalert2";
 import Select from "react-select";
-import { Check, Briefcase, X } from "react-feather";
+import { Check, Briefcase, X, Book, BookOpen } from "react-feather";
 import { useForm, Controller } from "react-hook-form";
 import withReactContent from "sweetalert2-react-content";
 
@@ -36,6 +36,7 @@ import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import { useUpdateUser } from "../../../core/services/api/Admin/handelChangeProfileUser";
 import { useQueryClient } from "@tanstack/react-query";
+import { convertIsoToJalali } from "../../../core/utils/dateUtils";
 
 const roleColors = {
   editor: "light-info",
@@ -301,6 +302,59 @@ const UserInfoCard = ({ data }) => {
                   {/* <Badge color={"blue"} className="text-capitalize">
                     رولللل
                   </Badge> */}
+
+                  <div
+                    className=""
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      flexWrap: "wrap",
+                      width: "100%",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {Array.isArray(data?.roles) && data.roles.length > 0 ? (
+                      data.roles.map((role) => {
+                        const colors = {
+                          Administrator: "danger",
+                          Referee: "info",
+                          TournamentAdmin: "primary",
+                          Support: "secondary",
+                          "Employee.Admin": "warning",
+                          Student: "success",
+                          Teacher: "warning",
+                          TournamentMentor: "info",
+                          "Employee.Writer": "primary",
+                        };
+
+                        const translations = {
+                          Administrator: "مدیر",
+                          Referee: "داور",
+                          TournamentAdmin: "ادمین مسابقات",
+                          Support: "پشتیبان",
+                          "Employee.Admin": "کارمند مدیریت",
+                          Student: "دانش‌آموز",
+                          Teacher: "معلم",
+                          TournamentMentor: "منتور مسابقات",
+                          "Employee.Writer": "نویسنده ",
+                        };
+
+                        return (
+                          <Badge
+                            style={{ width: "40%", padding: "5px 8px" }}
+                            color={colors[role?.roleName] || "success"}
+                            key={role?.roleName}
+                          >
+                            {translations[role?.roleName] ||
+                              role?.roleName ||
+                              ""}
+                          </Badge>
+                        );
+                      })
+                    ) : (
+                      <Badge color="success">دانش‌آموز</Badge>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -308,7 +362,7 @@ const UserInfoCard = ({ data }) => {
           <div className="d-flex justify-content-around my-2 pt-75">
             <div className="d-flex align-items-start me-2">
               <Badge color="light-primary" className="rounded p-75">
-                <Check className="font-medium-2" />
+                <Book className="font-medium-2" />
               </Badge>
               <div className="ms-75">
                 <h4 className="mb-0">{data && data?.courses.length}</h4>
@@ -317,7 +371,7 @@ const UserInfoCard = ({ data }) => {
             </div>
             <div className="d-flex align-items-start">
               <Badge color="light-primary" className="rounded p-75">
-                <Briefcase className="font-medium-2" />
+                <BookOpen className="font-medium-2" />
               </Badge>
               <div className="ms-75">
                 <h4 className="mb-0">{data && data?.coursesReseves.length}</h4>
@@ -348,12 +402,12 @@ const UserInfoCard = ({ data }) => {
                 <span className="fw-bolder me-25">وضعیت:</span>
 
                 {data?.active ? (
-                  <span className="text-success">فعال</span>
+                  <Badge color={`success`}>فعال</Badge>
                 ) : (
-                  <span className="text-danger"> غیرفعال</span>
+                  <Badge color={`danger`}> غیرفعال</Badge>
                 )}
               </li>
-              <li className="mb-75">
+              {/* <li className="mb-75">
                 <span
                   className="fw-bolder me-25"
                   style={{ whiteSpace: "nowrap" }}
@@ -374,11 +428,25 @@ const UserInfoCard = ({ data }) => {
                 ) : (
                   <span>student</span>
                 )}
+              </li> */}
+
+              <li className="mb-75">
+                <span className="fw-bolder me-25"> تاریخ تولد :</span>
+                <strong>
+                  {data?.birthDay ? convertIsoToJalali(data?.birthDay) : ""}{" "}
+                </strong>
               </li>
 
               <li className="mb-75">
-                <span className="fw-bolder me-25"> آدرس :</span>
-                <span>{data?.homeAdderess ? data?.homeAdderess : ""} </span>
+                <span className="fw-bolder me-25"> کد ملی :</span>
+                <span>{data?.nationalCode ? data?.nationalCode : ""} </span>
+              </li>
+
+              <li className="mb-75">
+                <span className="fw-bolder me-25"> درصد تکمیل پروفایل :</span>
+                <strong>
+                  {data?.profileCompletionPercentage ? data?.profileCompletionPercentage : ""}{" "}
+                </strong>
               </li>
             </ul>
           </div>

@@ -26,7 +26,7 @@ import {
   DropdownToggle,
   UncontrolledButtonDropdown,
 } from "reactstrap";
-
+import CustomSpinner from "../../../components/common/animation/CustomSpiner"
 // ** Store & Actions
 // import { getData } from '@src/views/apps/invoice/store'
 import { useDispatch, useSelector } from "react-redux";
@@ -77,6 +77,21 @@ const InvoiceList2 = ({ data }) => {
             sortIcon={<ChevronDown />}
             className="react-dataTable"
             defaultSortField="invoiceId"
+            noDataComponent={
+              <>
+                {!data ? (
+                  <CustomSpinner
+                    style={"text-primary"}
+                    style2={{ marginTop: "100px", marginBottom: "100px" }}
+                    color={""}
+                  />
+                ) : (
+                  <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                    دوره ای وجود ندارد
+                  </h2>
+                )}
+              </>
+            }
           />
         </div>
       </Card>
