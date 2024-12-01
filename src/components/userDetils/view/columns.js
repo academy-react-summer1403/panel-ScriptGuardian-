@@ -187,7 +187,7 @@ export const columns2 = [
     name: "عنوان دوره",
     sortable: true,
     sortField: "id",
-    minWidth: "170px",
+    minWidth: "200px",
     selector: (row) => row.id,
     cell: (row) => {
       return (
@@ -204,19 +204,18 @@ export const columns2 = [
             <NavLink
               className="d-block fw-bold text-truncate"
               to={`/CourseListPage/${row.courseId}`}
+              title={row.title}
             >
-              {row.title}
+              {row.title.length > 15
+                ? row.title.substring(0, 15) + "..."
+                : row.title}
             </NavLink>
           </div>
         </div>
       );
     },
   },
-  {
-    minWidth: "200px",
-    name: "تاریخ رزرو",
-    cell: (row) => row.lastUpdate && convertIsoToJalali(row.lastUpdate),
-  },
+
   {
     name: "توضیحات دوره",
     sortable: true,
@@ -241,6 +240,13 @@ export const columns2 = [
     },
   },
 
+  {
+    minWidth: "200px",
+    name: " آخرین آپدیت",
+    cell: (row) => (
+      <strong>{row.lastUpdate && convertIsoToJalali(row.lastUpdate)}</strong>
+    ),
+  },
   // {
   //   name: "وضعیت پذیرش ",
   //   sortable: true,
@@ -308,7 +314,7 @@ export const PayCol = [
     name: "پرداخت شده",
     sortable: true,
     sortField: "id",
-    minWidth: "170px",
+    minWidth: "200px",
     selector: (row) => row.paid,
     cell: (row) => {
       return (
@@ -636,10 +642,7 @@ export const columns3ForComment = [
                 <span className="align-middle">حذف نظر</span>
               </DropdownItem>
 
-              <DropdownItem
-                size="sm"
-                onClick={toggelShow}
-              >
+              <DropdownItem size="sm" onClick={toggelShow}>
                 <MessageCircle size={14} className="me-50" />
                 <span className="align-middle">پاسخ دادن به نظر </span>
               </DropdownItem>
