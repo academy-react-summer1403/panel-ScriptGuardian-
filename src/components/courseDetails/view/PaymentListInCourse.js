@@ -14,6 +14,7 @@ import { Card } from "reactstrap";
 // ** Styles
 import "@styles/react/apps/app-invoice.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
+import CustomSpinner from "../../common/animation/CustomSpiner";
 
 const PaymentListInCourse = ({ data, id }) => {
   const handleSort = (column, sortDirection) => {
@@ -37,6 +38,21 @@ const PaymentListInCourse = ({ data, id }) => {
             sortIcon={<ChevronDown />}
             className="react-dataTable"
             defaultSortField="invoiceId"
+            noDataComponent={
+              <>
+                {!filteredData ? (
+                  <CustomSpinner
+                    style={"text-primary"}
+                    style2={{ marginTop: "100px", marginBottom: "100px" }}
+                    color={""}
+                  />
+                ) : (
+                  <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                    پرداختی وجود ندارد{" "}
+                  </h2>
+                )}
+              </>
+            }
           />
         </div>
       </Card>

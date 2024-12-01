@@ -35,6 +35,7 @@ import "@styles/react/libs/react-select/_react-select.scss";
 import ModalCustom from "./Modal/Modal";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { NavLink } from "react-router-dom";
 
 const MySwal = withReactContent(Swal);
 // const UserInfoCard = ({ selectedUser }) => {
@@ -145,6 +146,61 @@ const UserInfoCard = ({ data }) => {
     );
   };
 
+  const handleSuspendedClick = (id) => {
+    return MySwal.fire({
+      title: "آیا مطمعنید که میخاهید دوره رو غیرفعال کنید",
+      text: "البته یک عمل قابل بازگشت است",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "بله",
+      cancelButtonText: "لغو",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-outline-danger ms-1",
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        DeActiveCourse(id);
+        MySwal.fire({
+          icon: "success",
+          title: "موفقیت آمیز بود",
+          text: "دوره با موفقیت غیرفعال شد",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      }
+    });
+  };
+
+  const handleSuspendedClick2 = (id) => {
+    return MySwal.fire({
+      title: "آیا مطمعنید که میخاهید دوره رو فعال کنید",
+      text: "البته یک عمل قابل بازگشت است",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "بله",
+      cancelButtonText: "لغو",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-outline-danger ms-1",
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        ActiveCourse(id);
+        MySwal.fire({
+          icon: "success",
+          title: "موفقیت آمیز بود",
+          text: "دوره با موفقیت فعال شد",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      }
+    });
+  };
   return (
     <Fragment>
       <Card>
@@ -155,10 +211,10 @@ const UserInfoCard = ({ data }) => {
               <div className="d-flex flex-column align-items-center text-center">
                 <div className="user-info">
                   <h4>{data?.title ? data?.title : ""}</h4>
-
+                  {/* 
                   <Badge color={"blue"} className="text-capitalize">
                     رولللل
-                  </Badge>
+                  </Badge> */}
                 </div>
               </div>
             </div>
@@ -188,23 +244,34 @@ const UserInfoCard = ({ data }) => {
             <ul className="list-unstyled">
               <li className="mb-75">
                 <span className="fw-bolder me-25"> استاد:</span>
-                <span>{data?.teacherName ? data?.teacherName : ""} </span>
+                <NavLink to={`/UsersPage/${data?.teacherId}`}>
+                  {data?.teacherName ? data?.teacherName : ""}{" "}
+                </NavLink>
               </li>
 
-              <li className="mb-75">
+              {/* <li className="mb-75">
                 <span className="fw-bolder me-25"> سطح دوره:</span>
                 <span>
                   {data?.courseLevelName ? data?.courseLevelName : ""}{" "}
                 </span>
-              </li>
+              </li> */}
               <li className="mb-75">
                 <span className="fw-bolder me-25"> وضعیت:</span>
                 <span>
                   {data?.isActive ? (
-                    <span className="text-success">فعال</span>
+                    <Badge color="success">فعال</Badge>
                   ) : (
-                    <span className="text-danger">غیرفعال</span>
+                    <Badge color="danger">غیرفعال</Badge>
                   )}
+                </span>
+              </li>
+
+              <li className="mb-75">
+                <span className="fw-bolder me-25"> زمان ساخت:</span>
+                <span>
+                  <strong>
+                    {data?.insertDate && convertIsoToJalali(data?.insertDate)}
+                  </strong>{" "}
                 </span>
               </li>
               <li className="mb-75">
@@ -234,7 +301,8 @@ const UserInfoCard = ({ data }) => {
                 outline
                 // onClick={handleSuspendedClick}
                 onClick={() => {
-                  DeActiveCourse(data?.courseId);
+                  // DeActiveCourse(data?.courseId);
+                  handleSuspendedClick(data?.courseId);
                 }}
               >
                 غیرفعال کردن
@@ -246,7 +314,8 @@ const UserInfoCard = ({ data }) => {
                 outline
                 // onClick={handleSuspendedClick}
                 onClick={() => {
-                  ActiveCourse(data?.courseId);
+                  // ActiveCourse(data?.courseId);
+                  handleSuspendedClick2(data?.courseId);
                 }}
               >
                 فعال کردن

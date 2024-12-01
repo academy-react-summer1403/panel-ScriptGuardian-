@@ -1,8 +1,14 @@
 // ** React Imports
 import { useState, useEffect } from "react";
+import CustomSpinner from "../../common/animation/CustomSpiner";
 
 // ** Table Columns
-import { columns, columns2, columns3ForComment, columns5ForUserListInCourse } from "./columns";
+import {
+  columns,
+  columns2,
+  columns3ForComment,
+  columns5ForUserListInCourse,
+} from "./columns";
 
 // ** Third Party Components
 import DataTable from "react-data-table-component";
@@ -55,6 +61,21 @@ const InvoiceList4 = ({ data }) => {
             sortIcon={<ChevronDown />}
             className="react-dataTable"
             defaultSortField="invoiceId"
+            noDataComponent={
+              <>
+                {!data ? (
+                  <CustomSpinner
+                    style={"text-primary"}
+                    style2={{ marginTop: "100px", marginBottom: "100px" }}
+                    color={""}
+                  />
+                ) : (
+                  <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                    دانشجویی وجود ندارد{" "}
+                  </h2>
+                )}
+              </>
+            }
           />
         </div>
       </Card>

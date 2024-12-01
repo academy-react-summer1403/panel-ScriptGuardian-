@@ -16,6 +16,7 @@ import {
   MessageCircle,
   Layers,
   Grid,
+  Info,
 } from "react-feather";
 
 // ** User Components
@@ -42,6 +43,7 @@ import InvoiceList4 from "./InvoiceList4";
 import PaymentListInCourse from "./PaymentListInCourse";
 import { useGetGroupCourse } from "../../../core/services/api/Admin/handelreserve";
 import ListOfGroupCourse from "./ListOfGroupCourse";
+import MoreAboutCourse from "./MoreAboutCourse";
 const CourseTabs = ({ active, toggleTab, data, id }) => {
   const { data: reserveList } = useGetAllCourseDetailsReserves(id);
   // const { data: CommentList } = useCoursesComment(id);
@@ -108,6 +110,13 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
             <span className="fw-bold">لیست گروه ها </span>
           </NavLink>
         </NavItem>
+
+        <NavItem>
+          <NavLink active={active === "7"} onClick={() => toggleTab("7")}>
+            <Info className="font-medium-3 me-50" />
+            <span className="fw-bold">سایر اطلاعات دوره</span>
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId="1">
@@ -137,6 +146,10 @@ const CourseTabs = ({ active, toggleTab, data, id }) => {
 
         <TabPane tabId="6">
           <ListOfGroupCourse data={AllGroup} />
+        </TabPane>
+
+        <TabPane tabId="7">
+          <MoreAboutCourse data={data} />
         </TabPane>
       </TabContent>
       <modal2ForAcceptReserve />
