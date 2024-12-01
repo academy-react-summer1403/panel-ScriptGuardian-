@@ -1,0 +1,16 @@
+@font-face {
+  font-family: "BYekan";
+  src: url("../src/assets/fonts/BYekan+.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "BYekan";
+  src: url("../src/assets/fonts/BYekan+\ Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+body {
+  font-family: "BYekan", sans-serif;
+}
