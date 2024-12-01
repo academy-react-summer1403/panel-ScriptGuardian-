@@ -4,6 +4,7 @@ import NoProfile from "../../../images/profile.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   Archive,
+  Camera,
   Database,
   DollarSign,
   Edit2,
@@ -31,6 +32,7 @@ import {
 } from "../../../core/services/api/Admin/handelUsers";
 import { convertIsoToJalali } from "../../../core/utils/dateUtils";
 import PayMentDetailsModalInPayMentList from "./modal/PayMentDetailsModalInPayMentList";
+import AddFishModal from "./modal/AddFishModal";
 export const CustomColumns = (toggleSidebar2) => [
   {
     name: "نام کاربر",
@@ -718,13 +720,23 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
         isPending,
       } = useGetUsersPaymentDetails(row?.id);
       const [show, setShow] = useState(false);
+      const [screen, setScreen] = useState(false);
 
       const toogelModal = () => {
         setShow(false);
       };
+
+      const toogelScreen = () => {
+        setScreen(false);
+      };
       const handelClickDetailsPayment = () => {
         refetch();
         setShow(!show);
+      };
+
+      const handelClickModalScreen = () => {
+       
+        setScreen(!screen);
       };
 
       console.log(detailsPayment, "detailsPayment");
@@ -754,6 +766,11 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
                 <DollarSign size={14} className="me-50" />
                 <span className="align-middle">جزئیات پرداخت </span>
               </DropdownItem>
+
+              <DropdownItem className="w-100" onClick={handelClickModalScreen}>
+                <Camera size={14} className="me-50" />
+                <span className="align-middle"> آپلود فیش</span>
+              </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
 
@@ -762,6 +779,12 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
             toggleAcceptModal={toogelModal}
             detailsPayment={detailsPayment}
             isPending={isPending}
+          />
+          <AddFishModal
+            isOpenModal={screen}
+            toggleAcceptModal={toogelScreen}
+            // detailsPayment={detailsPayment}
+            // isPending={isPending}
           />
         </div>
       );

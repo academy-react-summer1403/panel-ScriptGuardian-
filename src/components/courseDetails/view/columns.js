@@ -171,19 +171,11 @@ export const columns2 = (CourseDetails) => [
     name: "نام دانشجو",
     sortable: true,
     sortField: "id",
-    minWidth: "170px",
+    minWidth: "230px",
     selector: (row) => row.studentName,
     cell: (row) => {
       return (
         <div className="d-flex align-items-center">
-          <Avatar
-            img={
-              row?.tumbImageAddress && row?.tumbImageAddress !== "Not-set"
-                ? row?.tumbImageAddress
-                : default_image
-            }
-          />
-
           <div className="user-info text-truncate ms-1">
             <NavLink
               className="d-block fw-bold text-truncate"
@@ -198,7 +190,7 @@ export const columns2 = (CourseDetails) => [
   },
 
   {
-    minWidth: "200px",
+    minWidth: "100px",
     name: "تاریخ رزرو",
     cell: (row) => row.reserverDate && convertIsoToJalali(row.reserverDate),
   },

@@ -206,7 +206,7 @@ const UserInfoCard = ({ data }) => {
       text: "البته یک عمل قابل بازگشت است",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "یله",
+      confirmButtonText: "بله",
       cancelButtonText: "لغو",
       customClass: {
         confirmButton: "btn btn-primary",
@@ -226,16 +226,6 @@ const UserInfoCard = ({ data }) => {
           },
         });
       }
-      // else if (result.dismiss === MySwal.DismissReason.cancel) {
-      //   MySwal.fire({
-      //     title: "Cancelled",
-      //     text: "Cancelled Suspension :)",
-      //     icon: "error",
-      //     customClass: {
-      //       confirmButton: "btn btn-success",
-      //     },
-      //   });
-      // }
     });
   };
 
@@ -245,7 +235,7 @@ const UserInfoCard = ({ data }) => {
       text: "البته یک عمل قابل بازگشت است",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "یله",
+      confirmButtonText: "بله",
       cancelButtonText: "لغو",
       customClass: {
         confirmButton: "btn btn-primary",
@@ -341,7 +331,7 @@ const UserInfoCard = ({ data }) => {
 
                         return (
                           <Badge
-                            style={{ width: "40%", padding: "5px 8px" }}
+                            style={{ width: "47%", padding: "5px 12px" }}
                             color={colors[role?.roleName] || "success"}
                             key={role?.roleName}
                           >
@@ -352,7 +342,12 @@ const UserInfoCard = ({ data }) => {
                         );
                       })
                     ) : (
-                      <Badge color="success">دانش‌آموز</Badge>
+                      <Badge
+                        color="success"
+                        style={{ width: "100%", padding: "" }}
+                      >
+                        دانش‌آموز
+                      </Badge>
                     )}
                   </div>
                 </div>
@@ -445,7 +440,9 @@ const UserInfoCard = ({ data }) => {
               <li className="mb-75">
                 <span className="fw-bolder me-25"> درصد تکمیل پروفایل :</span>
                 <strong>
-                  {data?.profileCompletionPercentage ? data?.profileCompletionPercentage : ""}{" "}
+                  {data?.profileCompletionPercentage
+                    ? data?.profileCompletionPercentage
+                    : ""}{" "}
                 </strong>
               </li>
             </ul>

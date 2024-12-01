@@ -59,7 +59,16 @@ const MoreInFormAboutNew = ({ data }) => {
             <div className="d-flex align-item-center justify-content-between flex-grow-1">
               <div className="me-1">
                 <p className="fw-bolder mb-0">توضیحات گوگل </p>
-                <span>{data?.googleDescribe}</span>
+                <span
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    width: "600px",
+                    display: "block",
+                  }}
+                >
+                  {data?.googleDescribe}
+                </span>
               </div>
             </div>
           </div>

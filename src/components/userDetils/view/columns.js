@@ -35,6 +35,8 @@ import {
   X,
   Repeat,
   MessageCircle,
+  ExternalLink,
+  DollarSign,
 } from "react-feather";
 import { useReplayCommentCoursesInCommentList } from "../../../core/services/api/Admin/handelComment";
 import default_image from "../../../images/default_image.png";
@@ -415,7 +417,7 @@ export const PayCol = [
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem className="w-100">
-                <Archive size={14} className="me-50" />
+                <ExternalLink size={14} className="me-50" />
                 <span
                   className="align-middle"
                   onClick={() => {
@@ -430,7 +432,7 @@ export const PayCol = [
                 className="w-100"
                 onClick={handelClickDetailsPayment}
               >
-                <Archive size={14} className="me-50" />
+                <DollarSign size={14} className="me-50" />
                 <span className="align-middle">جزئیات پرداخت </span>
               </DropdownItem>
             </DropdownMenu>
@@ -477,8 +479,7 @@ export const columns3ForComment = [
     minWidth: "150px",
     name: "عنوان کامنت",
     cell: (row) => (
-      <span 
-      title={row.commentTitle}>
+      <span title={row.commentTitle}>
         {row.commentTitle.length > 15
           ? row.commentTitle.slice(0, 15) + "..."
           : row.commentTitle}

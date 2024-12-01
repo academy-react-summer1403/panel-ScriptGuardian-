@@ -21,6 +21,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCreateCourseStepOne } from "../../../../core/services/api/Admin/handelAddCourse";
 import { useState } from "react";
 import Select from "react-select";
+import * as Yup from "yup";
 
 const ModalCustom = ({ show, setShow, data }) => {
   const queryClient = useQueryClient();
@@ -62,7 +63,9 @@ const ModalCustom = ({ show, setShow, data }) => {
       ShortLink: "123456", //?
     },
     enableReinitialize: true,
-    // validationSchema: validationSchema,
+    validationSchema: Yup.object().shape({
+      UniqeUrlString: Yup.string().required("وارد کردن این فیلد الزامی است."),
+    }),
     onSubmit: (values) => {
       const formData = new FormData();
       for (const key in values) {
@@ -200,6 +203,13 @@ const ModalCustom = ({ show, setShow, data }) => {
                   placeholder="یونیک دوره را وارد کنید"
                   {...formik?.getFieldProps("UniqeUrlString")}
                 />
+
+                {formik.touched.UniqeUrlString &&
+                formik.errors.UniqeUrlString ? (
+                  <div style={{ color: "red" }}>
+                    {formik.errors.UniqeUrlString}
+                  </div>
+                ) : null}
               </Col>
             </Row>
 

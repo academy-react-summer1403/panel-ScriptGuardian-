@@ -76,7 +76,6 @@ const PaymentDetailsModal = ({
                 marginBottom: "1rem",
                 height: "300px",
                 objectFit: "cover",
-                background: "black",
               }}
               className="rounded-lg shadow-md"
             />

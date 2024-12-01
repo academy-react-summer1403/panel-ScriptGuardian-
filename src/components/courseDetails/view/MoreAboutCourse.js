@@ -27,7 +27,16 @@ const MoreAboutCourse = ({ data }) => {
             <div className="d-flex align-item-center justify-content-between flex-grow-1">
               <div className="me-1">
                 <p className="fw-bolder mb-0">توضیحات دوره</p>
-                <span>{data?.describe}</span>
+                <span
+                  style={{
+                    display: "block",
+                    flexWrap: "wrap",
+                    width: "550px",
+                    textWrap: "wrap",
+                  }}
+                >
+                  {data?.describe}
+                </span>
               </div>
             </div>
           </div>
