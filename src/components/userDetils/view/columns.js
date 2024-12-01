@@ -450,28 +450,20 @@ export const PayCol = [
 
 export const columns3ForComment = [
   {
-    name: "نام دانشجو",
+    name: "نام دوره",
     sortable: true,
     sortField: "id",
     minWidth: "170px",
-    selector: (row) => row.studentName,
+    selector: (row) => row.courseTitle,
     cell: (row) => {
       return (
         <div className="d-flex align-items-center">
-          <Avatar
-            img={
-              row?.pictureAddress && row?.pictureAddress !== "Not-set"
-                ? row?.pictureAddress
-                : default_image
-            }
-          />
-
           <div className="user-info text-truncate ms-1">
             <NavLink
               className="d-block fw-bold text-truncate"
               to={`/UsersPage/${row.userId}`}
             >
-              {row.author}
+              {row.courseTitle}
             </NavLink>
           </div>
         </div>
