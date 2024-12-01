@@ -57,7 +57,7 @@ const ModalEditCommentNews = ({ show, setShow, data }) => {
       <Modal
         isOpen={show}
         toggle={() => setShow(!show)}
-        className="modal-dialog-centered modal-lg"
+        className="modal-dialog-centered modal-md"
       >
         <ModalHeader
           className="bg-transparent"
@@ -70,15 +70,28 @@ const ModalEditCommentNews = ({ show, setShow, data }) => {
           <form onSubmit={formik.handleSubmit}>
             <Row className="gy-1 pt-75">
               {/* title */}
-              <Col md={4} xs={12}>
+              <Col md={12} xs={12}>
                 <Label className="form-label" for="title">
-                  عنوان دوره{" "}
+                  عنوان کامنت{" "}
                 </Label>
                 <Input
                   id="title"
                   name="title"
                   placeholder="عنوان دوره را وارد کنید"
                   {...formik?.getFieldProps("title")}
+                />
+              </Col>
+
+              <Col md={12} xs={12}>
+                <Label className="form-label" for="describe">
+                  توضیحات کامنت{" "}
+                </Label>
+                <Input
+                  type="textarea"
+                  id="describe"
+                  name="describe"
+                  placeholder="عنوان دوره را وارد کنید"
+                  {...formik?.getFieldProps("describe")}
                 />
               </Col>
 
