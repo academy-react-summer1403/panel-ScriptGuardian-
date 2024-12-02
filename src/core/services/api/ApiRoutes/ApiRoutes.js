@@ -20,7 +20,7 @@ export const ApiRoutes = {
   ADD_RATE_NEWS_URL: "/News/NewsRate?",
 
   //Courses Page
-  PANEL_GET_DETAILS_USERS_COMMENT_LIST_URL:"/Course/CommentManagment?",
+  PANEL_GET_DETAILS_USERS_COMMENT_LIST_URL: "/Course/CommentManagment?",
   COURSES_PAGE_URL: "/Home/GetCoursesWithPagination",
   ADD_LIKE_COURSES_URL: "/Course/AddCourseLike?CourseId=",
   ADD_DISS_LIKE_COURSES_URL: "/Course/AddCourseDissLike?CourseId=",
@@ -80,7 +80,8 @@ export const ApiRoutes = {
   PANEL_GET_ALL_USERS_URL: "/User/UserMannage",
   PANEL_GET_DETAILS_USERS_URL: "/User/UserDetails/",
   PANEL_GET_DETAILS_USERS_PAYMENT_LIST_URL: "/CoursePayment/UserPayList?",
-  PANEL_GET_DETAILS_USERS_COMMENT_LIST_WITH_FILTER_URL: "/Course/CommentManagment",
+  PANEL_GET_DETAILS_USERS_COMMENT_LIST_WITH_FILTER_URL:
+    "/Course/CommentManagment",
   PANEL_GET_DETAILS_USERS_PAYMENT_DETAILS_URL: "/CoursePayment/",
   PANEL_ACCEPT_USERS_PAYMENT_DETAILS_URL: "/CoursePayment/Accept",
   PANEL_DELETE_USERS_PAYMENT_DETAILS_URL: "/CoursePayment",
@@ -100,6 +101,7 @@ export const ApiRoutes = {
   PANEL_GET_ALL_COMMENTS_ADMIN_URL: "/Course/CommentManagment",
   PANEL_GET_CREATE_COURSE_STEP_ONE_ADMIN_URL: "/Course/GetCreate",
   PANEL_ADD_NEW_COURSE_STEP_TWO_ADMIN_URL: "/Course",
+  PANEL_ADD_PAYMENT_STEP_TWO_URL: "/CoursePayment/AddPeymentImage",
   PANEL_ADD_NEW_COURSE_STEP_THIRD_ADMIN_URL: "/Course/AddCourseTechnology?",
 
   PANEL_ACCEPT_COMMENTS_ADMIN_URL: "/Course/AcceptCourseComment?",

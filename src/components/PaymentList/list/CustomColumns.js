@@ -9,6 +9,7 @@ import {
   DollarSign,
   Edit2,
   ExternalLink,
+  Eye,
   MoreVertical,
   Settings,
   Slack,
@@ -33,6 +34,7 @@ import {
 import { convertIsoToJalali } from "../../../core/utils/dateUtils";
 import PayMentDetailsModalInPayMentList from "./modal/PayMentDetailsModalInPayMentList";
 import AddFishModal from "./modal/AddFishModal";
+import PaymentShowScreenModalINPayList from "./modal/PaymentShowScreenModalINPayList";
 export const CustomColumns = (toggleSidebar2) => [
   {
     name: "نام کاربر",
@@ -674,13 +676,31 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
     selector: (row) => row.paymentInvoiceImage,
 
     cell: (row) => {
+      // ** States
+      const [show, setShow] = useState(false);
+
+      const toogelModal = () => {
+        setShow(!show);
+      };
       return (
         <>
           {" "}
           <h5 className="text-truncate text-muted mb-0">
-            {" "}
-            {row?.paymentInvoiceImage ? "بارگذاری شده" : "بارگذاری نشده"}
+            {row.paymentInvoiceImage ? (
+              <div className="cursor-pointer	" onClick={toogelModal}>
+                نمایش
+                <Eye size={13} />
+              </div>
+            ) : (
+              "ثبت نشده"
+            )}
           </h5>
+          <PaymentShowScreenModalINPayList
+            isOpenModal={show}
+            toggleAcceptModal={toogelModal}
+            paymentInvoiceImage={row?.paymentInvoiceImage}
+            groupName={row?.groupName}
+          />
         </>
       );
     },
@@ -735,7 +755,6 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
       };
 
       const handelClickModalScreen = () => {
-       
         setScreen(!screen);
       };
 
@@ -767,10 +786,15 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
                 <span className="align-middle">جزئیات پرداخت </span>
               </DropdownItem>
 
-              <DropdownItem className="w-100" onClick={handelClickModalScreen}>
-                <Camera size={14} className="me-50" />
-                <span className="align-middle"> آپلود فیش</span>
-              </DropdownItem>
+              {row && row?.paymentInvoiceImage ? null : (
+                <DropdownItem
+                  className="w-100"
+                  onClick={handelClickModalScreen}
+                >
+                  <Camera size={14} className="me-50" />
+                  <span className="align-middle"> آپلود فیش</span>
+                </DropdownItem>
+              )}
             </DropdownMenu>
           </UncontrolledDropdown>
 
@@ -783,6 +807,7 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
           <AddFishModal
             isOpenModal={screen}
             toggleAcceptModal={toogelScreen}
+            id={row?.id}
             // detailsPayment={detailsPayment}
             // isPending={isPending}
           />
