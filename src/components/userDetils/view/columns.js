@@ -37,6 +37,7 @@ import {
   MessageCircle,
   ExternalLink,
   DollarSign,
+  Camera,
 } from "react-feather";
 import { useReplayCommentCoursesInCommentList } from "../../../core/services/api/Admin/handelComment";
 import default_image from "../../../images/default_image.png";
@@ -58,6 +59,7 @@ import PaymentShowScreenModal from "./Modal/PaymentShowScreenModal";
 import PaymentDetailsModal from "./Modal/PaymentDetailsModal";
 import ShowReplaysModal from "./Modal/ShowReplaysModal";
 import ReplayCustomModalTwo from "./Modal/ReplayCustomModalTwo";
+import AddFishModalInUser from "./Modal/AddFishModalInUser";
 
 // ** Vars
 const invoiceStatusObj = {
@@ -310,7 +312,7 @@ export const PayCol = [
     name: "پرداخت شده",
     sortable: true,
     sortField: "id",
-    minWidth: "200px",
+    minWidth: "170px",
     selector: (row) => row.paid,
     cell: (row) => {
       return (
@@ -399,6 +401,7 @@ export const PayCol = [
         isPending,
       } = useGetUsersPaymentDetails(row?.paymentId);
       const [show, setShow] = useState(false);
+      const [screen, setScreen] = useState(false);
 
       const toogelModal = () => {
         setShow(false);
@@ -406,6 +409,13 @@ export const PayCol = [
       const handelClickDetailsPayment = () => {
         refetch();
         setShow(!show);
+      };
+
+      const toogelScreen = () => {
+        setScreen(false);
+      };
+      const handelClickModalScreen = () => {
+        setScreen(!screen);
       };
 
       console.log(detailsPayment, "detailsPayment");
@@ -435,6 +445,16 @@ export const PayCol = [
                 <DollarSign size={14} className="me-50" />
                 <span className="align-middle">جزئیات پرداخت </span>
               </DropdownItem>
+
+              {row && row?.paymentInvoiceImage ? null : (
+                <DropdownItem
+                  className="w-100"
+                  onClick={handelClickModalScreen}
+                >
+                  <Camera size={14} className="me-50" />
+                  <span className="align-middle"> آپلود فیش</span>
+                </DropdownItem>
+              )}
             </DropdownMenu>
           </UncontrolledDropdown>
 
@@ -443,6 +463,14 @@ export const PayCol = [
             toggleAcceptModal={toogelModal}
             detailsPayment={detailsPayment}
             isPending={isPending}
+          />
+
+          <AddFishModalInUser
+            isOpenModal={screen}
+            toggleAcceptModal={toogelScreen}
+            id={row?.paymentId}
+            // detailsPayment={detailsPayment}
+            // isPending={isPending}
           />
         </div>
       );
