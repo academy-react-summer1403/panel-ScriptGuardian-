@@ -71,6 +71,13 @@ export default [
         icon: <Circle size={12} />,
         navLink: "/AssistanceWorkPage",
       },
+
+      {
+        id: "BuildingPage",
+        title: "BuildingPage",
+        icon: <Circle size={12} />,
+        navLink: "/BuildingPage",
+      },
     ],
   },
   {
