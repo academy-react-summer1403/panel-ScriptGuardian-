@@ -127,4 +127,9 @@ export const ApiRoutes = {
   PANEL_ADD_NEW_COURSE_GROUP_URL: "/CourseGroup",
   // PANEL_COURSE_GROUP_ADMIN_URL: "/CourseGroup",
   PANEL_COURSE_GROUP_ADMIN_URL: "/CourseGroup/GetCourseGroup?",
+
+  //level3
+
+  PANEL_GET_LIST_ASSISTANCE_WORK_URL: "/AssistanceWork",
+
 };

@@ -64,6 +64,13 @@ export default [
         icon: <Circle size={12} />,
         navLink: "/CourseGroupPage",
       },
+
+      {
+        id: "AssistanceWorkPage",
+        title: "AssistanceWorkPage",
+        icon: <Circle size={12} />,
+        navLink: "/AssistanceWorkPage",
+      },
     ],
   },
   {
