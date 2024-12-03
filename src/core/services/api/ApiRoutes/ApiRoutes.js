@@ -132,6 +132,7 @@ export const ApiRoutes = {
 
   PANEL_GET_LIST_ASSISTANCE_WORK_URL: "/AssistanceWork",
   PANEL_GET_DETAILS_ASSISTANCE_WORK_URL: "/AssistanceWork/",
+  PANEL_ADD__ASSISTANCE_WORK_URL: "/AssistanceWork",
   PANEL_UPDATE_DETAILS_ASSISTANCE_WORK_URL: "/AssistanceWork",
   //Building
   PANEL_GET_LIST_BUILDING_URL: "/Building",

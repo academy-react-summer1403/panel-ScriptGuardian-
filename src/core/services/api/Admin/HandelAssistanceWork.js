@@ -42,6 +42,47 @@ export const useGetAssistanceWorkDetails = (id) => {
   });
 };
 
+//Add
+
+const AddAssistanceWork = async (user) => {
+  console.log("this is AddAssistanceWork", user);
+  const row = {
+    worktitle: user?.worktitle,
+    workDescribe: user?.workDescribe,
+    assistanceId: user?.assistanceId,
+    workDate: user?.workDate,
+  };
+  console.log(row, "this row");
+  try {
+    const response = await http.post(
+      `${ApiRoutes.PANEL_ADD__ASSISTANCE_WORK_URL}`,
+      row,
+
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response.message, "this response AddAssistanceWork");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useAddAssistanceWork = () => {
+  return useMutation({
+    mutationKey: ["AddAssistanceWork"],
+    mutationFn: (data) => {
+      console.log("this is user AddAssistanceWork =", data);
+      return AddAssistanceWork(data);
+    },
+  });
+};
+
+//update
+
 const UpdateAssistanceWork = async (user) => {
   console.log("this is UpdateAssistanceWork", user);
   const row = {
@@ -51,7 +92,7 @@ const UpdateAssistanceWork = async (user) => {
     workDate: user?.workDate,
     id: user?.id,
   };
-  console.log(row , "this row")
+  console.log(row, "this row");
   try {
     const response = await http.put(
       `${ApiRoutes.PANEL_UPDATE_DETAILS_ASSISTANCE_WORK_URL}`,

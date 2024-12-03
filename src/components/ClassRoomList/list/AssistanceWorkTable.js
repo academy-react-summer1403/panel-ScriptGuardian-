@@ -7,7 +7,6 @@ import { Fragment, useState, useEffect } from "react";
 // // ** Store & Actions
 // import { getAllData, getData } from '../store'
 import { useDispatch, useSelector } from "react-redux";
-
 // ** Third Party Components
 import Select from "react-select";
 import ReactPaginate from "react-paginate";
