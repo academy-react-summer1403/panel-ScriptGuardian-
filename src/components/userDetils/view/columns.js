@@ -60,6 +60,7 @@ import PaymentDetailsModal from "./Modal/PaymentDetailsModal";
 import ShowReplaysModal from "./Modal/ShowReplaysModal";
 import ReplayCustomModalTwo from "./Modal/ReplayCustomModalTwo";
 import AddFishModalInUser from "./Modal/AddFishModalInUser";
+import ModalForBuying from "./Modal/ModalForBuying";
 
 // ** Vars
 const invoiceStatusObj = {
@@ -239,72 +240,55 @@ export const columns2 = [
   },
 
   {
-    minWidth: "200px",
+    minWidth: "50px",
     name: " آخرین آپدیت",
     cell: (row) => (
       <strong>{row.lastUpdate && convertIsoToJalali(row.lastUpdate)}</strong>
     ),
   },
-  // {
-  //   name: "وضعیت پذیرش ",
-  //   sortable: true,
-  //   minWidth: "150px",
-  //   sortField: "userRoles",
-  //   selector: (row) => row.isActive,
-  //   cell: (row) => {
-  //     return (
-  //       <>
-  //         {" "}
-  //         <h5 className="text-truncate text-muted mb-0">
-  //           <Badge
-  //             pill
-  //             color={row.accept ? "light-primary" : "light-danger"}
-  //             className="me-1"
-  //           >
-  //             {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
-  //           </Badge>
-  //         </h5>
-  //       </>
-  //     );
-  //   },
-  // },
-  // {
-  //   name: "اقدامات",
-  //   minWidth: "100px",
 
-  //   cell: (row) => {
-  //     const queryClient = useQueryClient();
+  {
+    name: "اقدامات",
+    minWidth: "40px",
 
-  //     const { mutate: Accept } = useAcceptCourseReserve();
-  //     const handelAccept = (value) => {
-  //       Accept(value.reserveId, value.courseId, value.studentId, {
-  //         onSuccess: (data) => {
-  //           if (data.success == true) {
-  //             toast.success("با موفقیت رزرو پذیرفته شد");
-  //             queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
-  //           } else {
-  //             toast.error("    خطا در رزرو");
-  //           }
-  //         },
-  //       });
-  //     };
-  //     return (
-  //       <>
-  //         {row.accept ? (
-  //           <p className="text-success">پذیرفته شده</p>
-  //         ) : (
-  //           <Button
-  //             onClick={() => {
-  //               handelAccept(row);
-  //             }}
-  //           >
-  //             پذیرفتن
-  //           </Button>
-  //         )}
-  //       </>
-  //     );
-  //   },
-  // },
+    cell: (row) => {
+      const navigate = useNavigate();
+      const [ShowBuyCourse, setShowBuyCourse] = useState(false);
+
+      const handleBuyShow = () => {
+        setShowBuyCourse(!ShowBuyCourse);
+      };
+
+      return (
+        <div className="column-action">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="div" className="btn btn-sm">
+              <MoreVertical size={14} className="cursor-pointer" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem className="w-100">
+                <ExternalLink size={14} className="me-50" />
+                <span
+                  className="align-middle"
+                  onClick={() => {
+                    navigate(`/CourseListPage/${row?.courseId}`);
+                  }}
+                >
+                  جزئیات دوره
+                </span>
+              </DropdownItem>
+
+              <DropdownItem className="w-100" onClick={handleBuyShow}>
+                <DollarSign size={14} className="me-50" />
+                <span> پرداخت</span>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+          <ModalForBuying isOpen={ShowBuyCourse} toggelShow={handleBuyShow} courseId={row?.courseId}  setShowBuyCourse={setShowBuyCourse}/>
+        </div>
+      );
+    },
+  },
 ];
 
 export const PayCol = [
@@ -483,7 +467,7 @@ export const columns3ForComment = [
     name: "نام دوره",
     sortable: true,
     sortField: "id",
-    minWidth: "170px",
+    minWidth: "150px",
     selector: (row) => row.courseTitle,
     cell: (row) => {
       return (
@@ -504,7 +488,7 @@ export const columns3ForComment = [
   },
 
   {
-    minWidth: "150px",
+    minWidth: "110px",
     name: "عنوان کامنت",
     cell: (row) => (
       <span title={row.commentTitle}>
@@ -541,7 +525,7 @@ export const columns3ForComment = [
   {
     name: "تعداد پاسخ ",
     sortable: true,
-    minWidth: "72px",
+    minWidth: "52px",
     sortField: "userRoles",
     selector: (row) => row.accept,
     cell: (row) => {

@@ -43,7 +43,7 @@ const MyCustomModal = ({ show, setShow, data, refetch }) => {
                   // onSort={handleSort}
                   data={data}
                   sortIcon={<ChevronDown />}
-                  className="react-dataTable"
+                  className="react-dataTable overflow-visible overflow-x-visible"
                   defaultSortField="invoiceId"
                 />
               </div>

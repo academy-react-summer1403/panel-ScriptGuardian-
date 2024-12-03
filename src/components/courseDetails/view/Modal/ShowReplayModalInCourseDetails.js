@@ -18,8 +18,14 @@ import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
 import DataTable from "react-data-table-component";
 import { columnsForReplayComment } from "./comp/columns.js";
+import CustomSpinner from "../../../common/animation/CustomSpiner.js";
 
-const ReplayCommentCoursesInCommentList = ({ show, setShow, data, refetch }) => {
+const ReplayCommentCoursesInCommentList = ({
+  show,
+  setShow,
+  data,
+  refetch,
+}) => {
   return (
     <>
       <Modal
@@ -43,8 +49,25 @@ const ReplayCommentCoursesInCommentList = ({ show, setShow, data, refetch }) => 
                   // onSort={handleSort}
                   data={data}
                   sortIcon={<ChevronDown />}
-                  className="react-dataTable"
+                  className="react-dataTable overflow-visible overflow-x-visible"
                   defaultSortField="invoiceId"
+                  noDataComponent={
+                    <>
+                      {!data ? (
+                        <CustomSpinner
+                          style={"text-primary"}
+                          style2={{ marginTop: "100px", marginBottom: "100px" }}
+                          color={""}
+                        />
+                      ) : (
+                        <h2
+                          style={{ marginTop: "100px", marginBottom: "100px" }}
+                        >
+                          نظری وجود ندارد{" "}
+                        </h2>
+                      )}
+                    </>
+                  }
                 />
               </div>
             </Card>

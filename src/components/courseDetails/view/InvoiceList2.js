@@ -55,7 +55,7 @@ const InvoiceList2 = ({ data, id }) => {
             onSort={handleSort}
             data={filteredData}
             sortIcon={<ChevronDown />}
-            className="react-dataTable"
+            className="react-dataTable overflow-visible overflow-x-visible"
             defaultSortField="invoiceId"
             noDataComponent={
               <>

@@ -127,47 +127,6 @@ const AccountTabs = () => {
           <CardTitle tag="h4">فورم اضافه کردن خبر</CardTitle>
         </CardHeader>
         <CardBody className="py-2 my-25">
-          {/* <div className="d-flex">
-            <div className="me-25">
-              <img
-                className="rounded me-50"
-                src={avatar}
-                alt="Generic placeholder image"
-                height="100"
-                width="100"
-              />
-            </div>
-            <div className="d-flex align-items-end mt-75 ms-1">
-              <div>
-                <Button
-                  tag={Label}
-                  className="mb-75 me-75"
-                  size="sm"
-                  color="primary"
-                >
-                  Upload
-                  <Input
-                    type="file"
-                    onChange={onChange}
-                    hidden
-                    accept="image/*"
-                  />
-                </Button>
-                <Button
-                  className="mb-75"
-                  color="secondary"
-                  size="sm"
-                  outline
-                  onClick={handleImgReset}
-                >
-                  Reset
-                </Button>
-                <p className="mb-0">
-                  Allowed JPG, GIF or PNG. Max size of 800kB
-                </p>
-              </div>
-            </div>
-          </div> */}
           <form className="mt-2 pt-50" onSubmit={formik.handleSubmit}>
             <Row>
               <Col sm="6" className="mb-1">

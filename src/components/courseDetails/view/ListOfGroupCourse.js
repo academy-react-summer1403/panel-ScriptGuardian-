@@ -37,7 +37,7 @@ const ListOfGroupCourse = ({ data, id }) => {
             onSort={handleSort}
             data={data}
             sortIcon={<ChevronDown />}
-            className="react-dataTable"
+            className="react-dataTable overflow-visible overflow-x-visible"
             defaultSortField="invoiceId"
             noDataComponent={
               <>

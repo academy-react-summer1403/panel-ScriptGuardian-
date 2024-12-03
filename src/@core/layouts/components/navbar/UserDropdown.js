@@ -98,7 +98,7 @@ const UserDropdown = () => {
           <User size={14} className="me-75" />
           <span className="align-middle">پروفایل</span>
         </DropdownItem>
-        <DropdownItem onClick={handelLogOut}>
+        <DropdownItem onClick={handelLogOut} className="w-100">
           <Power size={14} className="me-75" />
           <span className="align-middle">خروج</span>
         </DropdownItem>

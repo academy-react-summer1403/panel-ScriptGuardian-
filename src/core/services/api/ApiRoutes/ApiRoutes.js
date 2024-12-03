@@ -86,6 +86,7 @@ export const ApiRoutes = {
   PANEL_ACCEPT_USERS_PAYMENT_DETAILS_URL: "/CoursePayment/Accept",
   PANEL_DELETE_USERS_PAYMENT_DETAILS_URL: "/CoursePayment",
   PANEL_DELETE_COURSE_GROUP_URL: "/CourseGroup",
+  PANEL_EDIT_COURSE_GROUP_URL: "/CourseGroup",
   PANEL_GET_DETAILS_COURSE_RESERVE_URL: "/CourseReserve/",
   PANEL_GET_LIST_COURSE_RESERVE_URL: "/CourseReserve",
   PANEL_GET_LIST_COURSE_PAYMENT_URL:
@@ -101,6 +102,7 @@ export const ApiRoutes = {
   PANEL_GET_ALL_COMMENTS_ADMIN_URL: "/Course/CommentManagment",
   PANEL_GET_CREATE_COURSE_STEP_ONE_ADMIN_URL: "/Course/GetCreate",
   PANEL_ADD_NEW_COURSE_STEP_TWO_ADMIN_URL: "/Course",
+  PANEL_ADD_PAYMENT_STEP_ONE_URL: "/CoursePayment",
   PANEL_ADD_PAYMENT_STEP_TWO_URL: "/CoursePayment/AddPeymentImage",
   PANEL_ADD_NEW_COURSE_STEP_THIRD_ADMIN_URL: "/Course/AddCourseTechnology?",
 

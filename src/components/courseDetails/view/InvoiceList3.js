@@ -85,7 +85,7 @@ const InvoiceList3 = ({ dataDonePay, active, toggleTab, notDonePays }) => {
                 onSort={handleSort}
                 data={dataDonePay}
                 sortIcon={<ChevronDown />}
-                className="react-dataTable"
+                className="react-dataTable overflow-visible overflow-x-visible"
                 defaultSortField="invoiceId"
                 noDataComponent={
                   <>

@@ -31,18 +31,18 @@ const CourseGroupDetails = () => {
   return (
     <div className="app-user-view">
       <Row>
-        <Col xl="4" lg="5" xs={{ order: 1 }} md={{ order: 0, size: 5 }}>
+        <Col sm="4">
           <UserInfoCard data={data?.courseGroupDto} />
           {/* <PlanCard /> */}
         </Col>
-        {/* <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
+        <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
           <CourseTabs
             active={active}
-            data={data}
+            data={data?.courseUserListDto}
             toggleTab={toggleTab}
             id={id}
           />
-        </Col> */}
+        </Col>
       </Row>
     </div>
   );

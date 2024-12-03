@@ -903,3 +903,108 @@ export const PayColInCoursePage = [
     },
   },
 ];
+
+export const ColForUserCourseGroup = [
+  {
+    name: "نام دانشجو",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.studentName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <div className="user-info text-truncate ms-1">
+            <NavLink
+              className="d-block fw-bold text-truncate"
+              to={`/UsersPage/${row.userId}`}
+            >
+              {row.studentName}
+            </NavLink>
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    minWidth: "70px",
+    name: "نمره ",
+    cell: (row) => <span>{row?.courseGrade}</span>,
+  },
+  {
+    name: " پرداخت وضعیت",
+    sortable: true,
+    minWidth: "100px",
+    sortField: "peymentDone",
+    selector: (row) => row.peymentDone,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.peymentDone ? "light-primary" : "light-danger"}
+              className="me-1"
+            >
+              {row.peymentDone ? "تمام شده" : "تمام نشده"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "اعلانات",
+    sortable: true,
+    minWidth: "50px",
+    sortField: "userRoles",
+    selector: (row) => row.notification,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.notification ? "light-primary" : "light-danger"}
+              className="me-1"
+            >
+              {row.notification ? "فعال" : "غیرفعال"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+
+  {
+    name: "اقدامات",
+    minWidth: "50px",
+
+    cell: (row) => {
+      const navigate = useNavigate();
+      return (
+        <div className="column-action">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="div" className="btn btn-sm">
+              <MoreVertical size={14} className="cursor-pointer" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                onClick={() => {
+                  navigate(`/CourseListPage/${row?.id}`);
+                }}
+                className="w-100"
+              >
+                <Check color="green" size={16} />
+                <span className="align-middle">جزییات دوره</span>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </div>
+      );
+    },
+  },
+];

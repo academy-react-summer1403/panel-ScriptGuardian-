@@ -35,6 +35,7 @@ import {
   Check,
   MessageCircle,
   X,
+  Camera,
 } from "react-feather";
 
 import default_image from "../../../images/default_image.png";
@@ -55,6 +56,7 @@ import PaymentDetailsModalInCourseDetails from "./Modal/PaymentDetailsModalInCou
 import ReplayCustomModalTwoForCOmmentCOurseDetails from "./Modal/ReplayCustomModalTwoForCOmmentCOurseDetails";
 import { useReplayCommentCoursesInCommentList } from "../../../core/services/api/Admin/handelComment";
 import ReplayCommentCoursesInCommentList from "./Modal/ShowReplayModalInCourseDetails";
+import AddFishModalInCourse from "./Modal/AddFishModalInCourse";
 // ** Vars
 const invoiceStatusObj = {
   Sent: { color: "light-secondary", icon: Send },
@@ -261,27 +263,19 @@ export const columns2 = (CourseDetails) => [
 export const columns3ForComment = [
   {
     name: "نام دانشجو",
-    sortable: true,
+    // sortable: true,
     sortField: "id",
-    minWidth: "170px",
+    minWidth: "140px",
     selector: (row) => row.studentName,
     cell: (row) => {
       return (
         <div className="d-flex align-items-center">
-          <Avatar
-            img={
-              row?.pictureAddress && row?.pictureAddress !== "Not-set"
-                ? row?.pictureAddress
-                : default_image
-            }
-          />
-
-          <div className="user-info text-truncate ms-1">
+          <div className="user-info text-truncate ">
             <NavLink
               className="d-block fw-bold text-truncate"
               to={`/UsersPage/${row.userId}`}
             >
-              {row.author}
+              {row.userFullName}
             </NavLink>
           </div>
         </div>
@@ -290,14 +284,20 @@ export const columns3ForComment = [
   },
 
   {
-    minWidth: "200px",
+    minWidth: "130px",
     name: "عنوان کامنت",
-    cell: (row) => <span>{row?.describe}</span>,
+    cell: (row) => (
+      <span title={row?.describe}>
+        {row?.describe?.length > 15
+          ? `${row.describe.slice(0, 15)}...`
+          : row?.describe}
+      </span>
+    ),
   },
   {
     name: "وضعیت پذیرش ",
     sortable: true,
-    minWidth: "150px",
+    minWidth: "120px",
     sortField: "userRoles",
     selector: (row) => row.isActive,
     cell: (row) => {
@@ -321,7 +321,7 @@ export const columns3ForComment = [
   {
     name: "تعداد پاسخ ",
     sortable: true,
-    minWidth: "72px",
+    minWidth: "42px",
     sortField: "userRoles",
     selector: (row) => row.accept,
     cell: (row) => {
@@ -346,9 +346,13 @@ export const columns3ForComment = [
                   ClickModal();
                 }
               }}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", color: "#007bff" }}
             >
-              {row.replyCount != "0" ? <Eye className="mr-1" size={16} /> : ""}
+              {row.replyCount != "0" ? (
+                <Eye className="mr-1" color="#007bff" size={16} />
+              ) : (
+                ""
+              )}
               <span> {row?.replyCount}</span>
             </div>
           </h5>
@@ -365,7 +369,7 @@ export const columns3ForComment = [
 
   {
     name: "اقدامات",
-    minWidth: "100px",
+    minWidth: "70px",
 
     cell: (row) => {
       //TODO
@@ -897,6 +901,7 @@ export const PayColInCoursePage = [
         isPending,
       } = useGetUsersPaymentDetails(row?.id);
       const [show, setShow] = useState(false);
+      const [screen, setScreen] = useState(false);
 
       const toogelModal = () => {
         setShow(false);
@@ -904,6 +909,13 @@ export const PayColInCoursePage = [
       const handelClickDetailsPayment = () => {
         refetch();
         setShow(!show);
+      };
+      const handelClickModalScreen = () => {
+        setScreen(!screen);
+      };
+
+      const toogelScreen = () => {
+        setScreen(false);
       };
 
       console.log(detailsPayment, "detailsPayment");
@@ -933,6 +945,16 @@ export const PayColInCoursePage = [
                 <Archive size={14} className="me-50" />
                 <span className="align-middle">جزئیات پرداخت </span>
               </DropdownItem>
+
+              {row && row?.paymentInvoiceImage ? null : (
+                <DropdownItem
+                  className="w-100"
+                  onClick={handelClickModalScreen}
+                >
+                  <Camera size={14} className="me-50" />
+                  <span className="align-middle"> آپلود فیش</span>
+                </DropdownItem>
+              )}
             </DropdownMenu>
           </UncontrolledDropdown>
 
@@ -941,6 +963,14 @@ export const PayColInCoursePage = [
             toggleAcceptModal={toogelModal}
             detailsPayment={detailsPayment}
             isPending={isPending}
+          />
+
+          <AddFishModalInCourse
+            isOpenModal={screen}
+            toggleAcceptModal={toogelScreen}
+            id={row?.id}
+            // detailsPayment={detailsPayment}
+            // isPending={isPending}
           />
         </div>
       );

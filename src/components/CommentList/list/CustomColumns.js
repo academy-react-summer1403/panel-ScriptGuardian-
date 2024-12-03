@@ -581,7 +581,6 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
           toast.error(
             " کامنت زیر نظر دارد برای پاکسازی کامنت ابتدا زیر نظرات کامنت را پاک کنید"
           );
-          
         } else {
           DeleteComment(id, {
             onSuccess: (data) => {
@@ -644,7 +643,7 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
               </DropdownItem>
 
               <DropdownItem size="sm" onClick={toggelShow}>
-                <MessageCircle  size={14} className="me-50" />
+                <MessageCircle size={14} className="me-50" />
                 <span className="align-middle">پاسخ دادن به نظر </span>
               </DropdownItem>
             </DropdownMenu>

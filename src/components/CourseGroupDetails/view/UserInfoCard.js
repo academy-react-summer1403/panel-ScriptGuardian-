@@ -15,7 +15,6 @@ import {
   Label,
   ModalBody,
   ModalHeader,
-  NavLink,
 } from "reactstrap";
 
 // ** Third Party Components
@@ -36,6 +35,7 @@ import "@styles/react/libs/react-select/_react-select.scss";
 import ModalCustom from "./Modal/Modal";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
+import { NavLink } from "react-router-dom";
 
 const MySwal = withReactContent(Swal);
 // const UserInfoCard = ({ selectedUser }) => {
@@ -163,7 +163,7 @@ const UserInfoCard = ({ data }) => {
           <div className="d-flex justify-content-around my-2 pt-75">
             <div className="d-flex align-items-start me-2">
               <Badge color="light-primary" className="rounded p-75">
-                <DollarSign className="font-medium-2" />
+                <User className="font-medium-2" />
               </Badge>
               <div className="ms-75">
                 <h4 className="mb-0">{data?.courseCapacity}</h4>
@@ -185,48 +185,32 @@ const UserInfoCard = ({ data }) => {
             <ul className="list-unstyled">
               <li className="mb-75">
                 <span className="fw-bolder me-25"> استاد:</span>
-                <span>
-                  {data?.teacherName
-                    ? data?.teacherName
-                    : "هنوز استادی این گروه را انتخاب نکرده است "}{" "}
-                </span>
+                {data?.teacherName ? (
+                  <NavLink to={`/UserList/${data?.teacherId}`}>
+                    {data?.teacherName}
+                  </NavLink>
+                ) : (
+                  "هنوز استادی این گروه را انتخاب نکرده است "
+                )}{" "}
               </li>
 
-              <NavLink to={`/CourseList/${data?.courseId}`} className="mb-75">
+              <li>
                 <span className="fw-bolder me-25"> نام دوره ی گروه:</span>
-                <span>{data?.courseName ? data?.courseName : ""} </span>
-              </NavLink>
-              {/* <li className="mb-75">
-                <span className="fw-bolder me-25"> وضعیت:</span>
-                <span>
-                  {data?.isActive ? (
-                    <span className="text-success">فعال</span>
-                  ) : (
-                    <span className="text-danger">غیرفعال</span>
-                  )}
-                </span>
+
+                <NavLink
+                  to={`/CourseListPage/${data?.courseId}`}
+                  className="mb-75"
+                >
+                  <span>{data?.courseName ? data?.courseName : ""} </span>
+                </NavLink>
               </li>
-              <li className="mb-75">
-                <span className="fw-bolder me-25"> زمان شروع:</span>
-                <span>
-                  <strong>
-                    {data?.startTime && convertIsoToJalali(data?.startTime)}
-                  </strong>{" "}
-                </span>
-              </li>
-              <li className="mb-75">
-                <span className="fw-bolder me-25"> زمان پایان:</span>
-                <strong>
-                  {data?.endTime && convertIsoToJalali(data?.endTime)}
-                </strong>
-              </li> */}
             </ul>
           </div>
-          {/* <div className="d-flex justify-content-center pt-2">
+          <div className="d-flex justify-content-center pt-2">
             <Button color="primary" onClick={() => setShow(true)}>
               ویرایش
             </Button>
-            {data?.isActive ? (
+            {/* {data?.isActive ? (
               <Button
                 className="ms-1"
                 color="danger"
@@ -250,11 +234,16 @@ const UserInfoCard = ({ data }) => {
               >
                 فعال کردن
               </Button>
-            )}
-          </div> */}
+            )} */}
+          </div>
         </CardBody>
       </Card>
-      <ModalCustom setShow={setShow} show={show} data={data} />
+      <ModalCustom
+        setShow={setShow}
+        show={show}
+        data={data}
+     
+      />
     </Fragment>
   );
 };

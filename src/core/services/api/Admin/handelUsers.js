@@ -679,6 +679,38 @@ export const useGetAllCourseGroupDetails = (id) => {
     },
   });
 };
+//Edit CourseGroupDetailsInModal
+
+const EditCourseGroup = async (user) => {
+  console.log("this is EditCourseGroup", user);
+  try {
+    const response = await http.put(
+      ApiRoutes.PANEL_EDIT_COURSE_GROUP_URL,
+      user,
+
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        // data: user,
+      }
+    );
+    console.log(response.message, "this response EditCourseGroup");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useEditCourseGroup = () => {
+  return useMutation({
+    mutationKey: ["EditCourseGroup"],
+    mutationFn: (data) => {
+      console.log("this is user EditCourseGroup =", data);
+      return EditCourseGroup(data);
+    },
+  });
+};
 
 //Delete Course Group
 

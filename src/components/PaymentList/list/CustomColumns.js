@@ -573,7 +573,7 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
 export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
   {
     name: "نام دانشجو",
-    minWidth: "250px",
+    minWidth: "120px",
     sortable: (row) => row.studentName,
     cell: (row) => {
       return (
@@ -592,8 +592,8 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
   },
   {
     name: "عنوان دوره",
-    sortable: true,
-    minWidth: "172px",
+    // sortable: true,
+    minWidth: "120px",
     sortField: "userRoles",
     selector: (row) => row.title,
     cell: (row) => {
@@ -612,8 +612,8 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
 
   {
     name: "زمان پرداخت ",
-    sortable: true,
-    minWidth: "172px",
+    // sortable: true,
+    minWidth: "120px",
     sortField: "userRoles",
     selector: (row) => row.peymentDate,
 
@@ -630,8 +630,8 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
   },
   {
     name: "مقدار  پرداخت ",
-    sortable: true,
-    minWidth: "172px",
+    // sortable: true,
+    minWidth: "120px",
     sortField: "userRoles",
     selector: (row) => row.paid,
 
@@ -647,8 +647,8 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
 
   {
     name: "باقی مانده",
-    sortable: true,
-    minWidth: "172px",
+    // sortable: true,
+    minWidth: "120px",
     sortField: "userRoles",
     selector: (row) => row.currentRemainder,
 
@@ -668,47 +668,47 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
       );
     },
   },
-  {
-    name: "تصویر پرداخت",
-    sortable: true,
-    minWidth: "172px",
-    sortField: "userRoles",
-    selector: (row) => row.paymentInvoiceImage,
+  // {
+  //   name: "تصویر پرداخت",
+  //   // sortable: true,
+  //   minWidth: "172px",
+  //   sortField: "userRoles",
+  //   selector: (row) => row.paymentInvoiceImage,
 
-    cell: (row) => {
-      // ** States
-      const [show, setShow] = useState(false);
+  //   cell: (row) => {
+  //     // ** States
+  //     const [show, setShow] = useState(false);
 
-      const toogelModal = () => {
-        setShow(!show);
-      };
-      return (
-        <>
-          {" "}
-          <h5 className="text-truncate text-muted mb-0">
-            {row.paymentInvoiceImage ? (
-              <div className="cursor-pointer	" onClick={toogelModal}>
-                نمایش
-                <Eye size={13} />
-              </div>
-            ) : (
-              "ثبت نشده"
-            )}
-          </h5>
-          <PaymentShowScreenModalINPayList
-            isOpenModal={show}
-            toggleAcceptModal={toogelModal}
-            paymentInvoiceImage={row?.paymentInvoiceImage}
-            groupName={row?.groupName}
-          />
-        </>
-      );
-    },
-  },
+  //     const toogelModal = () => {
+  //       setShow(!show);
+  //     };
+  //     return (
+  //       <>
+  //         {" "}
+  //         <h5 className="text-truncate text-muted mb-0">
+  //           {row.paymentInvoiceImage ? (
+  //             <div className="cursor-pointer	" onClick={toogelModal}>
+  //               نمایش
+  //               <Eye size={13} />
+  //             </div>
+  //           ) : (
+  //             "ثبت نشده"
+  //           )}
+  //         </h5>
+  //         <PaymentShowScreenModalINPayList
+  //           isOpenModal={show}
+  //           toggleAcceptModal={toogelModal}
+  //           paymentInvoiceImage={row?.paymentInvoiceImage}
+  //           groupName={row?.groupName}
+  //         />
+  //       </>
+  //     );
+  //   },
+  // },
   {
     name: "وضعیت ",
-    sortable: true,
-    minWidth: "172px",
+    // sortable: true,
+    minWidth: "120px",
     sortField: "userRoles",
     selector: (row) => row.accept,
     cell: (row) => {
@@ -730,7 +730,7 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
   },
   {
     name: "اقدامات",
-    minWidth: "200px",
+    minWidth: "120px",
 
     cell: (row) => {
       const navigate = useNavigate();

@@ -214,9 +214,9 @@ const UserInfoCard = ({ data }) => {
       },
       buttonsStyling: false,
     }).then(function (result) {
-      formik.setFieldValue("active", false);
-      formik.submitForm();
       if (result.value) {
+        formik.setFieldValue("active", false);
+        formik.submitForm();
         MySwal.fire({
           icon: "success",
           title: "موفقیت آمیز بود",
@@ -243,9 +243,9 @@ const UserInfoCard = ({ data }) => {
       },
       buttonsStyling: false,
     }).then(function (result) {
-      formik.setFieldValue("active", true);
-      formik.submitForm();
       if (result.value) {
+        formik.setFieldValue("active", true);
+        formik.submitForm();
         MySwal.fire({
           icon: "success",
           title: "موفقیت آمیز بود",
