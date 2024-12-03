@@ -6,6 +6,7 @@ import {
   Archive,
   Check,
   Database,
+  Edit,
   Edit2,
   ExternalLink,
   MoreVertical,
@@ -119,12 +120,12 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem
-                className="w-100"
+                className="w-100 cursor-pointer"
                 onClick={() => {
                   setShow(!show);
                 }}
               >
-                ویرایش{" "}
+                ویرایش <Edit size={14} />
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
