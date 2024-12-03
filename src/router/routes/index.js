@@ -53,6 +53,9 @@ const AssistanceWorkDetailsPage = lazy(() =>
   import("../../pages/AssistanceWorkDetailsPage")
 );
 const BuildingPage = lazy(() => import("../../pages/BuildingPage"));
+const BuildingDetailsPage = lazy(() =>
+  import("../../pages/BuildingDetailsPage")
+);
 const CourseGroupDetailsPage = lazy(() =>
   import("../../pages/CourseGroupDetailsPage")
 );
@@ -118,6 +121,11 @@ const Routes = [
   {
     path: "/BuildingPage",
     element: <BuildingPage />,
+  },
+
+  {
+    path: "/BuildingPage/:id",
+    element: <BuildingDetailsPage />,
   },
   {
     path: "/createCourse",
