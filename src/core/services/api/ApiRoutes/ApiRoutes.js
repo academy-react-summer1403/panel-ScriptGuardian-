@@ -137,4 +137,5 @@ export const ApiRoutes = {
   PANEL_GET_LIST_BUILDING_URL: "/Building",
   PANEL_GET_DETAILS_BUILDING_URL: "/Building/",
   PANEL_UPDATE_BUILDING_URL: "/Building",
+  PANEL_UPDATE_STATUS_BUILDING_URL: "/Building/Active",
 };

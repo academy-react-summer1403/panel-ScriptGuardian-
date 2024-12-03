@@ -83,3 +83,40 @@ export const useUpdateBuilding = () => {
     },
   });
 };
+
+//active and DiActive Build
+
+const ActiveBuilding = async (user) => {
+  console.log("this is ActiveBuilding", user);
+  const row = {
+    active: user?.active,
+    id: user?.id,
+  };
+  console.log(row, "this row");
+  try {
+    const response = await http.put(
+      `${ApiRoutes.PANEL_UPDATE_STATUS_BUILDING_URL}`,
+      row,
+
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response.message, "this response ActiveBuilding");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useActiveBuilding = () => {
+  return useMutation({
+    mutationKey: ["ActiveBuilding"],
+    mutationFn: (data) => {
+      console.log("this is user ActiveBuilding =", data);
+      return ActiveBuilding(data);
+    },
+  });
+};

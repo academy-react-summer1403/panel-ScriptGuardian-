@@ -54,6 +54,7 @@ import {
 } from "../../../core/services/api/Admin/handelreserve";
 import { convertIsoToJalali } from "../../../core/utils/dateUtils";
 import { NavLink } from "react-router-dom";
+import { useActiveBuilding } from "../../../core/services/api/Admin/handelBulding";
 
 const UserInfoCard = ({ data, ID }) => {
   // ** State
@@ -102,6 +103,100 @@ const UserInfoCard = ({ data, ID }) => {
 
   const queryClient = useQueryClient();
 
+  //API
+
+  const { mutate: ChangeActivity } = useActiveBuilding();
+
+  const ActiveCourse = () => {
+    ChangeActivity(
+      { id: ID, active: true },
+
+      {
+        onSuccess: (data) => {
+          if (data.success === true) {
+            queryClient.invalidateQueries("GetBuildingDetails");
+            toast.success("ساختمان با موفقیت فعال شد");
+          } else {
+            toast.error("خطا در فعال کردن ساختمان");
+          }
+        },
+      }
+    );
+  };
+
+  const DeActiveCourse = () => {
+    ChangeActivity(
+      { id: ID, active: false },
+
+      {
+        onSuccess: (data) => {
+          if (data.success === true) {
+            queryClient.invalidateQueries("GetBuildingDetails");
+            toast.success("ساختمان با موفقیت غیر فعال شد");
+          } else {
+            toast.error("خطا در غیر فعال کردن ساختمان");
+          }
+        },
+      }
+    );
+  };
+
+  const handleSuspendedClick = () => {
+    return MySwal.fire({
+      title: "آیا مطمعنید که میخاهید ساختمان را غیرفعال کنید",
+      text: "البته یک عمل قابل بازگشت است",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "بله",
+      cancelButtonText: "لغو",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-outline-danger ms-1",
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        DeActiveCourse();
+        MySwal.fire({
+          icon: "success",
+          title: "موفقیت آمیز بود",
+          text: "ساختمان با موفقیت غیرفعال شد",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      }
+    });
+  };
+
+  const handleSuspendedClick2 = () => {
+    return MySwal.fire({
+      title: "آیا مطمعنید که میخاهید ساختمان رو فعال کنید",
+      text: "البته یک عمل قابل بازگشت است",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "بله",
+      cancelButtonText: "لغو",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-outline-danger ms-1",
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        ActiveCourse();
+        MySwal.fire({
+          icon: "success",
+          title: "موفقیت آمیز بود",
+          text: "ساختمان با موفقیت فعال شد",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      }
+    });
+  };
+
   return (
     <Fragment>
       <Card>
@@ -146,6 +241,32 @@ const UserInfoCard = ({ data, ID }) => {
             <Button color="primary" onClick={handelShow}>
               ویرایش
             </Button>
+
+            {data?.active ? (
+              <Button
+                className="ms-1"
+                color="danger"
+                outline
+                // onClick={handleSuspendedClick}
+                onClick={() => {
+                  handleSuspendedClick();
+                }}
+              >
+                غیرفعال کردن
+              </Button>
+            ) : (
+              <Button
+                className="ms-1"
+                color="success"
+                outline
+                // onClick={handleSuspendedClick}
+                onClick={() => {
+                  handleSuspendedClick2();
+                }}
+              >
+                فعال کردن
+              </Button>
+            )}
           </div>
         </CardBody>
       </Card>
