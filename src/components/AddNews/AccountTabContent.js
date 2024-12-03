@@ -82,7 +82,6 @@ const AccountTabs = () => {
       });
     },
   });
-  // تبدیل داده‌ها به فرمت قابل استفاده در کامپوننت Select
   const options =
     data &&
     data?.map((item) => ({

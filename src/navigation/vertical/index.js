@@ -78,6 +78,13 @@ export default [
         icon: <Circle size={12} />,
         navLink: "/BuildingPage",
       },
+
+      {
+        id: "ClassRoomPage",
+        title: "ClassRoomPage",
+        icon: <Circle size={12} />,
+        navLink: "/ClassRoomPage",
+      },
     ],
   },
   {
