@@ -141,4 +141,7 @@ export const ApiRoutes = {
   //ClassRoom
   PANEL_LIST_CLASS_ROOM_URL: "/ClassRoom",
   PANEL_UPDATE_CLASS_ROOM_URL: "/ClassRoom",
+
+  //AssistanceInCourses
+  PANEL_ASSISTANCE_COURSE_URL: "/CourseAssistance",
 };

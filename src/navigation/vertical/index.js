@@ -85,6 +85,13 @@ export default [
         icon: <Circle size={12} />,
         navLink: "/ClassRoomPage",
       },
+
+      {
+        id: "CourseAssistancePage",
+        title: "CourseAssistancePage",
+        icon: <Circle size={12} />,
+        navLink: "/CourseAssistancePage",
+      },
     ],
   },
   {
