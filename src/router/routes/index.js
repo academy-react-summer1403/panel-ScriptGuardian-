@@ -49,6 +49,9 @@ const CourseReservedPage = lazy(() => import("../../pages/CourseReservedPage"));
 const PaymentListPage = lazy(() => import("../../pages/PaymentListPage"));
 const CourseGroupPage = lazy(() => import("../../pages/CourseGroupPage"));
 const AssistanceWorkPage = lazy(() => import("../../pages/AssistanceWorkPage"));
+const AssistanceWorkDetailsPage = lazy(() =>
+  import("../../pages/AssistanceWorkDetailsPage")
+);
 const CourseGroupDetailsPage = lazy(() =>
   import("../../pages/CourseGroupDetailsPage")
 );
@@ -105,6 +108,10 @@ const Routes = [
   {
     path: "/AssistanceWorkPage",
     element: <AssistanceWorkPage />,
+  },
+  {
+    path: "/AssistanceWorkPage/:id",
+    element: <AssistanceWorkDetailsPage />,
   },
   {
     path: "/createCourse",

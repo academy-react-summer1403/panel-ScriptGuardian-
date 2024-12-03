@@ -131,5 +131,7 @@ export const ApiRoutes = {
   //level3
 
   PANEL_GET_LIST_ASSISTANCE_WORK_URL: "/AssistanceWork",
+  PANEL_GET_DETAILS_ASSISTANCE_WORK_URL: "/AssistanceWork/",
+  PANEL_UPDATE_DETAILS_ASSISTANCE_WORK_URL: "/AssistanceWork",
 
 };
