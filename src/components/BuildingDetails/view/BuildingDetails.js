@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
 // ** Reactstrap Imports
-import { Row, Col, Alert } from "reactstrap";
+import { Row, Col, Alert, Card } from "reactstrap";
 
 // ** User View Components
 import PlanCard from "./PlanCard";
@@ -20,6 +20,7 @@ import {
 import { useGetAssistanceWorkDetails } from "../../../core/services/api/Admin/HandelAssistanceWork";
 import WorkTab from "./WorkTab";
 import { useGetBuildingDetails } from "../../../core/services/api/Admin/handelBulding";
+import MyMap from "../../common/MyMap";
 
 const BuildingDetails = () => {
   const { id } = useParams();
@@ -31,6 +32,25 @@ const BuildingDetails = () => {
       setActive(tab);
     }
   };
+
+  //
+  const [markerPosition, setMarkerPosition] = useState({
+    initialLongitude: data?.longitude
+      ? parseFloat(data.longitude)
+      : 10.039100646972658,
+    initialLatitude: data?.latitude
+      ? parseFloat(data.latitude)
+      : 10.013295980050358,
+  });
+
+  useEffect(() => {
+    if (data?.latitude && data?.longitude) {
+      setMarkerPosition({
+        initialLongitude: parseFloat(data.longitude),
+        initialLatitude: parseFloat(data.latitude),
+      });
+    }
+  }, [data]);
 
   return (
     <div className="app-user-view">
@@ -47,6 +67,17 @@ const BuildingDetails = () => {
             id={id}
           />
         </Col> */}
+
+        <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
+          <div className="">
+            <Card>
+              <MyMap
+                setMarkerPosition={setMarkerPosition}
+                markerPosition={markerPosition}
+              />
+            </Card>
+          </div>
+        </Col>
       </Row>
     </div>
   );
