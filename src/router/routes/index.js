@@ -48,6 +48,7 @@ const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
 const CourseReservedPage = lazy(() => import("../../pages/CourseReservedPage"));
 const ClassRoomPage = lazy(() => import("../../pages/ClassRoomPage"));
 const PaymentListPage = lazy(() => import("../../pages/PaymentListPage"));
+const CourseLevelPage = lazy(() => import("../../pages/CourseLevelPage"));
 const CourseGroupPage = lazy(() => import("../../pages/CourseGroupPage"));
 const CourseAssistancePage = lazy(() =>
   import("../../pages/CourseAssistancePage")
@@ -142,6 +143,10 @@ const Routes = [
   {
     path: "/ClassRoomPage",
     element: <ClassRoomPage />,
+  },
+  {
+    path: "/CourseLevelPage",
+    element: <CourseLevelPage />,
   },
   {
     path: "/CourseAssistancePage",

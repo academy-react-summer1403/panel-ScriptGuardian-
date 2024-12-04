@@ -92,6 +92,13 @@ export default [
         icon: <Circle size={12} />,
         navLink: "/CourseAssistancePage",
       },
+
+      {
+        id: "CourseLevelPage",
+        title: "CourseLevelPage",
+        icon: <Circle size={12} />,
+        navLink: "/CourseLevelPage",
+      },
     ],
   },
   {
