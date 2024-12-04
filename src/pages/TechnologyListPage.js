@@ -1,5 +1,11 @@
+import TechList from "../components/TechologyList/list/TechList";
+
 const TechnologyListPage = () => {
-  return <>ssssssssssssssssssss </>;
+  return (
+    <>
+      <TechList />
+    </>
+  );
 };
 
 export default TechnologyListPage;

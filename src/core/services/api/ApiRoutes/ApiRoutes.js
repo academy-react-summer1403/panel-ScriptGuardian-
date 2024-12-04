@@ -165,4 +165,9 @@ export const ApiRoutes = {
   PANEL_GET_STATUS_LIST_URL: "/Status",
   PANEL_ADD_STATUS_URL: "/Status",
   PANEL_EDIT_STATUS_URL: "/Status",
+
+  //GetTechList
+
+  PANEL_GET_TECH_LIST_URL: "/Technology",
+  PANEL_ADD_TECH_LIST_URL: "/Technology",
 };
