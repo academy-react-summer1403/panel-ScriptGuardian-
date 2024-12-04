@@ -11,45 +11,33 @@ import {
 } from "reactstrap";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
 import {
-  convertIsoToJalali,
-  convertJalaliToIso,
-} from "../../../core/utils/dateUtils";
-import { Calendar } from "react-multi-date-picker";
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
-import persian_en from "react-date-object/locales/persian_en";
-import { useAddAssistanceWork } from "../../../core/services/api/Admin/HandelAssistanceWork";
-import { useAddBuilding } from "../../../core/services/api/Admin/handelBulding";
-import CustomMap from "../../common/CustomMap";
+  useAddBuilding,
+  useGetBuildingList,
+} from "../../../core/services/api/Admin/handelBulding";
+import Select from "react-select";
+import { selectThemeColors } from "@utils";
+import { useAddDepartment } from "../../../core/services/api/Admin/Departmenthandel";
 const AddNewBuild = ({ setShow, show, data }) => {
-  //handel options
-  const [markerPosition, setMarkerPosition] = useState({
-    initialLongitude: 53.06,
-    initialLatitude: 36.59,
-  });
+  //get builds
+  const { data: Builds } = useGetBuildingList();
 
-  useEffect(() => {
-    if (data?.latitude && data?.longitude) {
-      setMarkerPosition({
-        initialLongitude: parseFloat(data.longitude),
-        initialLatitude: parseFloat(data.latitude),
-      });
-    }
-  }, [data]);
+  const options =
+    Builds &&
+    Builds?.map((item) => ({
+      value: item?.id,
+      label: item?.buildingName,
+    }));
+
   //
-  const { mutate: UpdateProfile } = useAddBuilding();
+  const { mutate: UpdateProfile } = useAddDepartment();
   console.log(data, "this data from course details");
   const queryClient = useQueryClient();
   const formik = useFormik({
     initialValues: {
       id: "1",
-      buildingName: "",
-      workDate: "",
-      floor: "",
-      latitude: "0",
-      longitude: "0",
+      depName: "",
+      buildingId: options?.[0]?.value || "",
     },
     enableReinitialize: true,
 
@@ -68,42 +56,6 @@ const AddNewBuild = ({ setShow, show, data }) => {
       });
     },
   });
-
-  //calender
-  const [calendar, setCalendar] = useState(false);
-  const CalenderRef = useRef(null);
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (CalenderRef.current && !CalenderRef.current.contains(event.target)) {
-        setCalendar(false);
-      }
-    };
-
-    if (calendar) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [calendar]);
-
-  const handelChangeData = (dateOfDatePiker) => {
-    const convert = `${
-      dateOfDatePiker
-        ? dateOfDatePiker.convert(persian, persian_en).format()
-        : ""
-    }`;
-
-    const Iso = convertJalaliToIso(convert);
-
-    //set value
-    formik.setFieldValue("workDate", Iso);
-    setCalendar(false);
-  };
 
   return (
     <>
@@ -124,14 +76,14 @@ const AddNewBuild = ({ setShow, show, data }) => {
             <Row className="gy-1 pt-75">
               {/* title */}
               <Col md={12} xs={12}>
-                <Label className="form-label" for="buildingName">
-                  عنوان ساختمان{" "}
+                <Label className="form-label" for="depName">
+                  نام دپارتمان{" "}
                 </Label>
                 <Input
-                  id="buildingName"
-                  name="buildingName"
-                  placeholder="نام ساختمان را وارد کنید"
-                  {...formik?.getFieldProps("buildingName")}
+                  id="depName"
+                  name="depName"
+                  placeholder="نام دپارتمان را وارد کنید"
+                  {...formik?.getFieldProps("depName")}
                 />
               </Col>
             </Row>
@@ -140,67 +92,25 @@ const AddNewBuild = ({ setShow, show, data }) => {
               {/* title */}
               <Col md={12} xs={12}>
                 <Label className="form-label" for="floor">
-                  تعداد طبقه{" "}
+                  ساختمان{" "}
                 </Label>
-                <Input
-                  id="floor"
-                  type="number"
-                  name="floor"
-                  placeholder="   تعداد طبقه ساختمان  را وارد کنید"
-                  {...formik?.getFieldProps("floor")}
-                />
-              </Col>
-            </Row>
 
-            <Row>
-              <Col sm="12" className="text-start">
-                <Label htmlFor="">تاریخ ساخت </Label>
-                <Input
-                  id="workDate"
-                  type="text"
-                  readOnly
-                  placeholder="   تاریخ پرداخت  را وارد کنید"
-                  className="text-center"
-                  onFocus={() => {
-                    setCalendar(true);
-                  }}
+                <Select
+                  id="buildingId"
+                  isClearable={false}
+                  className="react-select"
+                  classNamePrefix="select"
+                  options={options}
+                  theme={selectThemeColors}
                   value={
-                    formik.values.workDate
-                      ? convertIsoToJalali(formik.values.workDate)
-                      : ""
+                    options &&
+                    options?.find(
+                      (option) => option.value === formik.values.buildingId
+                    )
                   }
-                />
-
-                {calendar && (
-                  <Calendar
-                    ref={CalenderRef}
-                    // value={
-                    //   formik.values.birthDay &&
-                    //   convertIsoToJalali(formik?.values?.birthDay)
-                    // }
-                    onChange={handelChangeData}
-                    calendar={persian}
-                    locale={persian_fa}
-                    className="position-absolute"
-                    style={{
-                      top: "0",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                    }}
-                  />
-                )}
-              </Col>
-            </Row>
-
-            <Row className="gy-1 pt-75">
-              {/* title */}
-              <Col xs={12}>
-                <Label className="form-label" for="floor">
-                  مکان ساختمان{" "}
-                </Label>
-                <CustomMap
-                  markerPosition={markerPosition}
-                  setMarkerPosition={setMarkerPosition}
+                  onChange={(data) => {
+                    formik.setFieldValue("buildingId", data?.value || "");
+                  }}
                 />
               </Col>
             </Row>

@@ -155,4 +155,5 @@ export const ApiRoutes = {
   ///Department
 
   PANEL_GET_DEPARTMENT_URL: "/Department",
+  PANEL_ADD_DEPARTMENT_URL: "/Department",
 };
