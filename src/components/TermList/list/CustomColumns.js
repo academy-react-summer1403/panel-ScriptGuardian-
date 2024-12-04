@@ -23,6 +23,7 @@ import {
   DropdownToggle,
   UncontrolledDropdown,
 } from "reactstrap";
+import { useFormik } from "formik";
 
 import { useActiveCourse } from "../../../core/services/api/Admin/handelreserve";
 import { useQueryClient } from "@tanstack/react-query";
@@ -32,7 +33,9 @@ import { useState } from "react";
 import ModalEditClass from "./modal/ModalEditStatus";
 import ModalEditStatus from "./modal/ModalEditStatus";
 import ModalAddStatus from "./modal/ModalAddStatus";
-
+import { useEditTerm } from "../../../core/services/api/Admin/TermHandel";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 export const CustomColumnsForListCourse = (toggleSidebar2) => [
   {
     name: "نام ترم",
@@ -123,9 +126,96 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
     minWidth: "100px",
 
     cell: (row) => {
+      const MySwal = withReactContent(Swal);
       const queryClient = useQueryClient();
       const navigate = useNavigate();
       const [show, setShow] = useState(false);
+      const { mutate: UpdateProfile } = useEditTerm();
+
+      const formik = useFormik({
+        initialValues: {
+          id: row?.id,
+          termName: row?.termName,
+          departmentId: row?.departmentId,
+          startDate: row?.startDate,
+          endDate: row?.endDate,
+          expire: row?.expire,
+        },
+        enableReinitialize: true,
+
+        onSubmit: (values) => {
+          UpdateProfile(values, {
+            onSuccess: (data) => {
+              if (data.success == true) {
+                // toast.success(" با موفقیت  ویرایش شد");
+                queryClient.invalidateQueries("GetTermList");
+                formik.resetForm();
+                setShow(false);
+              } else {
+                toast.error("خطا در ویرایش کردن");
+              }
+            },
+          });
+        },
+      });
+
+      const handleSuspendedClick = () => {
+        return MySwal.fire({
+          title: "آیا مطمعنید که میخاهید ترم رو منقضی کنید",
+          text: "البته یک عمل قابل بازگشت است",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "بله",
+          cancelButtonText: "لغو",
+          customClass: {
+            confirmButton: "btn btn-primary",
+            cancelButton: "btn btn-outline-danger ms-1",
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            formik.setFieldValue("expire", true);
+            formik.submitForm();
+            MySwal.fire({
+              icon: "success",
+              title: "موفقیت آمیز بود",
+              text: "ترم با موفقیت منقضی شد",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
+            });
+          }
+        });
+      };
+
+      const handleSuspendedClick2 = () => {
+        return MySwal.fire({
+          title: "آیا مطمعنید که میخاهید ترم رو فعال کنید",
+          text: "البته یک عمل قابل بازگشت است",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "بله",
+          cancelButtonText: "لغو",
+          customClass: {
+            confirmButton: "btn btn-primary",
+            cancelButton: "btn btn-outline-danger ms-1",
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            formik.setFieldValue("expire", false);
+            formik.submitForm();
+            MySwal.fire({
+              icon: "success",
+              title: "موفقیت آمیز بود",
+              text: "ترم با موفقیت فعال شد",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
+            });
+          }
+        });
+      };
 
       return (
         <div className="column-action">
@@ -142,6 +232,25 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
               >
                 ویرایش <Edit size={14} />
               </DropdownItem>
+              {row?.expire ? (
+                <DropdownItem
+                  className="w-100 cursor-pointer"
+                  onClick={() => {
+                    handleSuspendedClick2();
+                  }}
+                >
+                  فعال کردن <Check size={14} />
+                </DropdownItem>
+              ) : (
+                <DropdownItem
+                  className="w-100 cursor-pointer"
+                  onClick={() => {
+                    handleSuspendedClick();
+                  }}
+                >
+                  منقضی کردن <X size={14} />
+                </DropdownItem>
+              )}
             </DropdownMenu>
           </UncontrolledDropdown>
           <ModalEditStatus show={show} setShow={setShow} data={row} />

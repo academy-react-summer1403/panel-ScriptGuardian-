@@ -38,34 +38,6 @@ import { useUpdateUser } from "../../../core/services/api/Admin/handelChangeProf
 import { useQueryClient } from "@tanstack/react-query";
 import { convertIsoToJalali } from "../../../core/utils/dateUtils";
 
-const roleColors = {
-  editor: "light-info",
-  admin: "light-danger",
-  author: "light-warning",
-  maintainer: "light-success",
-  subscriber: "light-primary",
-};
-
-const statusColors = {
-  active: "light-success",
-  pending: "light-warning",
-  inactive: "light-secondary",
-};
-
-const statusOptions = [
-  { value: "active", label: "Active" },
-  { value: "inactive", label: "Inactive" },
-  { value: "suspended", label: "Suspended" },
-];
-
-const languageOptions = [
-  { value: "english", label: "English" },
-  { value: "spanish", label: "Spanish" },
-  { value: "french", label: "French" },
-  { value: "german", label: "German" },
-  { value: "dutch", label: "Dutch" },
-];
-
 const MySwal = withReactContent(Swal);
 // const UserInfoCard = ({ selectedUser }) => {
 
