@@ -56,3 +56,41 @@ export const useAddAssistanceCourse = () => {
     },
   });
 };
+
+//edit
+
+const EditAssistanceCourse = async (user) => {
+  console.log("this is EditAssistanceCourse", user);
+  const row = {
+    courseId: user?.courseId,
+    userId: user?.userId,
+    id: user?.id,
+  };
+  console.log(row, "this row");
+  try {
+    const response = await http.put(
+      `${ApiRoutes.PANEL_UPDATE_ASSISTANCE_COURSE_URL}`,
+      row,
+
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response.message, "this response EditAssistanceCourse");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useEditAssistanceCourse = () => {
+  return useMutation({
+    mutationKey: ["EditAssistanceCourse"],
+    mutationFn: (data) => {
+      console.log("this is user EditAssistanceCourse =", data);
+      return EditAssistanceCourse(data);
+    },
+  });
+};
