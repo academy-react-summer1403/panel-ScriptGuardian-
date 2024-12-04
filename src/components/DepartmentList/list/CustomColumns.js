@@ -6,6 +6,7 @@ import {
   Archive,
   Check,
   Database,
+  Edit,
   Edit2,
   ExternalLink,
   MoreVertical,
@@ -27,6 +28,8 @@ import { useActiveCourse } from "../../../core/services/api/Admin/handelreserve"
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { convertIsoToJalali } from "../../../core/utils/dateUtils";
+import EditDepart from "./EditDepart";
+import { useState } from "react";
 
 export const CustomColumnsForListCourse = (toggleSidebar2) => [
   {
@@ -86,38 +89,8 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
     cell: (row) => {
       const queryClient = useQueryClient();
       const navigate = useNavigate();
+      const [show, setShow] = useState(false);
 
-      const { mutate: ChangeActivity } = useActiveCourse();
-
-      const ActiveCourse = (id) => {
-        ChangeActivity(
-          { active: true, id },
-
-          {
-            onSuccess: (data) => {
-              if (data.success === true) {
-                queryClient.invalidateQueries("GetAllCourses");
-                toast.success("دوره با موفق فعال شد");
-              }
-            },
-          }
-        );
-      };
-
-      const DeActiveCourse = (id) => {
-        ChangeActivity(
-          { active: false, id },
-
-          {
-            onSuccess: (data) => {
-              if (data.success === true) {
-                queryClient.invalidateQueries("GetAllCourses");
-                toast.success("دوره با موفقیت غیر فعال شد");
-              }
-            },
-          }
-        );
-      };
       return (
         <div className="column-action">
           <UncontrolledDropdown>
@@ -125,51 +98,13 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
-              {row?.isActive ? (
-                <>
-                  <DropdownItem
-                    onClick={() => {
-                      DeActiveCourse(row?.courseId);
-                    }}
-                    lassName="w-100"
-                  >
-                    <X size={14} className="me-50" />
-                    <span className="align-middle"> غیر فعال کردن دوره </span>
-                  </DropdownItem>
-                </>
-              ) : (
-                <>
-                  <DropdownItem
-                    className="w-100"
-                    onClick={() => {
-                      ActiveCourse(row?.courseId);
-                    }}
-                  >
-                    <Check size={14} className="me-50" />
-                    <span className="align-middle">فعال کردن دوره</span>
-                  </DropdownItem>
-                </>
-              )}
-
-              <DropdownItem
-                className="w-100"
-                onClick={() => {
-                  navigate(`/CourseListPage/${row.courseId}`);
-                }}
-              >
-                <ExternalLink size={14} className="me-50" />
-                <span className="align-middle">جزییات دوره</span>
+              <DropdownItem className="w-100" onClick={() => setShow(!show)}>
+                <Edit size={14} className="me-50" />
+                <span className="align-middle"> ویرایش</span>
               </DropdownItem>
-              {/* <UserAddRole
-              // modal={modal}
-              // id={row.id}
-              // userName={row.fname + " " + row.lname}
-              // toggleModal={toggleModal}
-              // userRoles={row.role}
-              // refetch={refetch}
-              /> */}
             </DropdownMenu>
           </UncontrolledDropdown>
+          <EditDepart show={show} setShow={setShow} data={row} />
         </div>
       );
     },

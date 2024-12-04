@@ -57,14 +57,14 @@ import { Link } from "react-router-dom";
 import Avatar from "@components/avatar";
 import NoProfile from "../../../images/profile.png";
 import { CustomColumnsForListCourse } from "./CustomColumns";
-import AddNewUserModal from "./AddNewBuild";
 import ChangeUserModal from "./ChangeUser";
 import { useGetAllCourseReserves } from "../../../core/services/api/Admin/handelReserveCourse";
 import CustomSpinner from "../../common/animation/CustomSpiner";
 import { useGetAssistanceWorkList } from "../../../core/services/api/Admin/HandelAssistanceWork";
 import { useGetBuildingList } from "../../../core/services/api/Admin/handelBulding";
-import AddNewBuild from "./AddNewBuild";
+
 import { useGetDepartList } from "../../../core/services/api/Admin/Departmenthandel";
+import AddNewDepart from "./AddNewDepart";
 
 // ** Table Header
 const CustomHeader = ({
@@ -324,7 +324,7 @@ const DepartmentTable = () => {
         </div>
       </Card>
 
-      <AddNewBuild show={sidebarOpen} setShow={setSidebarOpen} />
+      <AddNewDepart show={sidebarOpen} setShow={setSidebarOpen} />
       {/* <ChangeUserModal open={sidebarOpen2} toggleSidebar={toggleSidebar2} /> */}
     </Fragment>
   );

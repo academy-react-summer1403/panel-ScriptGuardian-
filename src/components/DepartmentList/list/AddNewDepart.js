@@ -18,7 +18,7 @@ import {
 import Select from "react-select";
 import { selectThemeColors } from "@utils";
 import { useAddDepartment } from "../../../core/services/api/Admin/Departmenthandel";
-const AddNewBuild = ({ setShow, show, data }) => {
+const AddNewDepart = ({ setShow, show, data }) => {
   //get builds
   const { data: Builds } = useGetBuildingList();
 
@@ -46,7 +46,7 @@ const AddNewBuild = ({ setShow, show, data }) => {
         onSuccess: (data) => {
           if (data.success == true) {
             toast.success(" با موفقیت  اضافه شد");
-            queryClient.invalidateQueries("GetAssistanceWorkList");
+            queryClient.invalidateQueries("GetDepartList");
 
             setShow(false);
           } else {
@@ -129,4 +129,4 @@ const AddNewBuild = ({ setShow, show, data }) => {
   );
 };
 
-export default AddNewBuild;
+export default AddNewDepart;
