@@ -62,19 +62,20 @@ export const useAddTerm = () => {
 
 //edit
 
-const EditTech = async (user) => {
-  console.log("this is EditTech", user);
+const EditTerm = async (user) => {
+  console.log("this is EditTerm", user);
   const row = {
-    techName: user?.techName,
-    parentId: user?.parentId,
-    describe: user?.describe,
-    iconAddress: user?.iconAddress,
     id: user?.id,
+    termName: user?.termName,
+    departmentId: user?.departmentId,
+    startDate: user?.startDate,
+    endDate: user?.endDate,
+    expire: user?.expire,
   };
   console.log(row, "this row");
   try {
     const response = await http.put(
-      `${ApiRoutes.PANEL_UPDATE_TECH_LIST_URL}`,
+      `${ApiRoutes.PANEL_UPDATE_TERM_LIST_URL}`,
       row,
 
       {
@@ -83,19 +84,19 @@ const EditTech = async (user) => {
         },
       }
     );
-    console.log(response.message, "this response EditTech");
+    console.log(response.message, "this response EditTerm");
     return response;
   } catch (error) {
     return false;
   }
 };
 
-export const useEditTech = () => {
+export const useEditTerm = () => {
   return useMutation({
-    mutationKey: ["EditTech"],
+    mutationKey: ["EditTerm"],
     mutationFn: (data) => {
-      console.log("this is user EditTech =", data);
-      return EditTech(data);
+      console.log("this is user EditTerm =", data);
+      return EditTerm(data);
     },
   });
 };
