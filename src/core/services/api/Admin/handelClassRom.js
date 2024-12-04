@@ -32,7 +32,7 @@ const AddClassRoom = async (user) => {
   };
   console.log(row, "this row");
   try {
-    const response = await http.put(
+    const response = await http.post(
       `${ApiRoutes.PANEL_ADD_CLASS_ROOM_URL}`,
       row,
 

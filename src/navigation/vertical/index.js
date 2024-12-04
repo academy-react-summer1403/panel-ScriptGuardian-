@@ -113,6 +113,12 @@ export default [
         icon: <Circle size={12} />,
         navLink: "/JobHistoryPage",
       },
+      {
+        id: "StatusListPage",
+        title: "StatusListPage",
+        icon: <Circle size={12} />,
+        navLink: "/StatusListPage",
+      },
     ],
   },
   {

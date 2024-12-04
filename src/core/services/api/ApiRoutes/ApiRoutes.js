@@ -159,4 +159,10 @@ export const ApiRoutes = {
   PANEL_UPDATE_DEPARTMENT_URL: "/Department",
   //GetJobHistoryList
   PANEL_GET_JOB_HISTORY_LIST_URL: "/SharePanel/GetJobHistoriesAdmin",
+
+  //STATUS LIST
+
+  PANEL_GET_STATUS_LIST_URL: "/Status",
+  PANEL_ADD_STATUS_URL: "/Status",
+  PANEL_EDIT_STATUS_URL: "/Status",
 };
