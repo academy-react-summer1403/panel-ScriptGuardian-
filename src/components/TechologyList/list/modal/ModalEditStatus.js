@@ -9,22 +9,22 @@ import {
   ModalHeader,
   Row,
 } from "reactstrap";
-import { useGetBuildingList } from "../../../../core/services/api/Admin/handelBulding";
+
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
-import { convertIsoToJalali } from "../../../../core/utils/dateUtils";
-import { useAddAssistanceWork } from "../../../../core/services/api/Admin/HandelAssistanceWork";
 
-import { useAddStatus, useEditStatus } from "../../../../core/services/api/Admin/StatusListhandel";
+import { useEditTech } from "../../../../core/services/api/Admin/TechnologyHandel";
 const ModalEditStatus = ({ setShow, show, data }) => {
-  const { mutate: UpdateProfile } = useEditStatus();
+  //Edit TechNology
+  const { mutate: UpdateProfile } = useEditTech();
 
   const queryClient = useQueryClient();
   const formik = useFormik({
     initialValues: {
-      statusName: data?.statusName,
+      techName: data?.techName,
+      parentId: data?.parentId,
       describe: data?.describe,
-      statusNumber: data?.statusNumber,
+      iconAddress: data?.iconAddress,
       id: data?.id,
     },
     enableReinitialize: true,
@@ -33,12 +33,12 @@ const ModalEditStatus = ({ setShow, show, data }) => {
       UpdateProfile(values, {
         onSuccess: (data) => {
           if (data.success == true) {
-            toast.success(" با موفقیت  اضافه شد");
-            queryClient.invalidateQueries("GetStatusList");
+            toast.success(" با موفقیت  ویرایش شد");
+            queryClient.invalidateQueries("GetTechList");
             formik.resetForm();
             setShow(false);
           } else {
-            toast.error("خطا در اضافه کردن");
+            toast.error("خطا در ویرایش کردن");
           }
         },
       });
@@ -58,20 +58,20 @@ const ModalEditStatus = ({ setShow, show, data }) => {
         ></ModalHeader>
         <ModalBody className="px-sm-5 pt-50 pb-5">
           <div className="text-center mb-2">
-            <h1 className="mb-1">افزودن وضعیت </h1>
+            <h1 className="mb-1">ویرایش تکنولوژی </h1>
           </div>
           <form onSubmit={formik.handleSubmit}>
             <Row className="gy-1 pt-75">
               {/* title */}
               <Col md={12} xs={12}>
-                <Label className="form-label" for="statusName">
-                  نام وضعیت{" "}
+                <Label className="form-label" for="techName">
+                  نام تکنولوژی{" "}
                 </Label>
                 <Input
-                  id="statusName"
-                  name="statusName"
-                  placeholder="نام وضعیت را وارد کنید"
-                  {...formik?.getFieldProps("statusName")}
+                  id="techName"
+                  name="techName"
+                  placeholder="نام تکنولوژی را وارد کنید"
+                  {...formik?.getFieldProps("techName")}
                 />
               </Col>
             </Row>
@@ -80,28 +80,13 @@ const ModalEditStatus = ({ setShow, show, data }) => {
               {/* title */}
               <Col md={12} xs={12}>
                 <Label className="form-label" for="describe">
-                  توضیحات وضعیت{" "}
+                  توضیحات تکنولوژی{" "}
                 </Label>
                 <Input
                   id="describe"
                   name="describe"
-                  placeholder="توضیحات  وضعیت  را وارد کنید"
+                  placeholder="توضیحات  تکنولوژی  را وارد کنید"
                   {...formik?.getFieldProps("describe")}
-                />
-              </Col>
-            </Row>
-
-            <Row className="gy-1 pt-75">
-              {/* title */}
-              <Col md={12} xs={12}>
-                <Label className="form-label" for="statusNumber">
-                  عدد وضعیت{" "}
-                </Label>
-                <Input
-                  id="statusNumber"
-                  name="statusNumber"
-                  placeholder="عدد وضعیت را وارد کنید"
-                  {...formik?.getFieldProps("statusNumber")}
                 />
               </Col>
             </Row>

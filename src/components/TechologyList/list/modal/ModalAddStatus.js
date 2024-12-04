@@ -33,7 +33,7 @@ const ModalAddStatus = ({ setShow, show, data }) => {
         onSuccess: (data) => {
           if (data.success == true) {
             toast.success(" با موفقیت  اضافه شد");
-            queryClient.invalidateQueries("GetStatusList");
+            queryClient.invalidateQueries("GetTechList");
             formik.resetForm();
             setShow(false);
           } else {

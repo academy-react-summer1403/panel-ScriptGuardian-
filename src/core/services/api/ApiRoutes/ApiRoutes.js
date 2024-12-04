@@ -170,4 +170,5 @@ export const ApiRoutes = {
 
   PANEL_GET_TECH_LIST_URL: "/Technology",
   PANEL_ADD_TECH_LIST_URL: "/Technology",
+  PANEL_UPDATE_TECH_LIST_URL: "/Technology",
 };
