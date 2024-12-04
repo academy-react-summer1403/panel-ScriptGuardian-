@@ -23,7 +23,7 @@ import {
 
 // ** Utils
 import { selectThemeColors } from "@utils";
-
+import AddNewClassRoom from "./modal/AddNewClassRoom";
 // ** Reactstrap Imports
 import {
   Row,
@@ -185,13 +185,13 @@ const CustomHeader = ({
               </DropdownMenu>
             </UncontrolledDropdown> */}
 
-            {/* <Button
+            <Button
               className="add-new-user"
               color="primary"
               onClick={toggleSidebar}
             >
-              افزودن دوره جدید{" "}
-            </Button> */}
+              افزودن کلاس جدید{" "}
+            </Button>
           </div>
         </Col>
       </Row>
@@ -320,6 +320,8 @@ const ClassRoomTable = () => {
           />
         </div>
       </Card>
+
+      <AddNewClassRoom show={sidebarOpen} setShow={setSidebarOpen} />
 
       {/* <AddNewUserModal open={sidebarOpen} toggleSidebar={toggleSidebar} /> */}
       {/* <ChangeUserModal open={sidebarOpen2} toggleSidebar={toggleSidebar2} /> */}

@@ -141,6 +141,7 @@ export const ApiRoutes = {
   PANEL_UPDATE_STATUS_BUILDING_URL: "/Building/Active",
   //ClassRoom
   PANEL_LIST_CLASS_ROOM_URL: "/ClassRoom",
+  PANEL_ADD_CLASS_ROOM_URL: "/ClassRoom",
   PANEL_UPDATE_CLASS_ROOM_URL: "/ClassRoom",
 
   //AssistanceInCourses

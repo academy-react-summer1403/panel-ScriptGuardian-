@@ -11,19 +11,6 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-const UpdateMapSize = () => {
-  const map = useMap();
-
-  useEffect(() => {
-    if (map) {
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 100);
-    }
-  }, [map]);
-
-  return null;
-};
 const ChangeMarkerPosition = ({ setMarkerPosition }) => {
   useMapEvents({
     click(event) {
@@ -38,30 +25,30 @@ const ChangeMarkerPosition = ({ setMarkerPosition }) => {
   return null;
 };
 
-const MyMap = ({ markerPosition, setMarkerPosition }) => {
+const CustomMap = ({ markerPosition, setMarkerPosition }) => {
   console.log(markerPosition, "markerPosition in MyMap");
 
   return (
     <MapContainer
       center={[markerPosition.initialLatitude, markerPosition.initialLongitude]}
       zoom={10}
-      style={{ height: "442px", width: "590px" }}
+      style={{ height: "200px", width: "100%" }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
       <Marker
+        key={`${markerPosition.initialLatitude}-${markerPosition.initialLongitude}`}
         position={[
           markerPosition.initialLatitude,
           markerPosition.initialLongitude,
         ]}
       >
-        <Popup>آدرس خانه</Popup>
+        <Popup>موقعیت</Popup>
       </Marker>
 
       <ChangeMarkerPosition setMarkerPosition={setMarkerPosition} />
-      <UpdateMapSize />
     </MapContainer>
   );
 };
 
-export default MyMap;
+export default CustomMap;

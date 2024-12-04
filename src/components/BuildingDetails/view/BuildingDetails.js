@@ -35,12 +35,8 @@ const BuildingDetails = () => {
 
   //
   const [markerPosition, setMarkerPosition] = useState({
-    initialLongitude: data?.longitude
-      ? parseFloat(data.longitude)
-      : 10.039100646972658,
-    initialLatitude: data?.latitude
-      ? parseFloat(data.latitude)
-      : 10.013295980050358,
+    initialLongitude: data?.longitude ? parseFloat(data.longitude) : 53.06,
+    initialLatitude: data?.latitude ? parseFloat(data.latitude) : 36.59,
   });
 
   useEffect(() => {
@@ -70,7 +66,7 @@ const BuildingDetails = () => {
 
         <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
           <div className="">
-            <Card>
+            <Card className="" style={{width:"600px" , height:"500px"}}>
               <MyMap
                 setMarkerPosition={setMarkerPosition}
                 markerPosition={markerPosition}

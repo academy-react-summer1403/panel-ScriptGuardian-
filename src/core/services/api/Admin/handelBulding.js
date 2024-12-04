@@ -42,6 +42,46 @@ export const useGetBuildingDetails = (id) => {
   });
 };
 
+//
+
+const AddBuilding = async (user) => {
+  console.log("this is AddBuilding", user);
+  const row = {
+    id: user?.id,
+    buildingName: user?.buildingName,
+    workDate: user?.workDate,
+    floor: user?.floor,
+    latitude: user?.latitude,
+    longitude: user?.longitude,
+  };
+  console.log(row, "this row");
+  try {
+    const response = await http.put(
+      `${ApiRoutes.PANEL_UPDATE_BUILDING_URL}`,
+      row,
+
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(response.message, "this response AddBuilding");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useAddBuilding = () => {
+  return useMutation({
+    mutationKey: ["AddBuilding"],
+    mutationFn: (data) => {
+      console.log("this is user AddBuilding =", data);
+      return AddBuilding(data);
+    },
+  });
+};
 //update
 
 const UpdateBuilding = async (user) => {
