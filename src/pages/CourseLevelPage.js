@@ -1,5 +1,9 @@
+import CourseLevelList from "../components/CourseLevelsList/list/CourseLevelList";
+
 const CourseLevelPage = () => {
-  return <>sssssssssssssssssssssssssssssssssssssssss</>;
+  return <>
+    <CourseLevelList/>
+  </>;
 };
 
 export default CourseLevelPage;

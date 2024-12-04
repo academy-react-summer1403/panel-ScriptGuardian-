@@ -49,6 +49,7 @@ const CourseReservedPage = lazy(() => import("../../pages/CourseReservedPage"));
 const ClassRoomPage = lazy(() => import("../../pages/ClassRoomPage"));
 const PaymentListPage = lazy(() => import("../../pages/PaymentListPage"));
 const CourseLevelPage = lazy(() => import("../../pages/CourseLevelPage"));
+const DepartmentPage = lazy(() => import("../../pages/DepartmentPage"));
 const CourseGroupPage = lazy(() => import("../../pages/CourseGroupPage"));
 const CourseAssistancePage = lazy(() =>
   import("../../pages/CourseAssistancePage")
@@ -167,6 +168,10 @@ const Routes = [
   {
     path: "/NewsListPage",
     element: <NewsListPage />,
+  },
+  {
+    path: "/DepartmentPage",
+    element: <DepartmentPage />,
   },
   {
     path: "/AddNewsPage",
