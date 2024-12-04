@@ -146,4 +146,5 @@ export const ApiRoutes = {
 
   //AssistanceInCourses
   PANEL_ASSISTANCE_COURSE_URL: "/CourseAssistance",
+  PANEL_ADD_ASSISTANCE_COURSE_URL: "/CourseAssistance",
 };

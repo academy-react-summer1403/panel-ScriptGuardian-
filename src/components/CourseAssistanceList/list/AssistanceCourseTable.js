@@ -63,6 +63,7 @@ import { useGetAllCourseReserves } from "../../../core/services/api/Admin/handel
 import CustomSpinner from "../../common/animation/CustomSpiner";
 import { useGetAssistanceWorkList } from "../../../core/services/api/Admin/HandelAssistanceWork";
 import { useGetAssistanceCourseList } from "../../../core/services/api/Admin/handelCourseAssistance";
+import AddCourseAssistance from "./modal/AddCourseAssistance";
 
 // ** Table Header
 const CustomHeader = ({
@@ -186,13 +187,13 @@ const CustomHeader = ({
               </DropdownMenu>
             </UncontrolledDropdown> */}
 
-            {/* <Button
+            <Button
               className="add-new-user"
               color="primary"
               onClick={toggleSidebar}
             >
-              افزودن دوره جدید{" "}
-            </Button> */}
+              افزودن منتور جدید{" "}
+            </Button>
           </div>
         </Col>
       </Row>
@@ -322,7 +323,7 @@ const AssistanceCourseTable = () => {
         </div>
       </Card>
 
-      {/* <AddNewUserModal open={sidebarOpen} toggleSidebar={toggleSidebar} /> */}
+      <AddCourseAssistance show={sidebarOpen} setShow={setSidebarOpen} />
       {/* <ChangeUserModal open={sidebarOpen2} toggleSidebar={toggleSidebar2} /> */}
     </Fragment>
   );
