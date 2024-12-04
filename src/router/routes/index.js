@@ -51,6 +51,7 @@ const PaymentListPage = lazy(() => import("../../pages/PaymentListPage"));
 const CourseLevelPage = lazy(() => import("../../pages/CourseLevelPage"));
 const DepartmentPage = lazy(() => import("../../pages/DepartmentPage"));
 const JobHistoryPage = lazy(() => import("../../pages/JobHistoryPage"));
+const TermPage = lazy(() => import("../../pages/TermPage.js"));
 const CourseGroupPage = lazy(() => import("../../pages/CourseGroupPage"));
 const CourseAssistancePage = lazy(() =>
   import("../../pages/CourseAssistancePage")
@@ -190,6 +191,10 @@ const Routes = [
   {
     path: "/AddNewsPage",
     element: <AddNewsPage />,
+  },
+  {
+    path: "/TermPage",
+    element: <TermPage />,
   },
   {
     path: "/login",

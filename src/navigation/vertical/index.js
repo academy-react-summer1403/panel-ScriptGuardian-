@@ -125,6 +125,12 @@ export default [
         icon: <Circle size={12} />,
         navLink: "/TechnologyListPage",
       },
+      {
+        id: "TermPage",
+        title: "TermPage",
+        icon: <Circle size={12} />,
+        navLink: "/TermPage",
+      },
     ],
   },
   {
