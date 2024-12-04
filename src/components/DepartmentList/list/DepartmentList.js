@@ -1,5 +1,5 @@
 // ** User List Component
-import AssistanceWorkTable from "./BuildingTable";
+import AssistanceWorkTable from "./DepartmentTable";
 
 // ** Reactstrap Imports
 import { Row, Col } from "reactstrap";
@@ -13,9 +13,9 @@ import { Book } from "react-feather";
 // ** Styles
 import "@styles/react/apps/app-users.scss";
 import { useGetAllCourses } from "../../../core/services/api/Admin/handelUsers";
-import BuildingTable from "./BuildingTable";
+import DepartmentTable from "./DepartmentTable";
 
-const BuildingList = () => {
+const DepartmentList = () => {
   return (
     <div className="app-user-list">
       {/* <Row>
@@ -28,9 +28,9 @@ const BuildingList = () => {
           />
         </Col>
       </Row> */}
-      <BuildingTable />
+      <DepartmentTable />
     </div>
   );
 };
 
-export default BuildingList;
+export default DepartmentList;

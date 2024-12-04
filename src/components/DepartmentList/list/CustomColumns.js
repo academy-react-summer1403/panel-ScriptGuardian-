@@ -30,6 +30,20 @@ import { convertIsoToJalali } from "../../../core/utils/dateUtils";
 
 export const CustomColumnsForListCourse = (toggleSidebar2) => [
   {
+    name: "نام دپارتمان",
+    minWidth: "150px",
+    sortable: (row) => row.depName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <div className="user-info text-truncate ms-1">
+            <span>{row?.depName}</span>
+          </div>
+        </div>
+      );
+    },
+  },
+  {
     name: "نام ساختمان",
     minWidth: "150px",
     sortable: (row) => row.buildingName,
@@ -45,36 +59,20 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
       );
     },
   },
-  {
-    name: "تعداد طبقه",
-    sortable: true,
-    minWidth: "172px",
-    sortField: "userRoles",
-    selector: (row) => row.floor,
-    cell: (row) => {
-      return (
-        <>
-          <span className="text-truncate text-capitalize align-middle">
-            {row.floor}
-          </span>
-        </>
-      );
-    },
-  },
 
   {
-    name: "تاریخ کار",
+    name: "تاریخ ساخت",
     sortable: true,
     minWidth: "72px",
     sortField: "userRoles",
-    selector: (row) => row.workDate,
+    selector: (row) => row.insertDate,
     cell: (row) => {
       return (
         <>
           {" "}
           <h5 className="text-truncate text-muted mb-0">
             {" "}
-            {row?.workDate ? convertIsoToJalali(row?.workDate) : ""}
+            {row?.insertDate ? convertIsoToJalali(row?.insertDate) : ""}
           </h5>
         </>
       );

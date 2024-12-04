@@ -151,4 +151,8 @@ export const ApiRoutes = {
 
   //Course Level List
   PANEL_GET_LEVEL_COURSE_URL: "/CourseLevel/GetAllCourseLevel",
+
+  ///Department
+
+  PANEL_GET_DEPARTMENT_URL: "/Department",
 };

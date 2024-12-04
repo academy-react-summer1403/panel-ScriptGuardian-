@@ -64,6 +64,7 @@ import CustomSpinner from "../../common/animation/CustomSpiner";
 import { useGetAssistanceWorkList } from "../../../core/services/api/Admin/HandelAssistanceWork";
 import { useGetBuildingList } from "../../../core/services/api/Admin/handelBulding";
 import AddNewBuild from "./AddNewBuild";
+import { useGetDepartList } from "../../../core/services/api/Admin/Departmenthandel";
 
 // ** Table Header
 const CustomHeader = ({
@@ -201,7 +202,7 @@ const CustomHeader = ({
   );
 };
 
-const BuildingTable = () => {
+const DepartmentTable = () => {
   //API
 
   const store = useSelector((state) => state.users);
@@ -215,7 +216,7 @@ const BuildingTable = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarOpen2, setSidebarOpen2] = useState(false);
 
-  const { data } = useGetBuildingList();
+  const { data } = useGetDepartList();
   console.log(data, "data is a list");
 
   // ** Function to toggle sidebar
@@ -329,4 +330,4 @@ const BuildingTable = () => {
   );
 };
 
-export default BuildingTable;
+export default DepartmentTable;
