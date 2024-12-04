@@ -1,8 +1,9 @@
+import TermList from "../components/TermList/list/TermList";
 
 const TermPage = () => {
   return (
     <>
-  ssssssssssssssssss
+      <TermList />
     </>
   );
 };
