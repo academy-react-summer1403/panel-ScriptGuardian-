@@ -22,18 +22,19 @@ export const useGetTermList = () => {
 
 //Add
 
-const AddTech = async (user) => {
-  console.log("this is AddTech", user);
+const AddTerm = async (user) => {
+  console.log("this is AddTerm", user);
   const row = {
-    techName: user?.techName,
-    parentId: user?.parentId,
-    describe: user?.describe,
-    iconAddress: user?.iconAddress,
+    id: user?.id,
+    termName: user?.termName,
+    departmentId: user?.departmentId,
+    startDate: user?.startDate,
+    endDate: user?.endDate,
   };
   console.log(row, "this row");
   try {
     const response = await http.post(
-      `${ApiRoutes.PANEL_ADD_TECH_LIST_URL}`,
+      `${ApiRoutes.PANEL_ADD_TERM_LIST_URL}`,
       row,
 
       {
@@ -42,19 +43,19 @@ const AddTech = async (user) => {
         },
       }
     );
-    console.log(response.message, "this response AddTech");
+    console.log(response.message, "this response AddTerm");
     return response;
   } catch (error) {
     return false;
   }
 };
 
-export const useAddTech = () => {
+export const useAddTerm = () => {
   return useMutation({
-    mutationKey: ["AddTech"],
+    mutationKey: ["AddTerm"],
     mutationFn: (data) => {
-      console.log("this is user AddTech =", data);
-      return AddTech(data);
+      console.log("this is user AddTerm =", data);
+      return AddTerm(data);
     },
   });
 };

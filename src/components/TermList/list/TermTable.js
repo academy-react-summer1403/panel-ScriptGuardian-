@@ -179,7 +179,7 @@ const CustomHeader = ({
               color="primary"
               onClick={toggleSidebar}
             >
-              افزودن تکنولوژی جدید{" "}
+              افزودن ترم جدید{" "}
             </Button>
           </div>
         </Col>
@@ -309,7 +309,7 @@ const TermTable = () => {
           />
         </div>
       </Card>
-      {/* ADDTECH */}
+      {/* ADDTERM */}
       <AddNewClassRoom show={sidebarOpen} setShow={setSidebarOpen} />
 
       {/* <AddNewUserModal open={sidebarOpen} toggleSidebar={toggleSidebar} /> */}
