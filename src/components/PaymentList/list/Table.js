@@ -278,10 +278,9 @@ const UsersList = () => {
     setSortColumn(column.sortField);
   };
 
-  const paginatedData = data?.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
-  );
+  const paginatedData =
+    data &&
+    data?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
   return (
     <Fragment>
@@ -299,7 +298,7 @@ const UsersList = () => {
             sortIcon={<ChevronDown />}
             className="react-dataTable"
             paginationComponent={CustomPagination}
-            data={paginatedData}
+            data={paginatedData ? paginatedData : ""}
             subHeaderComponent={
               <CustomHeader
                 store={store}

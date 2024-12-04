@@ -273,10 +273,9 @@ const AssistanceWorkTable = () => {
     setSortColumn(column.sortField);
   };
 
-  const paginatedData = data?.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
-  );
+  const paginatedData =
+    data &&
+    data?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
   return (
     <Fragment>
       <Card className="overflow-hidden">
@@ -293,7 +292,7 @@ const AssistanceWorkTable = () => {
             sortIcon={<ChevronDown />}
             className="react-dataTable"
             paginationComponent={CustomPagination}
-            data={paginatedData}
+            data={paginatedData ? paginatedData : []}
             subHeaderComponent={
               <CustomHeader
                 store={store}
@@ -323,7 +322,6 @@ const AssistanceWorkTable = () => {
         </div>
       </Card>
       <AddNewAssitanceWork show={sidebarOpen} setShow={setSidebarOpen} />
-
 
       {/* <AddNewUserModal open={sidebarOpen} toggleSidebar={toggleSidebar} /> */}
     </Fragment>
