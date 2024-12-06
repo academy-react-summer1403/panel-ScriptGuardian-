@@ -161,7 +161,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
 
       const handleSuspendedClick = () => {
         return MySwal.fire({
-          title: "آیا مطمعنید که میخاهید ترم رو منقضی کنید",
+          title: "آیا مطمئنید که میخواهید ترم رو منقضی کنید",
           text: "البته یک عمل قابل بازگشت است",
           icon: "warning",
           showCancelButton: true,
@@ -190,7 +190,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
 
       const handleSuspendedClick2 = () => {
         return MySwal.fire({
-          title: "آیا مطمعنید که میخاهید ترم رو فعال کنید",
+          title: "آیا مطمئنید که میخواهید ترم رو فعال کنید",
           text: "البته یک عمل قابل بازگشت است",
           icon: "warning",
           showCancelButton: true,

@@ -116,36 +116,6 @@ const UserInfoCard = ({ data }) => {
 
   const { mutate: ChangeActivity } = useActiveCourse();
 
-  const ActiveCourse = (id) => {
-    ChangeActivity(
-      { active: true, id },
-
-      {
-        onSuccess: (data) => {
-          if (data.success === true) {
-            queryClient.invalidateQueries("GetAllCourseDetailsAdmin");
-            toast.success("دوره با موفق فعال شد");
-          }
-        },
-      }
-    );
-  };
-
-  const DeActiveCourse = (id) => {
-    ChangeActivity(
-      { active: false, id },
-
-      {
-        onSuccess: (data) => {
-          if (data.success === true) {
-            queryClient.invalidateQueries("GetAllCourseDetailsAdmin");
-            toast.success("دوره با موفقیت غیر فعال شد");
-          }
-        },
-      }
-    );
-  };
-
   return (
     <Fragment>
       <Card>
@@ -238,12 +208,7 @@ const UserInfoCard = ({ data }) => {
           </div>
         </CardBody>
       </Card>
-      <ModalCustom
-        setShow={setShow}
-        show={show}
-        data={data}
-     
-      />
+      <ModalCustom setShow={setShow} show={show} data={data} />
     </Fragment>
   );
 };

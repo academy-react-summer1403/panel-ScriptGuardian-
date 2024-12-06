@@ -227,7 +227,11 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
           ) : (
             <Avatar
               img={
-                row?.tumbImageAddress && row?.tumbImageAddress !== "Not-set"
+                row?.tumbImageAddress &&
+                row?.tumbImageAddress !== "Not-set" &&
+                row?.tumbImageAddress !== "null" &&
+                row?.tumbImageAddress !=
+                  "blob:http://localhost:3000/f296f0a6-8cb7-42f6-80d4-2d3ee5c2dcc5"
                   ? row?.tumbImageAddress
                   : default_image
               }

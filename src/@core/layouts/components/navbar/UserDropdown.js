@@ -31,12 +31,13 @@ import {
   removeItem,
 } from "../../../../core/services/storage/storage.services";
 import { useGetStudentProfile } from "../../../../core/services/api/Panel/GetProfile";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import NoProfile from "../../../../images/profile.png";
 
 const UserDropdown = () => {
   const navigate = useNavigate();
-
+  const MySwal = withReactContent(Swal);
   const handelLogOut = () => {
     removeItem("token");
     removeItem("id");
@@ -51,6 +52,27 @@ const UserDropdown = () => {
   };
   const Roles = getItem("roles");
   console.log(Roles, "Roles");
+
+  const handleSuspendedClick = () => {
+    return MySwal.fire({
+      title: "آیا مطمئنید که میخواهید از حساب کاربری خود خارج شوید",
+      text: "درصورت خروج دوباره باید فرایند ورود را طی کنید",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "بله",
+      cancelButtonText: "لغو",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-outline-danger ms-1",
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        handelLogOut();
+      }
+    });
+  };
+
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       {/* TODO */}
@@ -98,7 +120,7 @@ const UserDropdown = () => {
           <User size={14} className="me-75" />
           <span className="align-middle">پروفایل</span>
         </DropdownItem>
-        <DropdownItem onClick={handelLogOut} className="w-100">
+        <DropdownItem onClick={handleSuspendedClick} className="w-100">
           <Power size={14} className="me-75" />
           <span className="align-middle">خروج</span>
         </DropdownItem>

@@ -48,7 +48,7 @@ const ModalCustom = ({ show, setShow, data }) => {
             setShow(false);
             queryClient.invalidateQueries("GetAllCourseGroupDetails");
           } else {
-            toast.error("خطا در ویرایش گروه");
+            toast.error("خطا در ویرایش گروه دوره نامعبتر میباشد ");
           }
         },
       });

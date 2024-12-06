@@ -19,25 +19,15 @@ import { useQueryClient } from "@tanstack/react-query";
 import { convertIsoToJalali } from "../../../../core/utils/dateUtils";
 import { useAddAssistanceWork } from "../../../../core/services/api/Admin/HandelAssistanceWork";
 import { useAddClassRoom } from "../../../../core/services/api/Admin/handelClassRom";
+import { useAddLevel } from "../../../../core/services/api/Admin/CourseLevelHandel";
 const AddNewClassRoom = ({ setShow, show, data }) => {
-  //handel options
-  const { data: Builds } = useGetBuildingList();
-
-  const options =
-    Builds &&
-    Builds?.map((item) => ({
-      value: item?.id,
-      label: item?.buildingName,
-    }));
-  const { mutate: UpdateProfile } = useAddClassRoom();
+  const { mutate: UpdateProfile } = useAddLevel();
   console.log(data, "this data from course details");
   const queryClient = useQueryClient();
   const formik = useFormik({
     initialValues: {
       id: "1",
-      classRoomName: "",
-      capacity: "",
-      buildingId: options?.[0]?.value || "",
+      levelName: "",
     },
     enableReinitialize: true,
 
@@ -45,8 +35,8 @@ const AddNewClassRoom = ({ setShow, show, data }) => {
       UpdateProfile(values, {
         onSuccess: (data) => {
           if (data.success == true) {
-            toast.success(" با موفقیت  اضافه شد");
-            queryClient.invalidateQueries("GetClassRoomList");
+            toast.success(" سطح جدید با موفقیت  اضافه شد ");
+            queryClient.invalidateQueries("GetCourseLevelList");
 
             setShow(false);
           } else {
@@ -70,62 +60,20 @@ const AddNewClassRoom = ({ setShow, show, data }) => {
         ></ModalHeader>
         <ModalBody className="px-sm-5 pt-50 pb-5">
           <div className="text-center mb-2">
-            <h1 className="mb-1">افزودن کلاس </h1>
+            <h1 className="mb-1">افزودن سطح </h1>
           </div>
           <form onSubmit={formik.handleSubmit}>
             <Row className="gy-1 pt-75">
               {/* title */}
               <Col md={12} xs={12}>
-                <Label className="form-label" for="classRoomName">
-                  نام کلاس{" "}
+                <Label className="form-label" for="levelName">
+                  نام سطح{" "}
                 </Label>
                 <Input
-                  id="classRoomName"
-                  name="classRoomName"
-                  placeholder="نام کلاس را وارد کنید"
-                  {...formik?.getFieldProps("classRoomName")}
-                />
-              </Col>
-            </Row>
-
-            <Row className="gy-1 pt-75">
-              {/* title */}
-              <Col md={12} xs={12}>
-                <Label className="form-label" for="capacity">
-                  ظرفیت{" "}
-                </Label>
-                <Input
-                  id="capacity"
-                  type="number"
-                  name="capacity"
-                  placeholder="   ظرفیت  کلاس  را وارد کنید"
-                  {...formik?.getFieldProps("capacity")}
-                />
-              </Col>
-            </Row>
-
-            <Row className="gy-1 pt-75">
-              {/* title */}
-              <Col md={12} xs={12}>
-                <Label className="form-label" for="capacity">
-                  مکان برگزاری{" "}
-                </Label>
-                <Select
-                  id="buildingId"
-                  isClearable={false}
-                  className="react-select"
-                  classNamePrefix="select"
-                  options={options}
-                  theme={selectThemeColors}
-                  value={
-                    options &&
-                    options?.find(
-                      (option) => option.value === formik.values.buildingId
-                    )
-                  }
-                  onChange={(data) => {
-                    formik.setFieldValue("buildingId", data?.value || "");
-                  }}
+                  id="levelName"
+                  name="levelName"
+                  placeholder="نام سطح را وارد کنید"
+                  {...formik?.getFieldProps("levelName")}
                 />
               </Col>
             </Row>

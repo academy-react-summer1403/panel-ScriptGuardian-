@@ -191,7 +191,7 @@ const CustomHeader = ({
               color="primary"
               onClick={toggleSidebar}
             >
-              افزودن کلاس جدید{" "}
+              افزودن سطح جدید{" "}
             </Button>
           </div>
         </Col>
@@ -313,7 +313,7 @@ const CourseLevelTable = () => {
                   />
                 ) : (
                   <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
-                    لولی وجود ندارد
+                    سطحی وجود ندارد
                   </h2>
                 )}
               </>
