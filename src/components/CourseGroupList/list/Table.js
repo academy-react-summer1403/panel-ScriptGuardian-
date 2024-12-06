@@ -267,7 +267,7 @@ const UsersList = () => {
             columns={CustomColumnsForListCourse(toggleSidebar2)}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
-            className="react-dataTable"
+            className="react-dataTable overflow-visible"
             paginationComponent={CustomPagination}
             data={listUser}
             subHeaderComponent={

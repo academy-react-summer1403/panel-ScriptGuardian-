@@ -226,7 +226,9 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
               className="d-block fw-bold text-truncate"
               to={`/CourseGroupPage/${row.groupId}`}
             >
-              {row.groupName}
+              {row.groupName.length > 20
+                ? row.groupName.slice(0, 20) + "..."
+                : row.groupName}
             </NavLink>
           </div>
         </div>
@@ -246,7 +248,9 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
               className="d-block fw-bold text-truncate"
               to={`/CourseListPage/${row.courseId}`}
             >
-              {row.courseName}
+              {row.courseName.length > 20
+                ? row.courseName.slice(0, 20) + "..."
+                : row.courseName}
             </NavLink>
           </div>
         </div>
@@ -266,7 +270,9 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
             to={`/UsersPage/${row?.teacherId}`}
             className="text-truncate text-capitalize align-middle"
           >
-            {row.teacherName}
+            {row.teacherName.length > 20
+              ? row.teacherName.slice(0, 20)
+              : row.teacherName}
           </NavLink>
         </>
       );

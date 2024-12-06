@@ -33,75 +33,90 @@ import ModalEditClass from "./modal/ModalEditClass";
 
 export const CustomColumnsForListCourse = (toggleSidebar2) => [
   {
-    name: "نام کلاس",
-    minWidth: "150px",
+    name: "نام سطح",
+    minWidth: "550px",
     sortable: (row) => row.classRoomName,
     cell: (row) => {
       return (
         <div className="d-flex align-items-center">
           <div className="user-info text-truncate ms-1">
-            <span>{row?.classRoomName}</span>
+            <span>{row?.levelName}</span>
           </div>
         </div>
       );
     },
   },
-  {
-    name: "ظرفیت",
-    sortable: true,
-    minWidth: "172px",
-    sortField: "userRoles",
-    selector: (row) => row.capacity,
-    cell: (row) => {
-      return (
-        <>
-          <span className="text-truncate text-capitalize align-middle">
-            {row.capacity}
-          </span>
-        </>
-      );
-    },
-  },
 
   {
-    name: "  تاریخ ساخت",
-    sortable: true,
-    minWidth: "72px",
-    sortField: "userRoles",
-    selector: (row) => row.inserDate,
+    name: "آی دی سطح",
+    minWidth: "250px",
+    sortable: (row) => row.classRoomName,
     cell: (row) => {
       return (
-        <>
-          {" "}
-          <h5 className="text-truncate text-muted mb-0">
-            {" "}
-            {row?.insertDate ? convertIsoToJalali(row?.insertDate) : ""}
-          </h5>
-        </>
+        <div className="d-flex align-items-center">
+          <div className="user-info text-truncate ms-1">
+            <span>{row?.id}</span>
+          </div>
+        </div>
       );
     },
   },
+  // {
+  //   name: "ظرفیت",
+  //   sortable: true,
+  //   minWidth: "172px",
+  //   sortField: "userRoles",
+  //   selector: (row) => row.capacity,
+  //   cell: (row) => {
+  //     return (
+  //       <>
+  //         <span className="text-truncate text-capitalize align-middle">
+  //           {row.capacity}
+  //         </span>
+  //       </>
+  //     );
+  //   },
+  // },
 
-  {
-    name: "ساختمان ",
-    sortable: true,
-    minWidth: "72px",
-    sortField: "userRoles",
-    selector: (row) => row.buildingName,
-    cell: (row) => {
-      return (
-        <>
-          {" "}
-          <h5 className="text-truncate text-muted mb-0">
-            {" "}
-            <NavLink to={`/BuildingPage/${row?.buildingId}`}>
-              {row?.buildingName ? row?.buildingName : ""}
-            </NavLink>
-          </h5>
-        </>
-      );
-    },
-  },
+  // {
+  //   name: "  تاریخ ساخت",
+  //   sortable: true,
+  //   minWidth: "72px",
+  //   sortField: "userRoles",
+  //   selector: (row) => row.inserDate,
+  //   cell: (row) => {
+  //     return (
+  //       <>
+  //         {" "}
+  //         <h5 className="text-truncate text-muted mb-0">
+  //           {" "}
+  //           {row?.insertDate ? convertIsoToJalali(row?.insertDate) : ""}
+  //         </h5>
+  //       </>
+  //     );
+  //   },
+  // },
+
+  // {
+  //   name: "ساختمان ",
+  //   sortable: true,
+  //   minWidth: "72px",
+  //   sortField: "userRoles",
+  //   selector: (row) => row.buildingName,
+  //   cell: (row) => {
+  //     return (
+  //       <>
+  //         {" "}
+  //         <h5 className="text-truncate text-muted mb-0">
+  //           {" "}
+  //           <NavLink to={`/BuildingPage/${row?.buildingId}`}>
+  //             {row?.buildingName ? row?.buildingName : ""}
+  //           </NavLink>
+  //         </h5>
+  //       </>
+  //     );
+  //   },
+  // },
 
   {
     name: "اقدامات",

@@ -158,7 +158,7 @@ const CustomHeader = ({
   );
 };
 
-const UsersList = () => {
+const UsersList = ({ sortCol, sortType }) => {
   //API
 
   const store = useSelector((state) => state.users);
@@ -187,6 +187,8 @@ const UsersList = () => {
     rowsPerPage,
     // searchTerm,
     debouncedSearchQuery,
+    SortingCol: sortCol,
+    SortType: sortType,
   });
   const listUser = data?.courseDtos;
   const totalUser = data?.totalCount;
