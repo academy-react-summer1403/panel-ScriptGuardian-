@@ -26,19 +26,8 @@ import Select from "react-select";
 import { selectThemeColors } from "@utils";
 import { useState } from "react";
 const CourseList = () => {
-  const [sortType, setSortType] = useState();
-  const [sortCol, setCol] = useState();
-
-  const { data } = useGetAllCourses({
-    currentPage: null,
-    rowsPerPage: null,
-    SortingCol: sortCol,
-    SortType: sortType,
-  });
-  const totalUser = data?.totalCount;
-
   const roleOptions = [
-    { value: "", label: "انتخاب کنید..." },
+    { value: undefined, label: "همه ی دوره ها" },
     { value: "TypeName", label: "نوع دوره" },
     { value: "StatusName", label: "وضعیت دوره" },
     { value: "LevelName", label: "سطح دوره" },
@@ -48,10 +37,20 @@ const CourseList = () => {
   ];
 
   const planOptions = [
-    { value: "", label: "انتخاب کنید..." },
-    { value: "DESC", label: "ترتیب نزولی" },
-    { value: "ASC", label: "ترتیب صعودی" },
+    { value: "ASC", label: " صعودی" },
+    { value: "DESC", label: " نزولی" },
   ];
+  const [sortType, setSortType] = useState(undefined);
+  const [sortCol, setCol] = useState(planOptions[0].value);
+
+  const { data } = useGetAllCourses({
+    currentPage: null,
+    rowsPerPage: null,
+    SortingCol: sortCol,
+    SortType: sortType,
+  });
+  const totalUser = data?.totalCount;
+
   return (
     <div className="app-user-list">
       <Row>
@@ -82,6 +81,7 @@ const CourseList = () => {
                 onChange={(data) => {
                   setSortType(data.value);
                 }}
+                value={roleOptions.find((option) => option.value === sortType)}
               />
             </Col>
 
@@ -96,6 +96,7 @@ const CourseList = () => {
                 onChange={(data) => {
                   setCol(data.value);
                 }}
+                value={planOptions.find((option) => option.value === sortCol)}
               />
             </Col>
           </Row>

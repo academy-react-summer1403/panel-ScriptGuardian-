@@ -420,6 +420,8 @@ const GetAllNewsList = async ({
   rowsPerPage,
   debouncedSearchQuery,
   active,
+  SortingCol,
+  SortType,
 }) => {
   const AllParams = {
     PageNumber: currentPage ? currentPage : 1,
@@ -427,6 +429,8 @@ const GetAllNewsList = async ({
     Query: debouncedSearchQuery ? debouncedSearchQuery : undefined,
     // Query: searchTerm ? searchTerm : undefined,
     IsActive: active,
+    SortingCol: SortingCol ? SortingCol : undefined,
+    SortType: SortType ? SortType : undefined,
   };
   try {
     const response = await http.get(ApiRoutes.PANEL_GET_ALL_NEWS_ADMIN_URL, {
@@ -443,6 +447,8 @@ export const useGetAllNewsList = ({
   rowsPerPage,
   debouncedSearchQuery,
   active,
+  SortingCol,
+  SortType,
 }) => {
   return useQuery({
     queryKey: [
@@ -451,6 +457,8 @@ export const useGetAllNewsList = ({
       rowsPerPage,
       debouncedSearchQuery,
       active,
+      SortingCol,
+      SortType,
     ],
     queryFn: () => {
       return GetAllNewsList({
@@ -458,6 +466,8 @@ export const useGetAllNewsList = ({
         rowsPerPage,
         debouncedSearchQuery,
         active,
+        SortingCol,
+        SortType,
       });
     },
   });

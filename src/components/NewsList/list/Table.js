@@ -75,7 +75,7 @@ const CustomHeader = ({
   handleFilter,
   searchTerm,
   handleChange,
-  active,
+  // active,
 }) => {
   // ** Converts table to CSV
   function convertArrayOfObjectsToCSV(array) {
@@ -140,7 +140,7 @@ const CustomHeader = ({
             </Input>
             {/* <label htmlFor="rows-per-page">Entries</label> */}
           </div>
-          <div className="d-flex align-items-center w-100">
+          {/* <div className="d-flex align-items-center w-100">
             <label htmlFor="rows-per-page">وضعیت:</label>
             <Input
               className="mx-50"
@@ -153,7 +153,7 @@ const CustomHeader = ({
               <option value="true">فعال</option>
               <option value="false">غیرفعال</option>
             </Input>
-          </div>
+          </div> */}
         </Col>
 
         <Col
@@ -221,7 +221,7 @@ const CustomHeader = ({
   );
 };
 
-const UsersList = () => {
+const UsersList = ({ sortCol, sortType, active }) => {
   //API
 
   const store = useSelector((state) => state.users);
@@ -244,11 +244,11 @@ const UsersList = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarOpen2, setSidebarOpen2] = useState(false);
 
-  const [active, setActive] = useState(true);
+  // const [active, setActive] = useState(true);
 
-  const handleChange = (e) => {
-    setActive(e.target.value === "true");
-  };
+  // const handleChange = (e) => {
+  //   setActive(e.target.value === "true");
+  // };
 
   //Page
   const { data } = useGetAllNewsList({
@@ -257,6 +257,9 @@ const UsersList = () => {
     debouncedSearchQuery,
     // searchTerm,
     active,
+
+    SortingCol: sortCol,
+    SortType: sortType,
   });
   const listUser = data?.news;
   // const listUser = data?.comments?.slice().reverse();
@@ -343,8 +346,8 @@ const UsersList = () => {
                 handleFilter={handleFilter}
                 handlePerPage={handlePerPage}
                 toggleSidebar={toggleSidebar}
-                handleChange={handleChange}
-                active={active}
+                // handleChange={handleChange}
+                // active={active}
               />
             }
             noDataComponent={
