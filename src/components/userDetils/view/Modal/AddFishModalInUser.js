@@ -76,7 +76,7 @@ const AddFishModalInUser = ({
       className="modal-dialog-centered modal-sm"
     >
       <ModalHeader toggle={toggleAcceptModal} className="bg-primary text-white">
-        <h5 className="modal-title text-white">آپلود فیش پرداخت</h5>
+        <h5 className="modal-title text-white">آپلود فیش پرداخت </h5>
       </ModalHeader>
       <ModalBody className="text-center py-4">
         <form onSubmit={formik.handleSubmit}>

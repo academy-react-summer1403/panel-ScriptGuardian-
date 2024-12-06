@@ -174,7 +174,7 @@ const UserInfoCard = ({ data }) => {
 
   const handleSuspendedClick = () => {
     return MySwal.fire({
-      title: "آیا مطمعنید که میخاهید کاربر رو غیرفعال کنید",
+      title: "آیا مطمئنید که میخواهید کاربر رو غیرفعال کنید",
       text: "البته یک عمل قابل بازگشت است",
       icon: "warning",
       showCancelButton: true,
@@ -203,7 +203,7 @@ const UserInfoCard = ({ data }) => {
 
   const handleSuspendedClick2 = () => {
     return MySwal.fire({
-      title: "آیا مطمعنید که میخاهید کاربر رو فعال کنید",
+      title: "آیا مطمئنید که میخواهید کاربر رو فعال کنید",
       text: "البته یک عمل قابل بازگشت است",
       icon: "warning",
       showCancelButton: true,

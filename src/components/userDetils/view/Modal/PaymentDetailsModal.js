@@ -16,6 +16,7 @@ const PaymentDetailsModal = ({
   toggleAcceptModal,
   detailsPayment,
   isPending,
+  setScreen,
 }) => {
   const queryClient = useQueryClient();
 

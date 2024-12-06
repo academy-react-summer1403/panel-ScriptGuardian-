@@ -171,6 +171,7 @@ export const columnsForReplayComment = (refetch) => [
 
               <DropdownItem
                 size="sm"
+                className="w-100"
                 onClick={() => {
                   handelDelete(row.id);
                 }}

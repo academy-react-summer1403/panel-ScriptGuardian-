@@ -530,8 +530,19 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
               }}
               style={{ cursor: "pointer" }}
             >
-              {row.replyCount != "0" ? <Eye className="mr-1" size={16} /> : ""}
-              <span> {row?.replyCount}</span>
+              {row.replyCount != "0" ? (
+                <Eye
+                  className="mr-1"
+                  size={16}
+                  style={{ cursor: "pointer", color: "#007bff" }}
+                />
+              ) : (
+                ""
+              )}
+              <span style={{ cursor: "pointer", color: "#007bff" }}>
+                {" "}
+                {row?.replyCount}
+              </span>
             </div>
           </h5>
           <MyCustomModal

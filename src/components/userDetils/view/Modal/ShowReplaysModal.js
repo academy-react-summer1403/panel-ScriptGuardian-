@@ -43,7 +43,7 @@ const ShowReplaysModal = ({ show, setShow, data, refetch }) => {
                   // onSort={handleSort}
                   data={data}
                   sortIcon={<ChevronDown />}
-                  className="react-dataTable"
+                  className="react-dataTable overflow-visible"
                   defaultSortField="invoiceId"
                 />
               </div>

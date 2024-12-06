@@ -154,7 +154,7 @@ const UserInfoCard = ({ data, ID }) => {
 
   const handleSuspendedClick = () => {
     return MySwal.fire({
-      title: "آیا مطمعنید که میخاهید خبر را غیرفعال کنید",
+      title: "آیا مطمئنید که میخواهید خبر را غیرفعال کنید",
       text: "البته یک عمل قابل بازگشت است",
       icon: "warning",
       showCancelButton: true,
@@ -182,7 +182,7 @@ const UserInfoCard = ({ data, ID }) => {
 
   const handleSuspendedClick2 = () => {
     return MySwal.fire({
-      title: "آیا مطمعنید که میخاهید خبر رو فعال کنید",
+      title: "آیا مطمئنید که میخواهید خبر رو فعال کنید",
       text: "البته یک عمل قابل بازگشت است",
       icon: "warning",
       showCancelButton: true,

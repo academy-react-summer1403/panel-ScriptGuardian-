@@ -148,7 +148,7 @@ const UserInfoCard = ({ data }) => {
 
   const handleSuspendedClick = (id) => {
     return MySwal.fire({
-      title: "آیا مطمعنید که میخاهید دوره رو غیرفعال کنید",
+      title: "آیا مطمئنید که می خواهید دوره رو غیرفعال کنید",
       text: "البته یک عمل قابل بازگشت است",
       icon: "warning",
       showCancelButton: true,
@@ -176,7 +176,7 @@ const UserInfoCard = ({ data }) => {
 
   const handleSuspendedClick2 = (id) => {
     return MySwal.fire({
-      title: "آیا مطمعنید که میخاهید دوره رو فعال کنید",
+      title: "آیا مطمئنید که می خواهید دوره رو فعال کنید",
       text: "البته یک عمل قابل بازگشت است",
       icon: "warning",
       showCancelButton: true,

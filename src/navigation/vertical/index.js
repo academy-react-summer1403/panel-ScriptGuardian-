@@ -7,6 +7,13 @@ import {
   Book,
   MessageCircle,
   FileText,
+  Briefcase,
+  Award,
+  UserCheck,
+  HelpCircle,
+  BookOpen,
+  Map,
+  MapPin,
 } from "react-feather";
 
 export default [
@@ -40,99 +47,118 @@ export default [
         navLink: "/createCourse",
       },
       {
+        id: "CourseFeature",
+        title: "ویژگی های دوره",
+        icon: <BookOpen size={12} />,
+        children: [
+          {
+            id: "CourseGroupPage",
+            title: "گروه دوره ها",
+            icon: <Circle size={12} />,
+            navLink: "/CourseGroupPage",
+          },
+          {
+            id: "CourseLevelPage",
+            title: "سطح دوره",
+            icon: <Circle size={12} />,
+            navLink: "/CourseLevelPage",
+          },
+
+          {
+            id: "StatusListPage",
+            title: "لیست وضعیت دوره",
+            icon: <Circle size={12} />,
+            navLink: "/StatusListPage",
+          },
+
+          {
+            id: "TechnologyListPage",
+            title: "لیست تکنولوژی دوره",
+            icon: <Circle size={12} />,
+            navLink: "/TechnologyListPage",
+          },
+          {
+            id: "TermPage",
+            title: "لیست ترم های دوره",
+            icon: <Circle size={12} />,
+            navLink: "/TermPage",
+          },
+        ],
+      },
+      {
         id: "CourseTeacherListPage",
         title: "دوره های من (استاد)",
         icon: <Circle size={12} />,
         navLink: "/CourseTeacherListPage",
       },
+
       {
         id: "CourseReserved",
         title: " دوره های رزرو شده",
         icon: <Circle size={12} />,
         navLink: "/CourseReserved",
       },
+
       {
         id: "PaymentListPage",
         title: "لیست پرداخت ها",
         icon: <Circle size={12} />,
         navLink: "/PaymentListPage",
       },
+    ],
+  },
 
-      {
-        id: "CourseGroupPage",
-        title: "گروه دوره ها",
-        icon: <Circle size={12} />,
-        navLink: "/CourseGroupPage",
-      },
-
-      {
-        id: "AssistanceWorkPage",
-        title: "AssistanceWorkPage",
-        icon: <Circle size={12} />,
-        navLink: "/AssistanceWorkPage",
-      },
-
-      {
-        id: "BuildingPage",
-        title: "BuildingPage",
-        icon: <Circle size={12} />,
-        navLink: "/BuildingPage",
-      },
-
-      {
-        id: "ClassRoomPage",
-        title: "ClassRoomPage",
-        icon: <Circle size={12} />,
-        navLink: "/ClassRoomPage",
-      },
-
+  {
+    id: "Mentors",
+    title: "مدیریت منتور",
+    icon: <UserCheck size={20} />,
+    // navLink: "/sample",
+    children: [
       {
         id: "CourseAssistancePage",
-        title: "CourseAssistancePage",
+        title: "لیست منتور ها  در دوره ها",
         icon: <Circle size={12} />,
         navLink: "/CourseAssistancePage",
       },
 
       {
-        id: "CourseLevelPage",
-        title: "CourseLevelPage",
+        id: "AssistanceWorkPage",
+        title: "لیست کار های منتور",
         icon: <Circle size={12} />,
-        navLink: "/CourseLevelPage",
+        navLink: "/AssistanceWorkPage",
+      },
+    ],
+  },
+
+  {
+    id: "location",
+    title: "مدیریت محل  برگزاری",
+    icon: <MapPin size={20} />,
+    // navLink: "/sample",
+    children: [
+      {
+        id: "BuildingPage",
+        title: " لیست ساختمان ها",
+        icon: <Circle size={12} />,
+        navLink: "/BuildingPage",
       },
 
       {
         id: "DepartmentPage",
-        title: "DepartmentPage",
+        title: " لیست دپارتمان ها ",
         icon: <Circle size={12} />,
         navLink: "/DepartmentPage",
       },
 
       {
-        id: "JobHistoryPage",
-        title: "JobHistoryPage",
+        id: "ClassRoomPage",
+        title: "لیست کلاس ها",
         icon: <Circle size={12} />,
-        navLink: "/JobHistoryPage",
-      },
-      {
-        id: "StatusListPage",
-        title: "StatusListPage",
-        icon: <Circle size={12} />,
-        navLink: "/StatusListPage",
-      },
-      {
-        id: "TechnologyListPage",
-        title: "TechnologyListPage",
-        icon: <Circle size={12} />,
-        navLink: "/TechnologyListPage",
-      },
-      {
-        id: "TermPage",
-        title: "TermPage",
-        icon: <Circle size={12} />,
-        navLink: "/TermPage",
+        navLink: "/ClassRoomPage",
       },
     ],
   },
+
   {
     id: "Comments",
     title: "مدیریت نظرات",
@@ -174,5 +200,12 @@ export default [
         navLink: "/AddNewsCateGoryPage",
       },
     ],
+  },
+
+  {
+    id: "JobHistoryPage",
+    title: "سابقه کاری",
+    icon: <Briefcase size={12} />,
+    navLink: "/JobHistoryPage",
   },
 ];

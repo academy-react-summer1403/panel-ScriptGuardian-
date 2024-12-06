@@ -254,9 +254,15 @@ export const columns2 = [
     cell: (row) => {
       const navigate = useNavigate();
       const [ShowBuyCourse, setShowBuyCourse] = useState(false);
+      const [screen, setScreen] = useState(false);
+      const [PayId, setPayId] = useState();
 
       const handleBuyShow = () => {
         setShowBuyCourse(!ShowBuyCourse);
+      };
+
+      const toogelScreen = () => {
+        setScreen(false);
       };
 
       return (
@@ -284,7 +290,19 @@ export const columns2 = [
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
-          <ModalForBuying isOpen={ShowBuyCourse} toggelShow={handleBuyShow} courseId={row?.courseId}  setShowBuyCourse={setShowBuyCourse}/>
+          <ModalForBuying
+            isOpen={ShowBuyCourse}
+            toggelShow={handleBuyShow}
+            courseId={row?.courseId}
+            setShowBuyCourse={setShowBuyCourse}
+            setPayId={setPayId}
+            setScreen={setScreen}
+          />
+          <AddFishModalInUser
+            isOpenModal={screen}
+            toggleAcceptModal={toogelScreen}
+            id={PayId}
+          />
         </div>
       );
     },
@@ -552,8 +570,19 @@ export const columns3ForComment = [
               }}
               style={{ cursor: "pointer" }}
             >
-              {row.replyCount != "0" ? <Eye className="mr-1" size={16} /> : ""}
-              <span> {row?.replyCount}</span>
+              {row.replyCount != "0" ? (
+                <Eye
+                  className="mr-1"
+                  style={{ cursor: "pointer", color: "#007bff" }}
+                  size={16}
+                />
+              ) : (
+                ""
+              )}
+              <span style={{ cursor: "pointer", color: "#007bff" }}>
+                {" "}
+                {row?.replyCount}
+              </span>
             </div>
           </h5>
           <ShowReplaysModal
@@ -599,12 +628,18 @@ export const columns3ForComment = [
       };
 
       const handelDelete = (id) => {
-        DeleteComment(id, {
-          onSuccess: () => {
-            queryClient.invalidateQueries("GetAllListUsersComment");
-            toast.success("با موفقیت  کامنت حذف شد");
-          },
-        });
+        if (row?.replyCount != 0) {
+          toast.error(
+            "کامنت مورد نظر زیر نظر دارد برای حذف ابتدا زیر نظر های کامنت رو حذف کنید"
+          );
+        } else {
+          DeleteComment(id, {
+            onSuccess: () => {
+              queryClient.invalidateQueries("GetAllListUsersComment");
+              toast.success("با موفقیت  کامنت حذف شد");
+            },
+          });
+        }
       };
 
       const [show, setShow] = useState(false);
@@ -619,28 +654,32 @@ export const columns3ForComment = [
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
+              {row.accept ? (
+                <DropdownItem
+                  className="w-100"
+                  onClick={() => {
+                    handelDontAccept(row.commentId);
+                  }}
+                >
+                  <X color="red" size={14} />{" "}
+                  <span className="align-middle">رد نظر </span>
+                </DropdownItem>
+              ) : (
+                <DropdownItem
+                  className="w-100"
+                  onClick={() => {
+                    console.log(row.commentId, "id for test1");
+                    handelAccept(row.commentId);
+                    console.log(row.commentId, "id for test2");
+                  }}
+                >
+                  <Check color="green" size={16} />
+                  <span className="align-middle">تایید نظر </span>
+                </DropdownItem>
+              )}
+
               <DropdownItem
-                tag="a"
                 className="w-100"
-                onClick={() => {
-                  console.log(row.commentId, "id for test1");
-                  handelAccept(row.commentId);
-                  console.log(row.commentId, "id for test2");
-                }}
-              >
-                <Check color="green" size={16} />
-                <span className="align-middle">تایید نظر </span>
-              </DropdownItem>
-              <DropdownItem
-                className="w-100"
-                onClick={() => {
-                  handelDontAccept(row.commentId);
-                }}
-              >
-                <X color="red" size={14} />{" "}
-                <span className="align-middle">رد نظر </span>
-              </DropdownItem>
-              <DropdownItem
                 size="sm"
                 onClick={() => {
                   handelDelete(row.commentId);

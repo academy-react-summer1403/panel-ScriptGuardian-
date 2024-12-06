@@ -26,7 +26,14 @@ import { useAddPaymentAdminForUserStepOne } from "../../../../core/services/api/
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 
-const ModalForBuying = ({ isOpen, toggleShow, courseId, setShowBuyCourse }) => {
+const ModalForBuying = ({
+  isOpen,
+  toggleShow,
+  courseId,
+  setShowBuyCourse,
+  setPayId,
+  setScreen,
+}) => {
   const { id } = useParams();
 
   //API
@@ -42,7 +49,7 @@ const ModalForBuying = ({ isOpen, toggleShow, courseId, setShowBuyCourse }) => {
     initialValues: {
       CourseId: courseId,
       StudentId: id,
-      PeymentDate: "2024/04/12",
+      PeymentDate: "",
       Paid: "",
       PaymentInvoiceNumber: "",
     },
@@ -56,10 +63,12 @@ const ModalForBuying = ({ isOpen, toggleShow, courseId, setShowBuyCourse }) => {
       StepOne(formData, {
         onSuccess: (data) => {
           if (data.success === true) {
+            setPayId(data?.id);
             toast.success(data.message);
             // setPaymentId(data.id);
             queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
             setShowBuyCourse(false);
+            setScreen(true);
           } else {
             // toast.error(data.ErrorMessage?.[0]);
             // toast.error(data.ErrorMessage);
@@ -153,7 +162,21 @@ const ModalForBuying = ({ isOpen, toggleShow, courseId, setShowBuyCourse }) => {
               />
             </Col>
 
-            <Col sm="10" className="text-start">
+            <Col sm="10" className="text-start position-relative">
+              {calendar && (
+                <Calendar
+                  ref={CalenderRef}
+                  // value={
+                  //   formik.values.birthDay &&
+                  //   convertIsoToJalali(formik?.values?.birthDay)
+                  // }
+                  onChange={handelChangeData}
+                  calendar={persian}
+                  locale={persian_fa}
+                  className="position-absolute"
+                  style={{ top: "-245px" }}
+                />
+              )}
               <Label htmlFor="">تاریخ پرداخت </Label>
               <Input
                 id="PeymentDate"
@@ -170,20 +193,6 @@ const ModalForBuying = ({ isOpen, toggleShow, courseId, setShowBuyCourse }) => {
                     : ""
                 }
               />
-
-              {calendar && (
-                <Calendar
-                  ref={CalenderRef}
-                  // value={
-                  //   formik.values.birthDay &&
-                  //   convertIsoToJalali(formik?.values?.birthDay)
-                  // }
-                  onChange={handelChangeData}
-                  calendar={persian}
-                  locale={persian_fa}
-                  className="position-absolute"
-                />
-              )}
             </Col>
           </Row>
           <div className="d-flex justify-content-center">

@@ -372,7 +372,6 @@ export const columns3ForComment = [
     minWidth: "70px",
 
     cell: (row) => {
-      //TODO
       const queryClient = useQueryClient();
 
       const { mutate: AcceptComment } = useAcceptCommentCourse();
@@ -384,7 +383,7 @@ export const columns3ForComment = [
         AcceptComment(id, {
           onSuccess: () => {
             queryClient.invalidateQueries("GetAllCommentsList");
-            toast.success("با موفقیت با کامنت موفقیت شد");
+            toast.success("با موفقیت  کامنت تایید شد");
           },
         });
       };
@@ -393,18 +392,24 @@ export const columns3ForComment = [
         NotAcceptComment(id, {
           onSuccess: () => {
             queryClient.invalidateQueries("GetAllCommentsList");
-            toast.success("با موفقیت با کامنت مخالفت شد");
+            toast.success("با موفقیت  کامنت رد شد");
           },
         });
       };
 
       const handelDelete = (id) => {
-        DeleteComment(id, {
-          onSuccess: () => {
-            queryClient.invalidateQueries("GetAllCommentsList");
-            toast.success("با موفقیت  کامنت حذف شد");
-          },
-        });
+        if (row.replyCount != 0) {
+          toast.error(
+            "کامنت مورد نظر زیر نظر دارد برای حذف کامنت ابتدا زیر نظر های کامنت را حذف کنید"
+          );
+        } else {
+          DeleteComment(id, {
+            onSuccess: () => {
+              queryClient.invalidateQueries("GetAllCommentsList");
+              toast.success("با موفقیت  کامنت حذف شد");
+            },
+          });
+        }
       };
       const [show, setShow] = useState(false);
 
@@ -417,32 +422,36 @@ export const columns3ForComment = [
             <DropdownToggle tag="div" className="btn btn-sm">
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
+
             <DropdownMenu>
-              <DropdownItem tag="a" className="w-100">
-                <Check color="green" size={16} />
-                <span
-                  className="align-middle"
-                  onClick={() => {
-                    console.log(row.id, "id for test1");
-                    handelAccept(row.commentId);
-                    console.log(row.id, "id for test2");
-                  }}
-                >
-                  تایید نظر{" "}
-                </span>
-              </DropdownItem>
-              <DropdownItem className="w-100">
-                <X color="red" size={14} />{" "}
-                <span
-                  className="align-middle"
-                  onClick={() => {
-                    handelDontAccept(row.commentId);
-                  }}
-                >
-                  رد نظر{" "}
-                </span>
-              </DropdownItem>
-              <DropdownItem size="sm">
+              {row?.accept ? (
+                <DropdownItem className="w-100">
+                  <X color="red" size={14} />{" "}
+                  <span
+                    className="align-middle"
+                    onClick={() => {
+                      handelDontAccept(row.commentId);
+                    }}
+                  >
+                    رد نظر{" "}
+                  </span>
+                </DropdownItem>
+              ) : (
+                <DropdownItem className="w-100">
+                  <Check color="green" size={16} />
+                  <span
+                    className="align-middle"
+                    onClick={() => {
+                      console.log(row.id, "id for test1");
+                      handelAccept(row.commentId);
+                      console.log(row.id, "id for test2");
+                    }}
+                  >
+                    تایید نظر{" "}
+                  </span>
+                </DropdownItem>
+              )}
+              <DropdownItem size="sm" className="w-100">
                 <Trash2 size={14} className="me-50" />
                 <span
                   className="align-middle"
