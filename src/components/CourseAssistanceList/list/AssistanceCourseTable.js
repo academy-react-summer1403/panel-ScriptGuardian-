@@ -287,7 +287,7 @@ const AssistanceCourseTable = () => {
             // sortServer
             pagination
             responsive
-            // paginationServer
+            paginationServer
             columns={CustomColumnsForListCourse(toggleSidebar2)}
             onSort={handleSort}
             sortIcon={<ChevronDown />}

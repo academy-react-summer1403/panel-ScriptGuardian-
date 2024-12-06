@@ -238,6 +238,7 @@ const UsersList = () => {
     const value = parseInt(e.currentTarget.value);
 
     setRowsPerPage(value);
+    setCurrentPage(1);
   };
 
   // ** Function in get data on search query change
@@ -292,7 +293,7 @@ const UsersList = () => {
             // sortServer
             pagination
             responsive
-            // paginationServer
+            paginationServer
             columns={CustomColumnsForListOfAllOfPayMent(toggleSidebar2)}
             onSort={handleSort}
             sortIcon={<ChevronDown />}

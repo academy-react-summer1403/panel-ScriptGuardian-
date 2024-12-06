@@ -191,7 +191,7 @@ const CustomHeader = ({
               color="primary"
               onClick={toggleSidebar}
             >
-              افزودن دوره جدید{" "}
+              افزودن کار برای منتور{" "}
             </Button>
           </div>
         </Col>
@@ -286,7 +286,7 @@ const AssistanceWorkTable = () => {
             // sortServer
             pagination
             responsive
-            // paginationServer
+            paginationServer
             columns={CustomColumnsForListCourse(toggleSidebar2)}
             onSort={handleSort}
             sortIcon={<ChevronDown />}

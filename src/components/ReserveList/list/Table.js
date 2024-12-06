@@ -288,7 +288,7 @@ const UsersList = () => {
             // sortServer
             pagination
             responsive
-            // paginationServer
+            paginationServer
             columns={CustomColumnsForListReserve(toggleSidebar2)}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
