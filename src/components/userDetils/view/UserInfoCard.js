@@ -19,10 +19,10 @@ import {
 
 // ** Third Party Components
 import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import Select from "react-select";
 import { Check, Briefcase, X, Book, BookOpen } from "react-feather";
 import { useForm, Controller } from "react-hook-form";
-import withReactContent from "sweetalert2-react-content";
 
 // ** Custom Components
 import Avatar from "@components/avatar";
@@ -275,7 +275,7 @@ const UserInfoCard = ({ data }) => {
                       justifyContent: "center",
                     }}
                   >
-                    {Array.isArray(data?.roles) && data.roles.length > 0 ? (
+                    {Array.isArray(data?.roles) && data.roles.length > 1 ? (
                       data.roles.map((role) => {
                         const colors = {
                           Administrator: "danger",

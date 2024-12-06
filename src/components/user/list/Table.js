@@ -163,7 +163,7 @@ const CustomHeader = ({
   );
 };
 
-const UsersList = ({ currentStatus, currentRole }) => {
+const UsersList = ({ currentStatus, currentRole, data: roles }) => {
   //API
 
   const store = useSelector((state) => state.users);
@@ -265,7 +265,7 @@ const UsersList = ({ currentStatus, currentRole }) => {
             pagination
             responsive
             paginationServer
-            columns={CustomColumns(toggleSidebar2)}
+            columns={CustomColumns(toggleSidebar2, roles)}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
             className="react-dataTable"

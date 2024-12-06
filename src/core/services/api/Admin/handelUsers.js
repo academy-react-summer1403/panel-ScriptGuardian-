@@ -81,6 +81,16 @@ export const useGetAllUsersDetailsAdmin = (id) => {
   });
 };
 
+export const useGetAllUsersDetailsAdminForLists = (id) => {
+  return useQuery({
+    queryKey: ["GetAllUsersDetailsAdminForLists"],
+    queryFn: () => {
+      return GetAllUsersDetailsAdmin(id);
+    },
+    enabled: false,
+  });
+};
+
 //Add
 
 const AddNewUser = async (user) => {

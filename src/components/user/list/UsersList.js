@@ -176,7 +176,11 @@ const UsersList = () => {
           </Row>
         </CardBody>
       </Card>
-      <Table currentStatus={currentStatus} currentRole={currentRole} />
+      <Table
+        currentStatus={currentStatus}
+        currentRole={currentRole}
+        data={data}
+      />
     </div>
   );
 };
