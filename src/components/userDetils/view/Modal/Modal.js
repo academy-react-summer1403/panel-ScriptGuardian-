@@ -15,6 +15,7 @@ import { useFormik } from "formik";
 import { useUpdateUser } from "../../../../core/services/api/Admin/handelChangeProfileUser";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import CustomSpinner from "../../../common/animation/CustomSpiner";
 
 const ModalCustom = ({ show, setShow, data }) => {
   const queryClient = useQueryClient();
@@ -26,7 +27,7 @@ const ModalCustom = ({ show, setShow, data }) => {
     { value: "canada", label: "Canada" },
   ];
 
-  const { mutate: UpdateProfile } = useUpdateUser();
+  const { mutate: UpdateProfile, isPending } = useUpdateUser();
 
   const formik = useFormik({
     initialValues: {
@@ -118,7 +119,7 @@ const ModalCustom = ({ show, setShow, data }) => {
             <Row className="gy-1 pt-75">
               <Col md={6} xs={12}>
                 <Label className="form-label" for="fName">
-                  نام کاربری{" "}
+                  نام{" "}
                 </Label>
 
                 <Input
@@ -271,9 +272,20 @@ const ModalCustom = ({ show, setShow, data }) => {
 
             <Row className="gy-1 pt-75">
               <Col xs={12} className="text-center mt-2 pt-50">
-                <Button type="submit" className="me-1" color="primary">
-                  ارسال
-                </Button>
+                {isPending ? (
+                  <Button
+                    type="submit"
+                    className="me-1"
+                    color="primary"
+                    style={{ width: "74px" }}
+                  >
+                    <CustomSpinner size={16} />
+                  </Button>
+                ) : (
+                  <Button type="submit" className="me-1" color="primary">
+                    ارسال{" "}
+                  </Button>
+                )}
               </Col>
             </Row>
           </form>

@@ -73,35 +73,35 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
       );
     },
   },
-  {
-    name: "وبسایت",
-    minWidth: "150px",
-    sortable: (row) => row.companyWebSite,
-    cell: (row) => {
-      return (
-        <div className="d-flex align-items-center">
-          <div className="user-info text-truncate ms-1">
-            <span>{row?.companyWebSite}</span>
-          </div>
-        </div>
-      );
-    },
-  },
+  // {
+  //   name: "وبسایت",
+  //   minWidth: "150px",
+  //   sortable: (row) => row.companyWebSite,
+  //   cell: (row) => {
+  //     return (
+  //       <div className="d-flex align-items-center">
+  //         <div className="user-info text-truncate ms-1">
+  //           <span>{row?.companyWebSite}</span>
+  //         </div>
+  //       </div>
+  //     );
+  //   },
+  // },
 
-  {
-    name: "لینکدین",
-    minWidth: "150px",
-    sortable: (row) => row.companyLinkdin,
-    cell: (row) => {
-      return (
-        <div className="d-flex align-items-center">
-          <div className="user-info text-truncate ms-1">
-            <span>{row?.companyLinkdin}</span>
-          </div>
-        </div>
-      );
-    },
-  },
+  // {
+  //   name: "لینکدین",
+  //   minWidth: "150px",
+  //   sortable: (row) => row.companyLinkdin,
+  //   cell: (row) => {
+  //     return (
+  //       <div className="d-flex align-items-center">
+  //         <div className="user-info text-truncate ms-1">
+  //           <span>{row?.companyLinkdin}</span>
+  //         </div>
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     name: "تاریخ شروع",
     sortable: true,
@@ -139,99 +139,99 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
     },
   },
 
-  {
-    name: "اقدامات",
-    minWidth: "100px",
+  // {
+  //   name: "اقدامات",
+  //   minWidth: "100px",
 
-    cell: (row) => {
-      const queryClient = useQueryClient();
-      const navigate = useNavigate();
+  //   cell: (row) => {
+  //     const queryClient = useQueryClient();
+  //     const navigate = useNavigate();
 
-      const { mutate: ChangeActivity } = useActiveCourse();
+  //     const { mutate: ChangeActivity } = useActiveCourse();
 
-      const ActiveCourse = (id) => {
-        ChangeActivity(
-          { active: true, id },
+  //     const ActiveCourse = (id) => {
+  //       ChangeActivity(
+  //         { active: true, id },
 
-          {
-            onSuccess: (data) => {
-              if (data.success === true) {
-                queryClient.invalidateQueries("GetAllCourses");
-                toast.success("دوره با موفق فعال شد");
-              }
-            },
-          }
-        );
-      };
+  //         {
+  //           onSuccess: (data) => {
+  //             if (data.success === true) {
+  //               queryClient.invalidateQueries("GetAllCourses");
+  //               toast.success("دوره با موفق فعال شد");
+  //             }
+  //           },
+  //         }
+  //       );
+  //     };
 
-      const DeActiveCourse = (id) => {
-        ChangeActivity(
-          { active: false, id },
+  //     const DeActiveCourse = (id) => {
+  //       ChangeActivity(
+  //         { active: false, id },
 
-          {
-            onSuccess: (data) => {
-              if (data.success === true) {
-                queryClient.invalidateQueries("GetAllCourses");
-                toast.success("دوره با موفقیت غیر فعال شد");
-              }
-            },
-          }
-        );
-      };
-      return (
-        <div className="column-action">
-          <UncontrolledDropdown>
-            <DropdownToggle tag="div" className="btn btn-sm">
-              <MoreVertical size={14} className="cursor-pointer" />
-            </DropdownToggle>
-            <DropdownMenu>
-              {row?.isActive ? (
-                <>
-                  <DropdownItem
-                    onClick={() => {
-                      DeActiveCourse(row?.courseId);
-                    }}
-                    lassName="w-100"
-                  >
-                    <X size={14} className="me-50" />
-                    <span className="align-middle"> غیر فعال کردن دوره </span>
-                  </DropdownItem>
-                </>
-              ) : (
-                <>
-                  <DropdownItem
-                    className="w-100"
-                    onClick={() => {
-                      ActiveCourse(row?.courseId);
-                    }}
-                  >
-                    <Check size={14} className="me-50" />
-                    <span className="align-middle">فعال کردن دوره</span>
-                  </DropdownItem>
-                </>
-              )}
+  //         {
+  //           onSuccess: (data) => {
+  //             if (data.success === true) {
+  //               queryClient.invalidateQueries("GetAllCourses");
+  //               toast.success("دوره با موفقیت غیر فعال شد");
+  //             }
+  //           },
+  //         }
+  //       );
+  //     };
+  //     return (
+  //       <div className="column-action">
+  //         <UncontrolledDropdown>
+  //           <DropdownToggle tag="div" className="btn btn-sm">
+  //             <MoreVertical size={14} className="cursor-pointer" />
+  //           </DropdownToggle>
+  //           <DropdownMenu>
+  //             {row?.isActive ? (
+  //               <>
+  //                 <DropdownItem
+  //                   onClick={() => {
+  //                     DeActiveCourse(row?.courseId);
+  //                   }}
+  //                   lassName="w-100"
+  //                 >
+  //                   <X size={14} className="me-50" />
+  //                   <span className="align-middle"> غیر فعال کردن دوره </span>
+  //                 </DropdownItem>
+  //               </>
+  //             ) : (
+  //               <>
+  //                 <DropdownItem
+  //                   className="w-100"
+  //                   onClick={() => {
+  //                     ActiveCourse(row?.courseId);
+  //                   }}
+  //                 >
+  //                   <Check size={14} className="me-50" />
+  //                   <span className="align-middle">فعال کردن دوره</span>
+  //                 </DropdownItem>
+  //               </>
+  //             )}
 
-              <DropdownItem
-                className="w-100"
-                onClick={() => {
-                  navigate(`/CourseListPage/${row.courseId}`);
-                }}
-              >
-                <ExternalLink size={14} className="me-50" />
-                <span className="align-middle">جزییات دوره</span>
-              </DropdownItem>
-              {/* <UserAddRole
-              // modal={modal}
-              // id={row.id}
-              // userName={row.fname + " " + row.lname}
-              // toggleModal={toggleModal}
-              // userRoles={row.role}
-              // refetch={refetch}
-              /> */}
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        </div>
-      );
-    },
-  },
+  //             <DropdownItem
+  //               className="w-100"
+  //               onClick={() => {
+  //                 navigate(`/CourseListPage/${row.courseId}`);
+  //               }}
+  //             >
+  //               <ExternalLink size={14} className="me-50" />
+  //               <span className="align-middle">جزییات دوره</span>
+  //             </DropdownItem>
+  //             {/* <UserAddRole
+  //             // modal={modal}
+  //             // id={row.id}
+  //             // userName={row.fname + " " + row.lname}
+  //             // toggleModal={toggleModal}
+  //             // userRoles={row.role}
+  //             // refetch={refetch}
+  //             /> */}
+  //           </DropdownMenu>
+  //         </UncontrolledDropdown>
+  //       </div>
+  //     );
+  //   },
+  // },
 ];

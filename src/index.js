@@ -70,7 +70,7 @@ root.render(
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           {/* <Suspense fallback={<Spinner />}> */}
-          <Suspense>
+          <Suspense fallback={<Spinner />}>
             <ThemeContext>
               <LazyApp />
               <Toaster

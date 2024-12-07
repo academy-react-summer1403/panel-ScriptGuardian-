@@ -25,6 +25,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAddPaymentAdminForUserStepOne } from "../../../../core/services/api/Admin/payment/handelAddPayMentAdmin";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import CustomSpinner from "../../../common/animation/CustomSpiner";
 
 const ModalForBuying = ({
   isOpen,
@@ -196,9 +197,20 @@ const ModalForBuying = ({
             </Col>
           </Row>
           <div className="d-flex justify-content-center">
-            <Button type="submit" color="primary" className="px-5 py-2">
-              ارسال فیش
-            </Button>
+            {isPending ? (
+              <Button
+                type="submit"
+                color="primary"
+                className=""
+                style={{ width: "174px", height: "54px" }}
+              >
+                <CustomSpinner size={30} />
+              </Button>
+            ) : (
+              <Button type="submit" color="primary" className="px-5 py-2">
+                ارسال فیش
+              </Button>
+            )}
           </div>
         </form>
       </ModalBody>

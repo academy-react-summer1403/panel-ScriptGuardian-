@@ -37,8 +37,8 @@ const CourseList = () => {
   ];
 
   const planOptions = [
-    { value: "ASC", label: " صعودی" },
-    { value: "DESC", label: " نزولی" },
+    { value: "DESC", label: " صعودی" },
+    { value: "ASC", label: " نزولی" },
   ];
   const [sortType, setSortType] = useState(undefined);
   const [sortCol, setCol] = useState(planOptions[0].value);

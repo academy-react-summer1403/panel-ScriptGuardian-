@@ -1,6 +1,6 @@
 // MyMap component
 
-import { useEffect } from "react";
+import { useEffect, React } from "react";
 import { useMap } from "react-leaflet";
 import {
   MapContainer,
@@ -32,7 +32,7 @@ const CustomMap = ({ markerPosition, setMarkerPosition }) => {
     <MapContainer
       center={[markerPosition.initialLatitude, markerPosition.initialLongitude]}
       zoom={10}
-      style={{ height: "200px", width: "100%" }}
+      style={{ height: "200px", width: "100%", direction: "rtl" }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 

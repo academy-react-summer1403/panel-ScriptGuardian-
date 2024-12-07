@@ -193,7 +193,7 @@ const CustomHeader = ({
               color="primary"
               onClick={toggleSidebar}
             >
-              افزودن ساختمان جدید{" "}
+              افزودن دپارتمان جدید{" "}
             </Button>
           </div>
         </Col>

@@ -94,9 +94,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
           {" "}
           <h5 className="text-truncate text-muted mb-0">
             {" "}
-            <NavLink to={`/BuildingPage/${row?.buildingId}`}>
-              {row?.buildingName ? row?.buildingName : ""}
-            </NavLink>
+            <span>{row?.buildingName ? row?.buildingName : ""}</span>
           </h5>
         </>
       );

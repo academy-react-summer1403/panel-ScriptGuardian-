@@ -65,22 +65,22 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
     },
   },
 
-  {
-    name: " آیکون",
-    sortable: true,
-    minWidth: "172px",
-    sortField: "userRoles",
-    selector: (row) => row.iconAddress,
-    cell: (row) => {
-      return (
-        <>
-          <span className="text-truncate text-capitalize align-middle">
-            {row.iconAddress}
-          </span>
-        </>
-      );
-    },
-  },
+  // {
+  //   name: " آیکون",
+  //   sortable: true,
+  //   minWidth: "172px",
+  //   sortField: "userRoles",
+  //   selector: (row) => row.iconAddress,
+  //   cell: (row) => {
+  //     return (
+  //       <>
+  //         <span className="text-truncate text-capitalize align-middle">
+  //           {row.iconAddress}
+  //         </span>
+  //       </>
+  //     );
+  //   },
+  // },
 
   {
     name: "اقدامات",

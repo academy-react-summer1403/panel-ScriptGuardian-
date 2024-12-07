@@ -314,7 +314,7 @@ const AssistanceCourseTable = () => {
                   />
                 ) : (
                   <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
-                    کاری وجود ندارد
+                    منتوری وجود ندارد{" "}
                   </h2>
                 )}
               </>

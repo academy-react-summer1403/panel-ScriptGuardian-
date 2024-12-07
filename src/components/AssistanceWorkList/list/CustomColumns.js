@@ -6,6 +6,7 @@ import {
   Archive,
   Check,
   Database,
+  Edit,
   Edit2,
   ExternalLink,
   MoreVertical,
@@ -27,6 +28,8 @@ import { useActiveCourse } from "../../../core/services/api/Admin/handelreserve"
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { convertIsoToJalali } from "../../../core/utils/dateUtils";
+import EditWork from "./modal/EditWork";
+import { useState } from "react";
 
 export const CustomColumnsForListCourse = (toggleSidebar2) => [
   {
@@ -36,10 +39,12 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
     cell: (row) => {
       return (
         <div className="d-flex align-items-center">
-          <div className="user-info text-truncate ms-1">
-            <NavLink to={`/AssistanceWorkPage/${row?.workId}`}>
-              {row?.worktitle}
-            </NavLink>
+          <div className="user-info text-truncate ms-1" title={row?.worktitle}>
+            <span>
+              {row?.worktitle.length > 20
+                ? row.worktitle.slice(0, 20) + "..."
+                : row.worktitle}
+            </span>
           </div>
         </div>
       );
@@ -54,8 +59,13 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
     cell: (row) => {
       return (
         <>
-          <span className="text-truncate text-capitalize align-middle">
-            {row.workDescribe}
+          <span
+            className="text-truncate text-capitalize align-middle"
+            title={row.workDescribe}
+          >
+            {row.workDescribe.length > 20
+              ? row.workDescribe.slice(0, 20) + "..."
+              : row.workDescribe}
           </span>
         </>
       );
@@ -81,24 +91,24 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
     },
   },
 
-  {
-    name: "تاریخ ساخت",
-    sortable: true,
-    minWidth: "72px",
-    sortField: "userRoles",
-    selector: (row) => row.inserDate,
-    cell: (row) => {
-      return (
-        <>
-          {" "}
-          <h5 className="text-truncate text-muted mb-0">
-            {" "}
-            {row?.inserDate ? convertIsoToJalali(row?.inserDate) : ""}
-          </h5>
-        </>
-      );
-    },
-  },
+  // {
+  //   name: "تاریخ ساخت",
+  //   sortable: true,
+  //   minWidth: "72px",
+  //   sortField: "userRoles",
+  //   selector: (row) => row.inserDate,
+  //   cell: (row) => {
+  //     return (
+  //       <>
+  //         {" "}
+  //         <h5 className="text-truncate text-muted mb-0">
+  //           {" "}
+  //           {row?.inserDate ? convertIsoToJalali(row?.inserDate) : ""}
+  //         </h5>
+  //       </>
+  //     );
+  //   },
+  // },
 
   {
     name: "عنوان دوره ",
@@ -121,7 +131,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
   },
 
   {
-    name: " assistanceName ",
+    name: "نام منتور",
     sortable: true,
     minWidth: "172px",
     sortField: "userRoles",
@@ -146,38 +156,8 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
     cell: (row) => {
       const queryClient = useQueryClient();
       const navigate = useNavigate();
+      const [show, setShow] = useState(false);
 
-      const { mutate: ChangeActivity } = useActiveCourse();
-
-      const ActiveCourse = (id) => {
-        ChangeActivity(
-          { active: true, id },
-
-          {
-            onSuccess: (data) => {
-              if (data.success === true) {
-                queryClient.invalidateQueries("GetAllCourses");
-                toast.success("دوره با موفق فعال شد");
-              }
-            },
-          }
-        );
-      };
-
-      const DeActiveCourse = (id) => {
-        ChangeActivity(
-          { active: false, id },
-
-          {
-            onSuccess: (data) => {
-              if (data.success === true) {
-                queryClient.invalidateQueries("GetAllCourses");
-                toast.success("دوره با موفقیت غیر فعال شد");
-              }
-            },
-          }
-        );
-      };
       return (
         <div className="column-action">
           <UncontrolledDropdown>
@@ -185,32 +165,10 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
-              {row?.isActive ? (
-                <>
-                  <DropdownItem
-                    onClick={() => {
-                      DeActiveCourse(row?.courseId);
-                    }}
-                    lassName="w-100"
-                  >
-                    <X size={14} className="me-50" />
-                    <span className="align-middle"> غیر فعال کردن دوره </span>
-                  </DropdownItem>
-                </>
-              ) : (
-                <>
-                  <DropdownItem
-                    className="w-100"
-                    onClick={() => {
-                      ActiveCourse(row?.courseId);
-                    }}
-                  >
-                    <Check size={14} className="me-50" />
-                    <span className="align-middle">فعال کردن دوره</span>
-                  </DropdownItem>
-                </>
-              )}
-
+              <DropdownItem className="w-100" onClick={() => setShow(true)}>
+                <Edit size={14} className="me-50" />
+                <span className="align-middle">ویرایش کار</span>
+              </DropdownItem>
               <DropdownItem
                 className="w-100"
                 onClick={() => {
@@ -220,16 +178,9 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
                 <ExternalLink size={14} className="me-50" />
                 <span className="align-middle">جزییات دوره</span>
               </DropdownItem>
-              {/* <UserAddRole
-              // modal={modal}
-              // id={row.id}
-              // userName={row.fname + " " + row.lname}
-              // toggleModal={toggleModal}
-              // userRoles={row.role}
-              // refetch={refetch}
-              /> */}
             </DropdownMenu>
           </UncontrolledDropdown>
+          <EditWork show={show} setShow={setShow} data={row} />
         </div>
       );
     },

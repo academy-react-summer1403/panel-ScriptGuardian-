@@ -61,7 +61,7 @@ const CommentList = () => {
 
   return (
     <div className="app-user-list">
-      <Row>
+      {/* <Row>
         <Col lg="3" sm="6">
           <StatsHorizontal
             color="primary"
@@ -70,7 +70,7 @@ const CommentList = () => {
             renderStats={<h3 className="fw-bolder mb-75">{totalUser}</h3>}
           />
         </Col>
-      </Row>
+      </Row> */}
 
       <Card>
         <CardHeader>

@@ -428,7 +428,9 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
               className="d-block fw-bold text-truncate"
               to={`/CourseListPage/${row.courseId}`}
             >
-              {row.courseName}
+              {row.courseName.length > 25
+                ? row.courseName?.slice(0, 25) + "..."
+                : row.courseName}
             </NavLink>
           </div>
         </div>

@@ -85,12 +85,12 @@ export default [
           },
         ],
       },
-      {
-        id: "CourseTeacherListPage",
-        title: "دوره های من (استاد)",
-        icon: <Circle size={12} />,
-        navLink: "/CourseTeacherListPage",
-      },
+      // {
+      //   id: "CourseTeacherListPage",
+      //   title: "دوره های من (استاد)",
+      //   icon: <Circle size={12} />,
+      //   navLink: "/CourseTeacherListPage",
+      // },
 
       {
         id: "CourseReserved",
@@ -208,4 +208,11 @@ export default [
     icon: <Briefcase size={12} />,
     navLink: "/JobHistoryPage",
   },
+
+  // {
+  //   id: "SkajolPage",
+  //   title: "زمان بندی",
+  //   icon: <Home size={20} />,
+  //   navLink: "/SkajolPage",
+  // },
 ];

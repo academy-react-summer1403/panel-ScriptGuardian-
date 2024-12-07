@@ -242,7 +242,7 @@ const Login = () => {
                 </Button>
               ) : (
                 <Button type="submit" color="primary" block>
-                  ارسال{" "}
+                  ورود{" "}
                 </Button>
               )}
             </form>

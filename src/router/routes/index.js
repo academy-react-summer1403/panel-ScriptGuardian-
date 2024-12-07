@@ -57,6 +57,7 @@ const CourseAssistancePage = lazy(() =>
   import("../../pages/CourseAssistancePage")
 );
 const AssistanceWorkPage = lazy(() => import("../../pages/AssistanceWorkPage"));
+const SkajolPage = lazy(() => import("../../pages/SkajolPage"));
 const AssistanceWorkDetailsPage = lazy(() =>
   import("../../pages/AssistanceWorkDetailsPage")
 );
@@ -89,6 +90,10 @@ const Routes = [
   {
     path: "/UsersPage",
     element: <UsersPage />,
+  },
+  {
+    path: "/SkajolPage",
+    element: <SkajolPage />,
   },
   {
     path: "/UsersPage/:id",

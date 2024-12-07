@@ -54,9 +54,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
       return (
         <div className="d-flex align-items-center">
           <div className="user-info text-truncate ms-1">
-            <NavLink to={`/BuildingPage/${row?.id}`}>
-              {row?.buildingName}
-            </NavLink>
+            <span>{row?.buildingName}</span>
           </div>
         </div>
       );

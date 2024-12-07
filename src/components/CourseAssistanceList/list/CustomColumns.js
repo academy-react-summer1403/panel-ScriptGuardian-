@@ -33,25 +33,6 @@ import { useState } from "react";
 
 export const CustomColumnsForListCourse = (toggleSidebar2) => [
   {
-    name: "تاریخ ساخت",
-    sortable: true,
-    minWidth: "72px",
-    sortField: "userRoles",
-    selector: (row) => row.inserDate,
-    cell: (row) => {
-      return (
-        <>
-          {" "}
-          <h5 className="text-truncate text-muted mb-0">
-            {" "}
-            {row?.inserDate ? convertIsoToJalali(row?.inserDate) : ""}
-          </h5>
-        </>
-      );
-    },
-  },
-
-  {
     name: "عنوان دوره ",
     sortable: true,
     minWidth: "172px",
@@ -72,7 +53,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
   },
 
   {
-    name: " assistanceName ",
+    name: " نام منتور ",
     sortable: true,
     minWidth: "172px",
     sortField: "userRoles",
@@ -86,6 +67,25 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
           >
             {row.assistanceName}
           </NavLink>
+        </>
+      );
+    },
+  },
+
+  {
+    name: "تاریخ ساخت",
+    sortable: true,
+    minWidth: "72px",
+    sortField: "userRoles",
+    selector: (row) => row.inserDate,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            {" "}
+            {row?.inserDate ? convertIsoToJalali(row?.inserDate) : ""}
+          </h5>
         </>
       );
     },

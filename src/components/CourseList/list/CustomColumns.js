@@ -2,6 +2,8 @@ import Avatar from "@components/avatar";
 import default_image from "../../../images/default_image.png";
 import NoProfile from "../../../images/profile.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import {
   Archive,
   Check,
@@ -242,7 +244,9 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
               className="d-block fw-bold text-truncate"
               to={`/CourseListPage/${row.courseId}`}
             >
-              {row.title}
+              {row.title.length > 25
+                ? row.title.slice(0, 25) + "..."
+                : row.title}
             </NavLink>
           </div>
         </div>
@@ -318,6 +322,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
       const navigate = useNavigate();
 
       const { mutate: ChangeActivity } = useActiveCourse();
+      const MySwal = withReactContent(Swal);
 
       const ActiveCourse = (id) => {
         ChangeActivity(
@@ -348,6 +353,63 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
           }
         );
       };
+
+      const handleSuspendedClick = (id) => {
+        return MySwal.fire({
+          title: "آیا مطمئنید که میخواهید دوره رو غیرفعال کنید",
+          text: "البته یک عمل قابل بازگشت است",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "بله",
+          cancelButtonText: "لغو",
+          customClass: {
+            confirmButton: "btn btn-primary",
+            cancelButton: "btn btn-outline-danger ms-1",
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            DeActiveCourse(id);
+            MySwal.fire({
+              icon: "success",
+              title: "موفقیت آمیز بود",
+              text: "دوره با موفقیت غیرفعال شد",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
+            });
+          }
+        });
+      };
+
+      const handleSuspendedClick2 = (id) => {
+        return MySwal.fire({
+          title: "آیا مطمئنید که میخواهید دوره رو فعال کنید",
+          text: "البته یک عمل قابل بازگشت است",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "بله",
+          cancelButtonText: "لغو",
+          customClass: {
+            confirmButton: "btn btn-primary",
+            cancelButton: "btn btn-outline-danger ms-1",
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            ActiveCourse(id);
+            MySwal.fire({
+              icon: "success",
+              title: "موفقیت آمیز بود",
+              text: "دوره با موفقیت فعال شد",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
+            });
+          }
+        });
+      };
+
       return (
         <div className="column-action">
           <UncontrolledDropdown>
@@ -359,7 +421,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
                 <>
                   <DropdownItem
                     onClick={() => {
-                      DeActiveCourse(row?.courseId);
+                      handleSuspendedClick(row?.courseId);
                     }}
                     lassName="w-100"
                   >
@@ -372,7 +434,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
                   <DropdownItem
                     className="w-100"
                     onClick={() => {
-                      ActiveCourse(row?.courseId);
+                      handleSuspendedClick2(row?.courseId);
                     }}
                   >
                     <Check size={14} className="me-50" />

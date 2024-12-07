@@ -39,7 +39,7 @@ const Modal2ForAcceptReserve = ({
     setAddNewGroupIsOpen(!addNewGroupIsOpen);
   };
 
-  const { data: AllGroup } = useGetGroupCourse({
+  const { data: AllGroup, isGroupPending } = useGetGroupCourse({
     teacherId: teacherId,
     courseId: courseId,
   });
@@ -61,7 +61,7 @@ const Modal2ForAcceptReserve = ({
     }
   }, [isOpenModal, AllGroup, showNot]);
 
-  const { mutate: Accept } = useAcceptCourseReserve();
+  const { mutate: Accept, isPending } = useAcceptCourseReserve();
   const [selectedGroup, setSelectedGroup] = useState("");
 
   const handelAccept = ({ courseId, studentId, selectedGroup }) => {
@@ -128,7 +128,7 @@ const Modal2ForAcceptReserve = ({
         <ModalHeader
         //  toggle={toggleAcceptModal}
         >
-          تایید پذیرفتن رزرو
+          تایید  رزرو
         </ModalHeader>
         <ModalBody>
           <FormGroup>

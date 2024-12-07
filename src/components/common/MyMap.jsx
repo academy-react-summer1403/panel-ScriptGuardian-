@@ -1,13 +1,11 @@
-// MyMap component
-
-import { useEffect } from "react";
-import { useMap } from "react-leaflet";
+import { useEffect, useState } from "react";
 import {
   MapContainer,
   TileLayer,
   Marker,
   Popup,
   useMapEvents,
+  useMap,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -24,13 +22,14 @@ const UpdateMapSize = () => {
 
   return null;
 };
+
 const ChangeMarkerPosition = ({ setMarkerPosition }) => {
   useMapEvents({
     click(event) {
       const { lat, lng } = event.latlng;
       setMarkerPosition({
-        initialLatitude: parseFloat(lat),
-        initialLongitude: parseFloat(lng),
+        latitude: lat,
+        longitude: lng,
       });
     },
   });
@@ -38,26 +37,27 @@ const ChangeMarkerPosition = ({ setMarkerPosition }) => {
   return null;
 };
 
-const MyMap = ({ markerPosition, setMarkerPosition }) => {
-  console.log(markerPosition, "markerPosition in MyMap");
+const MyMap = () => {
+  const [markerPosition, setMarkerPosition] = useState({
+    latitude: 36.564139,
+    longitude: 53.060789,
+  });
 
   return (
     <MapContainer
-      center={[markerPosition.initialLatitude, markerPosition.initialLongitude]}
+      center={[markerPosition.latitude, markerPosition.longitude]}
       zoom={10}
-      style={{ height: "442px", width: "590px" }}
+      style={{ height: "442px", width: "675px" }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-      <Marker
-        position={[
-          markerPosition.initialLatitude,
-          markerPosition.initialLongitude,
-        ]}
-      >
+      <Marker position={[markerPosition.latitude, markerPosition.longitude]}>
         <Popup>آدرس خانه</Popup>
       </Marker>
 
+      <Marker position={[36.564139, 51.300789]}>
+        <Popup>آدرس خانه</Popup>
+      </Marker>
       <ChangeMarkerPosition setMarkerPosition={setMarkerPosition} />
       <UpdateMapSize />
     </MapContainer>

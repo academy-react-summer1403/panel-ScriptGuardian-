@@ -105,7 +105,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
   },
 
   {
-    name: "نام دپارتمان",
+    name: "وضعیت",
     sortable: true,
     minWidth: "172px",
     sortField: "userRoles",
@@ -113,9 +113,13 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
     cell: (row) => {
       return (
         <>
-          <span className="text-truncate text-capitalize align-middle">
+          <Badge
+            className={`text-truncate text-capitalize align-middle `}
+            color={`${row.expire ? "light-danger" : "light-success"}`}
+            pill
+          >
             {row.expire ? "منقضی شده" : " فعال"}
-          </span>
+          </Badge>
         </>
       );
     },

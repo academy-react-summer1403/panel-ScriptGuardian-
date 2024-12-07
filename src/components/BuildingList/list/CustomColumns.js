@@ -6,6 +6,7 @@ import {
   Archive,
   Check,
   Database,
+  Edit,
   Edit2,
   ExternalLink,
   MoreVertical,
@@ -23,10 +24,17 @@ import {
   UncontrolledDropdown,
 } from "reactstrap";
 
+import Swal from "sweetalert2";
+
+import withReactContent from "sweetalert2-react-content";
+
 import { useActiveCourse } from "../../../core/services/api/Admin/handelreserve";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { convertIsoToJalali } from "../../../core/utils/dateUtils";
+import EditBuild from "./modal/EditBuild";
+import { useState } from "react";
+import { useActiveBuilding } from "../../../core/services/api/Admin/handelBulding";
 
 export const CustomColumnsForListCourse = (toggleSidebar2) => [
   {
@@ -37,9 +45,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
       return (
         <div className="d-flex align-items-center">
           <div className="user-info text-truncate ms-1">
-            <NavLink to={`/BuildingPage/${row?.id}`}>
-              {row?.buildingName}
-            </NavLink>
+            <span>{row?.buildingName}</span>
           </div>
         </div>
       );
@@ -82,44 +88,138 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
   },
 
   {
+    name: "وضعیت ",
+    sortable: true,
+    minWidth: "72px",
+    sortField: "userRoles",
+    selector: (row) => row.active,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            {" "}
+            {row?.active ? (
+              <Badge color="light-success" pill>
+                فعال
+              </Badge>
+            ) : (
+              <Badge color="light-danger" pill>
+                {" "}
+                غیر فعال
+              </Badge>
+            )}
+          </h5>
+        </>
+      );
+    },
+  },
+
+  {
     name: "اقدامات",
     minWidth: "100px",
 
     cell: (row) => {
+      const MySwal = withReactContent(Swal);
+
       const queryClient = useQueryClient();
       const navigate = useNavigate();
+      const [show, setShow] = useState();
 
-      const { mutate: ChangeActivity } = useActiveCourse();
+      //
 
-      const ActiveCourse = (id) => {
+      const { mutate: ChangeActivity } = useActiveBuilding();
+
+      const ActiveCourse = () => {
         ChangeActivity(
-          { active: true, id },
+          { id: row.id, active: true },
 
           {
             onSuccess: (data) => {
               if (data.success === true) {
-                queryClient.invalidateQueries("GetAllCourses");
-                toast.success("دوره با موفق فعال شد");
+                queryClient.invalidateQueries("GetBuildingDetails");
+                toast.success("ساختمان با موفقیت فعال شد");
+              } else {
+                toast.error("خطا در فعال کردن ساختمان");
               }
             },
           }
         );
       };
 
-      const DeActiveCourse = (id) => {
+      const DeActiveCourse = () => {
         ChangeActivity(
-          { active: false, id },
+          { id: row.id, active: false },
 
           {
             onSuccess: (data) => {
               if (data.success === true) {
-                queryClient.invalidateQueries("GetAllCourses");
-                toast.success("دوره با موفقیت غیر فعال شد");
+                queryClient.invalidateQueries("GetBuildingDetails");
+                toast.success("ساختمان با موفقیت غیر فعال شد");
+              } else {
+                toast.error("خطا در غیر فعال کردن ساختمان");
               }
             },
           }
         );
       };
+
+      const handleSuspendedClick = () => {
+        return MySwal.fire({
+          title: "آیا مطمئنید که میخواهید ساختمان را غیرفعال کنید",
+          text: "البته یک عمل قابل بازگشت است",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "بله",
+          cancelButtonText: "لغو",
+          customClass: {
+            confirmButton: "btn btn-primary",
+            cancelButton: "btn btn-outline-danger ms-1",
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            DeActiveCourse();
+            MySwal.fire({
+              icon: "success",
+              title: "موفقیت آمیز بود",
+              text: "ساختمان با موفقیت غیرفعال شد",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
+            });
+          }
+        });
+      };
+
+      const handleSuspendedClick2 = () => {
+        return MySwal.fire({
+          title: "آیا مطمئنید که میخواهید ساختمان رو فعال کنید",
+          text: "البته یک عمل قابل بازگشت است",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "بله",
+          cancelButtonText: "لغو",
+          customClass: {
+            confirmButton: "btn btn-primary",
+            cancelButton: "btn btn-outline-danger ms-1",
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            ActiveCourse();
+            MySwal.fire({
+              icon: "success",
+              title: "موفقیت آمیز بود",
+              text: "ساختمان با موفقیت فعال شد",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
+            });
+          }
+        });
+      };
+
       return (
         <div className="column-action">
           <UncontrolledDropdown>
@@ -127,51 +227,39 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
-              {row?.isActive ? (
-                <>
-                  <DropdownItem
-                    onClick={() => {
-                      DeActiveCourse(row?.courseId);
-                    }}
-                    lassName="w-100"
-                  >
-                    <X size={14} className="me-50" />
-                    <span className="align-middle"> غیر فعال کردن دوره </span>
-                  </DropdownItem>
-                </>
-              ) : (
-                <>
-                  <DropdownItem
-                    className="w-100"
-                    onClick={() => {
-                      ActiveCourse(row?.courseId);
-                    }}
-                  >
-                    <Check size={14} className="me-50" />
-                    <span className="align-middle">فعال کردن دوره</span>
-                  </DropdownItem>
-                </>
-              )}
-
               <DropdownItem
                 className="w-100"
                 onClick={() => {
-                  navigate(`/CourseListPage/${row.courseId}`);
+                  setShow(true);
                 }}
               >
-                <ExternalLink size={14} className="me-50" />
-                <span className="align-middle">جزییات دوره</span>
+                <Edit size={14} className="me-50" />
+                <span className="align-middle">ویرایش</span>
               </DropdownItem>
-              {/* <UserAddRole
-              // modal={modal}
-              // id={row.id}
-              // userName={row.fname + " " + row.lname}
-              // toggleModal={toggleModal}
-              // userRoles={row.role}
-              // refetch={refetch}
-              /> */}
+              {row.active ? (
+                <DropdownItem
+                  className="w-100"
+                  onClick={() => {
+                    handleSuspendedClick();
+                  }}
+                >
+                  <X size={14} className="me-50" />
+                  <span className="align-middle">غیرفعال کردن ساختمان</span>
+                </DropdownItem>
+              ) : (
+                <DropdownItem
+                  className="w-100"
+                  onClick={() => {
+                    handleSuspendedClick2();
+                  }}
+                >
+                  <Check size={14} className="me-50" />
+                  <span className="align-middle">فعال کردن ساختمان</span>
+                </DropdownItem>
+              )}
             </DropdownMenu>
           </UncontrolledDropdown>
+          <EditBuild setShow={setShow} show={show} data={row} />
         </div>
       );
     },

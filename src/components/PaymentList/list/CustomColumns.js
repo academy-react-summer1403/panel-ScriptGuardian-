@@ -583,7 +583,9 @@ export const CustomColumnsForListOfAllOfPayMent = (toggleSidebar2) => [
               className="d-block fw-bold text-truncate"
               to={`/UsersPage/${row.studentId}`}
             >
-              {row.studentName}
+              {row.studentName.length > 15
+                ? row.studentName.slice(0, 15) + "..."
+                : row.studentName}
             </NavLink>
           </div>
         </div>

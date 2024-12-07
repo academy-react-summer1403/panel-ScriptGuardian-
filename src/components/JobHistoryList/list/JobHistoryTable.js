@@ -151,13 +151,13 @@ const CustomHeader = ({
               </DropdownMenu>
             </UncontrolledDropdown> */}
 
-            <Button
+            {/* <Button
               className="add-new-user"
               color="primary"
               onClick={toggleSidebar}
             >
               افزودن ساختمان جدید{" "}
-            </Button>
+            </Button> */}
           </div>
         </Col>
       </Row>
