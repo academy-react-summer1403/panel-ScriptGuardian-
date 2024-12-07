@@ -2,7 +2,13 @@
 import { useState, useEffect } from "react";
 
 // ** Table Columns
-import { columns, columns2, columns3ForComment, columns4ForPayMent } from "./columns";
+import {
+  columns,
+  columns2,
+  columns3ForComment,
+  columns4ForPayMent,
+  columns6ForWhosPayAndWhosNotPayed,
+} from "./columns";
 
 // ** Third Party Components
 import DataTable from "react-data-table-component";
@@ -14,6 +20,9 @@ import {
   File,
   Clipboard,
   Copy,
+  User,
+  Check,
+  X,
 } from "react-feather";
 
 // ** Reactstrap Imports
@@ -25,6 +34,11 @@ import {
   DropdownItem,
   DropdownToggle,
   UncontrolledButtonDropdown,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane,
 } from "reactstrap";
 
 // ** Store & Actions
@@ -34,8 +48,9 @@ import { useDispatch, useSelector } from "react-redux";
 // ** Styles
 import "@styles/react/apps/app-invoice.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
+import CustomSpinner from "../../common/animation/CustomSpiner";
 
-const InvoiceList3 = ({ data }) => {
+const InvoiceList3 = ({ dataDonePay, active, toggleTab, notDonePays }) => {
   const handleSort = (column, sortDirection) => {
     setSort(sortDirection);
     setSortColumn(column.sortField);
@@ -43,21 +58,87 @@ const InvoiceList3 = ({ data }) => {
 
   return (
     <div className="invoice-list-wrapper">
-      <Card>
-        <div className="invoice-list-dataTable react-dataTable">
-          <DataTable
-            noHeader
-            sortServer
-            columns={columns4ForPayMent}
-            responsive={true}
-            onSort={handleSort}
-            data={data}
-            sortIcon={<ChevronDown />}
-            className="react-dataTable"
-            defaultSortField="invoiceId"
-          />
-        </div>
-      </Card>
+      <Nav pills className="mb-2">
+        <NavItem>
+          <NavLink active={active === "1"} onClick={() => toggleTab("1")}>
+            <Check className="font-medium-3 me-50" />
+            <span className="fw-bold">به اتمام رسیده</span>
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink active={active === "2"} onClick={() => toggleTab("2")}>
+            <X className="font-medium-3 me-50" />
+            <span className="fw-bold">تمام نشده</span>
+          </NavLink>
+        </NavItem>
+      </Nav>
+
+      <TabContent activeTab={active}>
+        <TabPane tabId="1">
+          <Card>
+            <div className="invoice-list-dataTable react-dataTable">
+              <DataTable
+                noHeader
+                sortServer
+                columns={columns6ForWhosPayAndWhosNotPayed}
+                responsive={true}
+                onSort={handleSort}
+                data={dataDonePay}
+                sortIcon={<ChevronDown />}
+                className="react-dataTable overflow-visible overflow-x-visible"
+                defaultSortField="invoiceId"
+                noDataComponent={
+                  <>
+                    {!dataDonePay ? (
+                      <CustomSpinner
+                        style={"text-primary"}
+                        style2={{ marginTop: "100px", marginBottom: "100px" }}
+                        color={""}
+                      />
+                    ) : (
+                      <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                        پرداخت تمام شده ای وجود ندارد{" "}
+                      </h2>
+                    )}
+                  </>
+                }
+              />
+            </div>
+          </Card>
+        </TabPane>
+        <TabPane tabId="2">
+          <Card>
+            <div className="invoice-list-dataTable react-dataTable">
+              <DataTable
+                noHeader
+                sortServer
+                columns={columns6ForWhosPayAndWhosNotPayed}
+                responsive={true}
+                onSort={handleSort}
+                data={notDonePays}
+                sortIcon={<ChevronDown />}
+                className="react-dataTable"
+                defaultSortField="invoiceId"
+                noDataComponent={
+                  <>
+                    {!notDonePays ? (
+                      <CustomSpinner
+                        style={"text-primary"}
+                        style2={{ marginTop: "100px", marginBottom: "100px" }}
+                        color={""}
+                      />
+                    ) : (
+                      <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                        پرداخت تمام نشده ای وجود ندارد{" "}
+                      </h2>
+                    )}
+                  </>
+                }
+              />
+            </div>
+          </Card>
+        </TabPane>
+      </TabContent>
     </div>
   );
 };

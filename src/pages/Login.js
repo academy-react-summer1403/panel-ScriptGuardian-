@@ -34,6 +34,7 @@ import { validationSchema } from "../core/services/validation/validationSchema/A
 import { getItem, setItem } from "../core/services/storage/storage.services";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import CustomSpinner from "../components/common/animation/CustomSpiner";
 const Login = () => {
   const { skin } = useSkin();
 
@@ -41,7 +42,7 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const { mutate: login, isError, data } = useLogin();
+  const { mutate: login, isError, data, isPending } = useLogin();
   console.log("this use login Data", data);
   const token = getItem("token");
 
@@ -225,19 +226,35 @@ const Login = () => {
                   مرا به خاطر بسپار{" "}
                 </Label>
               </div>
-              <Button type="submit" color="primary" block>
-                Sign in
-              </Button>
+              {isPending ? (
+                <Button
+                  type="submit"
+                  color="primary"
+                  block
+                  style={{
+                    height: "38px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <CustomSpinner style="" style2={""} size="20" />{" "}
+                </Button>
+              ) : (
+                <Button type="submit" color="primary" block>
+                  ورود{" "}
+                </Button>
+              )}
             </form>
-
+            {/* 
             <p className="text-center mt-2">
               <span className="me-25">New on our platform?</span>
               <Link to="/register">
                 <span>Create an account</span>
               </Link>
-            </p>
+            </p> */}
             <div className="divider my-2">
-              <div className="divider-text">or</div>
+              {/* <div className="divider-text">or</div> */}
             </div>
             <div className="auth-footer-btn d-flex justify-content-center">
               <Button color="facebook">

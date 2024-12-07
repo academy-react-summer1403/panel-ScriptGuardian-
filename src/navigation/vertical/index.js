@@ -1,4 +1,20 @@
-import { Mail, Home, Airplay, Circle, Users } from "react-feather";
+import {
+  Mail,
+  Home,
+  Airplay,
+  Circle,
+  Users,
+  Book,
+  MessageCircle,
+  FileText,
+  Briefcase,
+  Award,
+  UserCheck,
+  HelpCircle,
+  BookOpen,
+  Map,
+  MapPin,
+} from "react-feather";
 
 export default [
   {
@@ -9,29 +25,21 @@ export default [
   },
   {
     id: "UsersPage",
-    title: "کاربران",
+    title: "مدیریت کاربران",
     icon: <Users size={20} />,
     navLink: "/UsersPage",
   },
   {
     id: "Course",
-    title: "دوره ها",
-    icon: <Users size={20} />,
+    title: " مدیریت دوره ها",
+    icon: <Book size={20} />,
     children: [
       {
         id: "CourseListPage",
-        title: "همه ی  دوره",
+        title: "همه ی  دورها",
         icon: <Circle size={12} />,
         navLink: "/CourseListPage",
       },
-
-      {
-        id: "CourseTeacherListPage",
-        title: "دوره های من (استاد)",
-        icon: <Circle size={12} />,
-        navLink: "/CourseTeacherListPage",
-      },
-
       {
         id: "createCourse",
         title: "ایجاد دوره",
@@ -39,17 +47,122 @@ export default [
         navLink: "/createCourse",
       },
       {
+        id: "CourseFeature",
+        title: "ویژگی های دوره",
+        icon: <BookOpen size={12} />,
+        children: [
+          {
+            id: "CourseGroupPage",
+            title: "گروه دوره ها",
+            icon: <Circle size={12} />,
+            navLink: "/CourseGroupPage",
+          },
+          {
+            id: "CourseLevelPage",
+            title: "سطح دوره",
+            icon: <Circle size={12} />,
+            navLink: "/CourseLevelPage",
+          },
+
+          {
+            id: "StatusListPage",
+            title: "لیست وضعیت دوره",
+            icon: <Circle size={12} />,
+            navLink: "/StatusListPage",
+          },
+
+          {
+            id: "TechnologyListPage",
+            title: "لیست تکنولوژی دوره",
+            icon: <Circle size={12} />,
+            navLink: "/TechnologyListPage",
+          },
+          {
+            id: "TermPage",
+            title: "لیست ترم های دوره",
+            icon: <Circle size={12} />,
+            navLink: "/TermPage",
+          },
+        ],
+      },
+      // {
+      //   id: "CourseTeacherListPage",
+      //   title: "دوره های من (استاد)",
+      //   icon: <Circle size={12} />,
+      //   navLink: "/CourseTeacherListPage",
+      // },
+
+      {
         id: "CourseReserved",
         title: " دوره های رزرو شده",
         icon: <Circle size={12} />,
         navLink: "/CourseReserved",
       },
+
+      {
+        id: "PaymentListPage",
+        title: "لیست پرداخت ها",
+        icon: <Circle size={12} />,
+        navLink: "/PaymentListPage",
+      },
     ],
   },
+
+  {
+    id: "Mentors",
+    title: "مدیریت منتور",
+    icon: <UserCheck size={20} />,
+    // navLink: "/sample",
+    children: [
+      {
+        id: "CourseAssistancePage",
+        title: "لیست منتور ها  در دوره ها",
+        icon: <Circle size={12} />,
+        navLink: "/CourseAssistancePage",
+      },
+
+      {
+        id: "AssistanceWorkPage",
+        title: "لیست کار های منتور",
+        icon: <Circle size={12} />,
+        navLink: "/AssistanceWorkPage",
+      },
+    ],
+  },
+
+  {
+    id: "location",
+    title: "مدیریت محل  برگزاری",
+    icon: <MapPin size={20} />,
+    // navLink: "/sample",
+    children: [
+      {
+        id: "BuildingPage",
+        title: " لیست ساختمان ها",
+        icon: <Circle size={12} />,
+        navLink: "/BuildingPage",
+      },
+
+      {
+        id: "DepartmentPage",
+        title: " لیست دپارتمان ها ",
+        icon: <Circle size={12} />,
+        navLink: "/DepartmentPage",
+      },
+
+      {
+        id: "ClassRoomPage",
+        title: "لیست کلاس ها",
+        icon: <Circle size={12} />,
+        navLink: "/ClassRoomPage",
+      },
+    ],
+  },
+
   {
     id: "Comments",
-    title: "نظرات",
-    icon: <Airplay size={20} />,
+    title: "مدیریت نظرات",
+    icon: <MessageCircle size={20} />,
     // navLink: "/sample",
     children: [
       {
@@ -63,8 +176,8 @@ export default [
 
   {
     id: "NewsListPage",
-    title: "اخبار",
-    icon: <Airplay size={20} />,
+    title: "مدیریت اخبار",
+    icon: <FileText size={20} />,
     // navLink: "/sample",
     children: [
       {
@@ -88,4 +201,18 @@ export default [
       },
     ],
   },
+
+  {
+    id: "JobHistoryPage",
+    title: "سابقه کاری",
+    icon: <Briefcase size={12} />,
+    navLink: "/JobHistoryPage",
+  },
+
+  // {
+  //   id: "SkajolPage",
+  //   title: "زمان بندی",
+  //   icon: <Home size={20} />,
+  //   navLink: "/SkajolPage",
+  // },
 ];

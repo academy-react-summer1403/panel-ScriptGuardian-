@@ -34,30 +34,9 @@ import { useDispatch, useSelector } from "react-redux";
 // ** Styles
 import "@styles/react/apps/app-invoice.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
+import CustomSpinner from "../../common/animation/CustomSpiner";
 
-const InvoiceList = ({data}) => {
-  // ** Store Vars
-  const dispatch = useDispatch();
-  // const store = useSelector(state => state.invoice)
-
-  // ** States
-  const [value] = useState("");
-  const [rowsPerPage] = useState(6);
-  const [currentPage] = useState(1);
-  const [statusValue] = useState("");
-  const [sort, setSort] = useState("desc");
-  const [sortColumn, setSortColumn] = useState("id");
-  const [Test, setTest] = useState([
-    { id: 1 },
-    { id: 2 },
-    { id: 3 },
-    { id: 4 },
-    { id: 5 },
-    { id: 6 },
-    { id: 7 },
-    { id: 8 },
-  ]);
-
+const InvoiceList = ({ data }) => {
   const handleSort = (column, sortDirection) => {
     setSort(sortDirection);
     setSortColumn(column.sortField);
@@ -75,8 +54,23 @@ const InvoiceList = ({data}) => {
             onSort={handleSort}
             data={data}
             sortIcon={<ChevronDown />}
-            className="react-dataTable"
+            className="react-dataTable overflow-visible overflow-x-visible"
             defaultSortField="invoiceId"
+            noDataComponent={
+              <>
+                {!data ? (
+                  <CustomSpinner
+                    style={"text-primary"}
+                    style2={{ marginTop: "100px", marginBottom: "100px" }}
+                    color={""}
+                  />
+                ) : (
+                  <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                    رزروی وجود ندارد
+                  </h2>
+                )}
+              </>
+            }
           />
         </div>
       </Card>

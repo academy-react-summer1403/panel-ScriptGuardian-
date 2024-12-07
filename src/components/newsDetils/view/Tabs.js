@@ -5,7 +5,15 @@ import { Fragment } from "react";
 import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 
 // ** Icons Imports
-import { User, Lock, Bookmark, Bell, Link, MessageSquare } from "react-feather";
+import {
+  User,
+  Lock,
+  Bookmark,
+  Bell,
+  Link,
+  MessageSquare,
+  Info,
+} from "react-feather";
 
 // ** User Components
 import InvoiceList from "./InvoiceList";
@@ -18,48 +26,35 @@ import InvoiceList from "./InvoiceList";
 
 import { useGetAllCourseDetailsReserves } from "../../../core/services/api/Admin/handelReserveCourse";
 import { useGetAllNewsComments } from "../../../core/services/api/Admin/handelDetailsNews";
-const NewsTab = ({ active, toggleTab, id }) => {
+import MoreInFormAboutNew from "./MoreInFormAboutNew";
+const NewsTab = ({ active, toggleTab, id, data }) => {
   const { data: commentList } = useGetAllNewsComments(id);
   return (
     <Fragment>
       <Nav pills className="mb-2">
+        <NavItem>
+          <NavLink active={active === "2"} onClick={() => toggleTab("2")}>
+            {/* <Lock className="font-medium-3 me-50" /> */}
+            <Info size={20} />
+            <span className="fw-bold">اطلاعات خبر</span>
+          </NavLink>
+        </NavItem>
+
         <NavItem>
           <NavLink active={active === "1"} onClick={() => toggleTab("1")}>
             <MessageSquare className="font-medium-3 me-50" />
             <span className="fw-bold"> نظرات</span>
           </NavLink>
         </NavItem>
-        <NavItem>
-          <NavLink active={active === "2"} onClick={() => toggleTab("2")}>
-            <Lock className="font-medium-3 me-50" />
-            <span className="fw-bold">دوره ها</span>
-          </NavLink>
-        </NavItem>
       </Nav>
       <TabContent activeTab={active}>
         <TabPane tabId="1">
-          {/* <UserProjectsList />
-          <UserTimeline /> */}
           <InvoiceList data={commentList} />
         </TabPane>
 
         <TabPane tabId="2">
-          {/* <UserProjectsList />
-          <UserTimeline /> */}
-          {/* <InvoiceList /> */}
+          <MoreInFormAboutNew data={data} />
         </TabPane>
-        {/* <TabPane tabId='2'>
-          <SecurityTab />
-        </TabPane>
-        <TabPane tabId='3'>
-          <BillingPlanTab />
-        </TabPane>
-        <TabPane tabId='4'>
-          <Notifications />
-        </TabPane>
-        <TabPane tabId='5'>
-          <Connections />
-        </TabPane> */}
       </TabContent>
     </Fragment>
   );

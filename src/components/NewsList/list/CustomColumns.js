@@ -9,6 +9,7 @@ import {
   CheckSquare,
   Database,
   Edit2,
+  ExternalLink,
   MoreVertical,
   Settings,
   Slack,
@@ -668,7 +669,7 @@ export const CustomColumnsForListNews = (toggleSidebar2) => [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.isActive ? "light-primary" : "light-danger"}
+              color={row.isActive ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.isActive ? "فعال" : "غیرفعال"}
@@ -730,13 +731,6 @@ export const CustomColumnsForListNews = (toggleSidebar2) => [
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem tag="a" className="w-100">
-                <Archive size={14} className="me-50" />
-                <span className="align-middle" onClick={toggleSidebar2}>
-                  ویرایش کاربر
-                </span>
-              </DropdownItem>
-
               {row?.isActive ? (
                 <>
                   <DropdownItem
@@ -757,15 +751,19 @@ export const CustomColumnsForListNews = (toggleSidebar2) => [
                       ActiveCourse(row?.id);
                     }}
                   >
-                    <Trash2 size={14} className="me-50" />
+                    <Check size={14} className="me-50" />
                     <span className="align-middle">فعال کردن خبر</span>
                   </DropdownItem>
                 </>
               )}
 
-              <DropdownItem size="sm">
-                <Archive size={14} className="me-50" />
-                <span className="align-middle">دسترسی</span>
+              <DropdownItem
+                size="sm"
+                href={`/NewsListPage/${row?.id}`}
+                tag={"a"}
+              >
+                <ExternalLink size={14} className="me-50" />
+                <span className="align-middle">جزییات</span>
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>

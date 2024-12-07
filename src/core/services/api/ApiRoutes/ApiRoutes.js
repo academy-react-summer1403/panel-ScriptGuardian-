@@ -10,6 +10,8 @@ export const ApiRoutes = {
 
   //Landing
   LANDING_REPORT_URL: "/Home/LandingReport",
+  LANDING_REPORT_DASHBOARD_URL: "/Report/DashboardReport",
+  LANDING_REPORT_TECHNOLOGY_URL: "/Report/DashboardTechnologyReport",
   LANDING_COURSES_URL: "/Home/GetCoursesTop",
   LANDING_TEACHERS_URL: "/Home/GetTeachers",
 
@@ -18,6 +20,7 @@ export const ApiRoutes = {
   ADD_RATE_NEWS_URL: "/News/NewsRate?",
 
   //Courses Page
+  PANEL_GET_DETAILS_USERS_COMMENT_LIST_URL: "/Course/CommentManagment?",
   COURSES_PAGE_URL: "/Home/GetCoursesWithPagination",
   ADD_LIKE_COURSES_URL: "/Course/AddCourseLike?CourseId=",
   ADD_DISS_LIKE_COURSES_URL: "/Course/AddCourseDissLike?CourseId=",
@@ -36,6 +39,9 @@ export const ApiRoutes = {
   DETAILS_COURSES_ADD_TO_RESERVE_URL: "/CourseReserve/ReserveAdd",
   DETAILS_COURSES_COMMENTS_URL: "/Course/GetCourseCommnets/",
   DETAILS_COURSES_PAYMENT_URL: "/CoursePayment?CourseId=",
+  DETAILS_COURSES_PAYMENT_WHO_PAYED_URL:
+    "/CoursePayment/ListOfWhoIsPay?CourseId=",
+  DETAILS_COURSES_USER_LIST_URL: "/CourseUser/GetCourseUserList?CourseId=",
   DETAILS_COURSES_RATE_URL: "/Course/SetCourseRating?",
   NEWS_DETAILS_ADD_COMMENT_URL: "/News/CreateNewsComment",
   NEWS_DETAILS_ADD_REPLAY_COMMENT_URL: "/News/CreateNewsReplyComment",
@@ -73,17 +79,31 @@ export const ApiRoutes = {
 
   PANEL_GET_ALL_USERS_URL: "/User/UserMannage",
   PANEL_GET_DETAILS_USERS_URL: "/User/UserDetails/",
+  PANEL_GET_DETAILS_USERS_PAYMENT_LIST_URL: "/CoursePayment/UserPayList?",
+  PANEL_GET_DETAILS_USERS_COMMENT_LIST_WITH_FILTER_URL:
+    "/Course/CommentManagment",
+  PANEL_GET_DETAILS_USERS_PAYMENT_DETAILS_URL: "/CoursePayment/",
+  PANEL_ACCEPT_USERS_PAYMENT_DETAILS_URL: "/CoursePayment/Accept",
+  PANEL_DELETE_USERS_PAYMENT_DETAILS_URL: "/CoursePayment",
+  PANEL_DELETE_COURSE_GROUP_URL: "/CourseGroup",
+  PANEL_EDIT_COURSE_GROUP_URL: "/CourseGroup",
   PANEL_GET_DETAILS_COURSE_RESERVE_URL: "/CourseReserve/",
   PANEL_GET_LIST_COURSE_RESERVE_URL: "/CourseReserve",
+  PANEL_GET_LIST_COURSE_PAYMENT_URL:
+    "/CoursePayment?CourseId=bc94984e-3328-ef11-b6c7-cc06a3e06235",
   PANEL_GET_DETAILS_NEWS_COMMENTS_URL: "/News/GetAdminNewsComments?NewsId=",
   PANEL_ADD_NEW_USER_URL: "/User/CreateUser",
   PANEL_GET_ALL_COURSES_ADMIN_URL: "/Course/CourseList",
+  PANEL_GET_ALL_COURSE_GROUPS_ADMIN_URL: "/CourseGroup",
   PANEL_GET_ALL_TEACHERS_COURSES_ADMIN_URL: "/Course/TeacherCourseList",
   PANEL_GET_DETAILS_COURSE_URL: "/Course/",
+  PANEL_GET_DETAILS_COURSE_GROUP_URL: "/CourseGroup/Details?",
   PANEL_GET_DETAILS_NEWS_URL: "/News/",
   PANEL_GET_ALL_COMMENTS_ADMIN_URL: "/Course/CommentManagment",
   PANEL_GET_CREATE_COURSE_STEP_ONE_ADMIN_URL: "/Course/GetCreate",
   PANEL_ADD_NEW_COURSE_STEP_TWO_ADMIN_URL: "/Course",
+  PANEL_ADD_PAYMENT_STEP_ONE_URL: "/CoursePayment",
+  PANEL_ADD_PAYMENT_STEP_TWO_URL: "/CoursePayment/AddPeymentImage",
   PANEL_ADD_NEW_COURSE_STEP_THIRD_ADMIN_URL: "/Course/AddCourseTechnology?",
 
   PANEL_ACCEPT_COMMENTS_ADMIN_URL: "/Course/AcceptCourseComment?",
@@ -107,4 +127,56 @@ export const ApiRoutes = {
   PANEL_ADD_NEW_COURSE_GROUP_URL: "/CourseGroup",
   // PANEL_COURSE_GROUP_ADMIN_URL: "/CourseGroup",
   PANEL_COURSE_GROUP_ADMIN_URL: "/CourseGroup/GetCourseGroup?",
+
+  //level3
+
+  PANEL_GET_LIST_ASSISTANCE_WORK_URL: "/AssistanceWork",
+  PANEL_GET_DETAILS_ASSISTANCE_WORK_URL: "/AssistanceWork/",
+  PANEL_ADD__ASSISTANCE_WORK_URL: "/AssistanceWork",
+  PANEL_UPDATE_DETAILS_ASSISTANCE_WORK_URL: "/AssistanceWork",
+  //Building
+  PANEL_GET_LIST_BUILDING_URL: "/Building",
+  PANEL_GET_DETAILS_BUILDING_URL: "/Building/",
+  PANEL_UPDATE_BUILDING_URL: "/Building",
+  PANEL_UPDATE_STATUS_BUILDING_URL: "/Building/Active",
+  //ClassRoom
+  PANEL_LIST_CLASS_ROOM_URL: "/ClassRoom",
+  PANEL_ADD_CLASS_ROOM_URL: "/ClassRoom",
+  PANEL_UPDATE_CLASS_ROOM_URL: "/ClassRoom",
+
+  //AssistanceInCourses
+  PANEL_ASSISTANCE_COURSE_URL: "/CourseAssistance",
+  PANEL_ADD_ASSISTANCE_COURSE_URL: "/CourseAssistance",
+  PANEL_UPDATE_ASSISTANCE_COURSE_URL: "/CourseAssistance",
+
+  //Course Level List
+  PANEL_GET_LEVEL_COURSE_URL: "/CourseLevel/GetAllCourseLevel",
+  PANEL_ADD_LEVEL_COURSE_URL: "/CourseLevel",
+  PANEL_EDIT_LEVEL_COURSE_URL: "/CourseLevel",
+
+  ///Department
+
+  PANEL_GET_DEPARTMENT_URL: "/Department",
+  PANEL_ADD_DEPARTMENT_URL: "/Department",
+  PANEL_UPDATE_DEPARTMENT_URL: "/Department",
+  //GetJobHistoryList
+  PANEL_GET_JOB_HISTORY_LIST_URL: "/SharePanel/GetJobHistoriesAdmin",
+
+  //STATUS LIST
+
+  PANEL_GET_STATUS_LIST_URL: "/Status",
+  PANEL_ADD_STATUS_URL: "/Status",
+  PANEL_EDIT_STATUS_URL: "/Status",
+
+  //GetTechList
+
+  PANEL_GET_TECH_LIST_URL: "/Technology",
+  PANEL_ADD_TECH_LIST_URL: "/Technology",
+  PANEL_UPDATE_TECH_LIST_URL: "/Technology",
+
+  //Terms
+
+  PANEL_GET_TERM_LIST_URL: "/Term",
+  PANEL_ADD_TERM_LIST_URL: "/Term",
+  PANEL_UPDATE_TERM_LIST_URL: "/Term",
 };

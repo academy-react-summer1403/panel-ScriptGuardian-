@@ -29,6 +29,8 @@ import { useCreateNews } from "../../core/services/api/Admin/handelCreateNews";
 import { useFormik } from "formik";
 import { validationSchema } from "../../core/services/validation/validationSchema/Auth";
 import { validationForCreateNews } from "../../core/services/validation/AdminPanel";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // const currencyOptions = [
 //   { label: "USD" },
@@ -46,7 +48,7 @@ const AccountTabs = () => {
     value: "",
     label: " لطفا یک دسته بندی انتخاب کنید",
   });
-
+  const navigate = useNavigate();
   const { mutate: createNews } = useCreateNews();
 
   // ** USE Formik
@@ -60,18 +62,26 @@ const AccountTabs = () => {
       Keyword: "",
       IsSlider: false,
       NewsCatregoryId: currentRole?.value,
-      Image: "",
+      Image: "Not-set",
     },
-    // validationSchema: validationForCreateNews,
+    validationSchema: validationForCreateNews,
     onSubmit: (values) => {
       const formData = new FormData();
       for (const key in values) {
         formData.append(key, values[key]);
       }
-      createNews(formData);
+      createNews(formData, {
+        onSuccess: (data) => {
+          if (data.success == true) {
+            toast.success("خبر با موفقیت ساخته شد");
+            navigate(`/NewsListPage`);
+          } else {
+            toast.error("خطا در ایجاد خبر");
+          }
+        },
+      });
     },
   });
-  // تبدیل داده‌ها به فرمت قابل استفاده در کامپوننت Select
   const options =
     data &&
     data?.map((item) => ({
@@ -116,47 +126,6 @@ const AccountTabs = () => {
           <CardTitle tag="h4">فورم اضافه کردن خبر</CardTitle>
         </CardHeader>
         <CardBody className="py-2 my-25">
-          {/* <div className="d-flex">
-            <div className="me-25">
-              <img
-                className="rounded me-50"
-                src={avatar}
-                alt="Generic placeholder image"
-                height="100"
-                width="100"
-              />
-            </div>
-            <div className="d-flex align-items-end mt-75 ms-1">
-              <div>
-                <Button
-                  tag={Label}
-                  className="mb-75 me-75"
-                  size="sm"
-                  color="primary"
-                >
-                  Upload
-                  <Input
-                    type="file"
-                    onChange={onChange}
-                    hidden
-                    accept="image/*"
-                  />
-                </Button>
-                <Button
-                  className="mb-75"
-                  color="secondary"
-                  size="sm"
-                  outline
-                  onClick={handleImgReset}
-                >
-                  Reset
-                </Button>
-                <p className="mb-0">
-                  Allowed JPG, GIF or PNG. Max size of 800kB
-                </p>
-              </div>
-            </div>
-          </div> */}
           <form className="mt-2 pt-50" onSubmit={formik.handleSubmit}>
             <Row>
               <Col sm="6" className="mb-1">
@@ -274,7 +243,10 @@ const AccountTabs = () => {
                 <Input
                   id="Image"
                   placeholder="تصویر  را وارد کنید"
-                  {...formik.getFieldProps("Image")}
+                  // {...formik.getFieldProps("Image")}
+                  type="file"
+                  name="fileInput"
+                  onChange={(e) => handleChange("Image", e.target.files[0])}
                 />
 
                 {formik.errors.Image && (
@@ -305,14 +277,20 @@ const AccountTabs = () => {
                     setCurrentRole(data);
                   }}
                 />
+
+                {formik.errors.NewsCatregoryId && (
+                  <div className="text-danger top-0 end-0 me-3">
+                    {formik.errors.NewsCatregoryId}
+                  </div>
+                )}
               </Col>
               <Col className="mt-2" sm="12">
                 <Button type="submit" className="me-1" color="primary">
-                  Save changes
+                  ایجاد خبر{" "}
                 </Button>
-                <Button color="secondary" outline>
+                {/* <Button color="secondary" outline>
                   Discard
-                </Button>
+                </Button> */}
               </Col>
             </Row>
           </form>

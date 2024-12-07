@@ -23,7 +23,7 @@ const NewsDetails = () => {
   const { data } = useGetAllNewsDetailsAdmin(id);
   const detailsNewsDto = data?.detailsNewsDto;
 
-  const [active, setActive] = useState("1");
+  const [active, setActive] = useState("2");
   const toggleTab = (tab) => {
     if (active !== tab) {
       setActive(tab);
@@ -38,7 +38,12 @@ const NewsDetails = () => {
           {/* <PlanCard /> */}
         </Col>
         <Col xl="8" lg="7" xs={{ order: 0 }} md={{ order: 1, size: 7 }}>
-          <NewsTab active={active} data={data} toggleTab={toggleTab} id={id} />
+          <NewsTab
+            active={active}
+            data={data?.detailsNewsDto}
+            toggleTab={toggleTab}
+            id={id}
+          />
         </Col>
       </Row>
     </div>

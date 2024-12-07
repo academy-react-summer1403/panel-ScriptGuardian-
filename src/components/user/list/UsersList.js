@@ -85,16 +85,16 @@ const UsersList = () => {
 
   const RolesOptions = () => {
     const staticOption = {
-      value: undefined, // ID یا مقدار مشخص
-      label: "همه‌ی نقش‌ها", // نام نمایش داده شده برای گزینه‌ی ثابت
+      value: undefined,
+      label: "همه‌ی نقش‌ها",
     };
 
     return data?.roles
       ? [
           staticOption,
           ...data.roles.map((role) => ({
-            value: role.id, // آیتم‌های مپ‌شده
-            label: role.roleName, // نام نقش
+            value: role.id,
+            label: role.roleName,
           })),
         ]
       : [];
@@ -136,30 +136,6 @@ const UsersList = () => {
             renderStats={<h3 className="fw-bolder mb-75">{totalSupport}</h3>}
           />
         </Col>
-        {/* <Col lg="3" sm="6">
-          <StatsHorizontal
-            color="danger"
-            statTitle="Paid Users"
-            icon={<UserPlus size={20} />}
-            renderStats={<h3 className="fw-bolder mb-75">4,567</h3>}
-          />
-        </Col>
-        <Col lg="3" sm="6">
-          <StatsHorizontal
-            color="success"
-            statTitle="Active Users"
-            icon={<UserCheck size={20} />}
-            renderStats={<h3 className="fw-bolder mb-75">19,860</h3>}
-          />
-        </Col>
-        <Col lg="3" sm="6">
-          <StatsHorizontal
-            color="warning"
-            statTitle="Pending Users"
-            icon={<UserX size={20} />}
-            renderStats={<h3 className="fw-bolder mb-75">237</h3>}
-          />
-        </Col> */}
       </Row>
 
       <Card>
@@ -200,7 +176,11 @@ const UsersList = () => {
           </Row>
         </CardBody>
       </Card>
-      <Table currentStatus={currentStatus} currentRole={currentRole} />
+      <Table
+        currentStatus={currentStatus}
+        currentRole={currentRole}
+        data={data}
+      />
     </div>
   );
 };

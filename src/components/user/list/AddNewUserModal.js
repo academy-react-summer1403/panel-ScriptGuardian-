@@ -23,6 +23,8 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { validationSchemaForAddNewUser } from "../../../core/services/validation/AdminPanel";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import CustomSpinner from "../../common/animation/CustomSpiner";
 
 const defaultValues = {
   email: "",
@@ -85,8 +87,9 @@ const AddNewUserModal = ({ open, toggleSidebar }) => {
 
   //API
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
-  const { mutate: addUser } = useAddNewUser();
+  const { mutate: addUser, data: Data, isPending } = useAddNewUser();
 
   const formik = useFormik({
     initialValues: {
@@ -107,6 +110,9 @@ const AddNewUserModal = ({ open, toggleSidebar }) => {
 
             toast.success("کاربر با موفقیت اضافه شد");
             toggleSidebar();
+            navigate(`/UsersPage/${data.id}`);
+          } else {
+            toast.error("خطا در ایجاد کاربر جدید");
           }
         },
         // onError: (error) => {
@@ -261,10 +267,16 @@ const AddNewUserModal = ({ open, toggleSidebar }) => {
             )}
           />
         </div> */}
+        {isPending ? (
+          <Button type="submit" className="me-1" color="primary">
+            <CustomSpinner size={16} />
+          </Button>
+        ) : (
+          <Button type="submit" className="me-1" color="primary">
+            ارسال{" "}
+          </Button>
+        )}
 
-        <Button type="submit" className="me-1" color="primary">
-          افزودن{" "}
-        </Button>
         <Button type="reset" color="secondary" outline onClick={toggleSidebar}>
           بستن
         </Button>

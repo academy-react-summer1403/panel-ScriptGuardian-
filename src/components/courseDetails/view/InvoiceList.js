@@ -34,6 +34,7 @@ import { useDispatch, useSelector } from "react-redux";
 // ** Styles
 import "@styles/react/apps/app-invoice.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
+import CustomSpinner from "../../common/animation/CustomSpiner";
 
 const InvoiceList = ({ data, CourseDetails }) => {
   // ** Store Vars
@@ -57,8 +58,23 @@ const InvoiceList = ({ data, CourseDetails }) => {
             onSort={handleSort}
             data={data}
             sortIcon={<ChevronDown />}
-            className="react-dataTable"
+            className="react-dataTable overflow-visible overflow-x-visible"
             defaultSortField="invoiceId"
+            noDataComponent={
+              <>
+                {!data ? (
+                  <CustomSpinner
+                    style={"text-primary"}
+                    style2={{ marginTop: "100px", marginBottom: "100px" }}
+                    color={""}
+                  />
+                ) : (
+                  <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                    رزروی وجود ندارد{" "}
+                  </h2>
+                )}
+              </>
+            }
           />
         </div>
       </Card>

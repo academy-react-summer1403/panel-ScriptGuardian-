@@ -5,14 +5,15 @@ import { ApiRoutes } from "../ApiRoutes/ApiRoutes";
 const GetAllUsers = async ({
   currentPage,
   rowsPerPage,
-  searchTerm,
+  debouncedSearchQuery,
   IsActiveUser,
   roleId,
 }) => {
   const AllParams = {
     PageNumber: currentPage ? currentPage : 1,
     RowsOfPage: rowsPerPage ? rowsPerPage : 10,
-    Query: searchTerm ? searchTerm : undefined,
+    // Query: searchTerm ? searchTerm : undefined,
+    Query: debouncedSearchQuery ? debouncedSearchQuery : undefined,
     IsActiveUser: IsActiveUser,
     roleId: roleId ? roleId : undefined,
   };
@@ -29,7 +30,7 @@ const GetAllUsers = async ({
 export const useGetAllUsers = ({
   currentPage,
   rowsPerPage,
-  searchTerm,
+  debouncedSearchQuery,
   IsActiveUser,
   roleId,
 }) => {
@@ -38,7 +39,7 @@ export const useGetAllUsers = ({
       "GetAllUsers",
       currentPage,
       rowsPerPage,
-      searchTerm,
+      debouncedSearchQuery,
       IsActiveUser,
       roleId,
     ],
@@ -46,7 +47,7 @@ export const useGetAllUsers = ({
       return GetAllUsers({
         currentPage,
         rowsPerPage,
-        searchTerm,
+        debouncedSearchQuery,
         IsActiveUser,
         roleId,
       });
@@ -76,6 +77,17 @@ export const useGetAllUsersDetailsAdmin = (id) => {
     queryFn: () => {
       return GetAllUsersDetailsAdmin(id);
     },
+    enabled: !!id,
+  });
+};
+
+export const useGetAllUsersDetailsAdminForLists = (id) => {
+  return useQuery({
+    queryKey: ["GetAllUsersDetailsAdminForLists"],
+    queryFn: () => {
+      return GetAllUsersDetailsAdmin(id);
+    },
+    enabled: false,
   });
 };
 
@@ -104,11 +116,20 @@ export const useAddNewUser = () => {
 
 //get All Courses
 
-const GetAllCourses = async ({ currentPage, rowsPerPage, searchTerm }) => {
+const GetAllCourses = async ({
+  currentPage,
+  rowsPerPage,
+  debouncedSearchQuery,
+  SortingCol,
+  SortType,
+}) => {
   const AllParams = {
     PageNumber: currentPage ? currentPage : 1,
     RowsOfPage: rowsPerPage ? rowsPerPage : 10,
-    Query: searchTerm ? searchTerm : undefined,
+    Query: debouncedSearchQuery ? debouncedSearchQuery : undefined,
+    SortingCol: SortType ? SortType : undefined,
+    SortType: SortingCol ? SortingCol : undefined,
+    // Query: searchTerm ? searchTerm : undefined,
   };
   try {
     const response = await http.get(ApiRoutes.PANEL_GET_ALL_COURSES_ADMIN_URL, {
@@ -120,11 +141,30 @@ const GetAllCourses = async ({ currentPage, rowsPerPage, searchTerm }) => {
     return false;
   }
 };
-export const useGetAllCourses = ({ currentPage, rowsPerPage, searchTerm }) => {
+export const useGetAllCourses = ({
+  currentPage,
+  rowsPerPage,
+  debouncedSearchQuery,
+  SortingCol,
+  SortType,
+}) => {
   return useQuery({
-    queryKey: ["GetAllCourses", currentPage, rowsPerPage, searchTerm],
+    queryKey: [
+      "GetAllCourses",
+      currentPage,
+      rowsPerPage,
+      debouncedSearchQuery,
+      SortingCol,
+      SortType,
+    ],
     queryFn: () => {
-      return GetAllCourses({ currentPage, rowsPerPage, searchTerm });
+      return GetAllCourses({
+        currentPage,
+        rowsPerPage,
+        debouncedSearchQuery,
+        SortingCol,
+        SortType,
+      });
     },
   });
 };
@@ -250,11 +290,16 @@ export const useGetAllNewsDetailsAdmin = (id) => {
 
 //get All Comments
 
-const GetAllCommentsList = async ({ currentPage, rowsPerPage, searchTerm }) => {
+const GetAllCommentsList = async ({
+  currentPage,
+  rowsPerPage,
+  debouncedSearchQuery,
+}) => {
   const AllParams = {
     PageNumber: currentPage ? currentPage : 1,
     RowsOfPage: rowsPerPage ? rowsPerPage : 10,
-    Query: searchTerm ? searchTerm : undefined,
+    Query: debouncedSearchQuery ? debouncedSearchQuery : undefined,
+    // Query: searchTerm ? searchTerm : undefined,
   };
   try {
     const response = await http.get(
@@ -272,12 +317,21 @@ const GetAllCommentsList = async ({ currentPage, rowsPerPage, searchTerm }) => {
 export const useGetAllCommentsList = ({
   currentPage,
   rowsPerPage,
-  searchTerm,
+  debouncedSearchQuery,
 }) => {
   return useQuery({
-    queryKey: ["GetAllCommentsList", currentPage, rowsPerPage, searchTerm],
+    queryKey: [
+      "GetAllCommentsList",
+      currentPage,
+      rowsPerPage,
+      debouncedSearchQuery,
+    ],
     queryFn: () => {
-      return GetAllCommentsList({ currentPage, rowsPerPage, searchTerm });
+      return GetAllCommentsList({
+        currentPage,
+        rowsPerPage,
+        debouncedSearchQuery,
+      });
     },
   });
 };
@@ -364,14 +418,19 @@ export const useDeleteCommentCourse = () => {
 const GetAllNewsList = async ({
   currentPage,
   rowsPerPage,
-  searchTerm,
+  debouncedSearchQuery,
   active,
+  SortingCol,
+  SortType,
 }) => {
   const AllParams = {
     PageNumber: currentPage ? currentPage : 1,
     RowsOfPage: rowsPerPage ? rowsPerPage : 10,
-    Query: searchTerm ? searchTerm : undefined,
+    Query: debouncedSearchQuery ? debouncedSearchQuery : undefined,
+    // Query: searchTerm ? searchTerm : undefined,
     IsActive: active,
+    SortingCol: SortingCol ? SortingCol : undefined,
+    SortType: SortType ? SortType : undefined,
   };
   try {
     const response = await http.get(ApiRoutes.PANEL_GET_ALL_NEWS_ADMIN_URL, {
@@ -386,13 +445,30 @@ const GetAllNewsList = async ({
 export const useGetAllNewsList = ({
   currentPage,
   rowsPerPage,
-  searchTerm,
+  debouncedSearchQuery,
   active,
+  SortingCol,
+  SortType,
 }) => {
   return useQuery({
-    queryKey: ["GetAllNewsList", currentPage, rowsPerPage, searchTerm, active],
+    queryKey: [
+      "GetAllNewsList",
+      currentPage,
+      rowsPerPage,
+      debouncedSearchQuery,
+      active,
+      SortingCol,
+      SortType,
+    ],
     queryFn: () => {
-      return GetAllNewsList({ currentPage, rowsPerPage, searchTerm, active });
+      return GetAllNewsList({
+        currentPage,
+        rowsPerPage,
+        debouncedSearchQuery,
+        active,
+        SortingCol,
+        SortType,
+      });
     },
   });
 };
@@ -418,6 +494,293 @@ export const useGetAllCateGoryList = () => {
     queryKey: ["GetAllCateGoryList"],
     queryFn: () => {
       return GetAllCateGoryList();
+    },
+  });
+};
+
+//user details: user payment list
+
+//UserDetails
+
+//getAll UserComment
+
+const GetAllListUsersComment = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_USERS_COMMENT_LIST_URL}userId=${id}`
+    );
+    return response.comments;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllListUsersComment in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllListUsersComment = (id) => {
+  return useQuery({
+    queryKey: ["GetAllListUsersComment"],
+    queryFn: () => {
+      return GetAllListUsersComment(id);
+    },
+    enabled: !!id,
+  });
+};
+
+//filter
+
+//
+const GetAllListUsersPayment = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_USERS_PAYMENT_LIST_URL}StudentId=${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllListUsersPayment in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllListUsersPayment = (id) => {
+  return useQuery({
+    queryKey: ["GetAllListUsersPayment"],
+    queryFn: () => {
+      return GetAllListUsersPayment(id);
+    },
+  });
+};
+
+//payment Details
+
+const GetUsersPaymentDetails = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_USERS_PAYMENT_DETAILS_URL}${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetUsersPaymentDetails in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetUsersPaymentDetails = (id) => {
+  return useQuery({
+    queryKey: ["GetUsersPaymentDetails"],
+    queryFn: () => {
+      return GetUsersPaymentDetails(id);
+    },
+    enabled: false,
+  });
+};
+
+//accept the payment from teacher
+
+const AcceptUserPayment = async (user) => {
+  console.log("this is AcceptUserPayment", user);
+  try {
+    const response = await http.put(
+      `${ApiRoutes.PANEL_ACCEPT_USERS_PAYMENT_DETAILS_URL}`,
+      user,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(response.message, "this response AcceptUserPayment");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useAcceptUserPayment = () => {
+  return useMutation({
+    mutationKey: ["AcceptUserPayment"],
+    mutationFn: (data) => {
+      console.log("this is user AcceptUserPayment =", data);
+      return AcceptUserPayment(data);
+    },
+  });
+};
+
+// delete payment
+
+const DeleteUserPayment = async (user) => {
+  console.log("this is DeleteUserPayment", user);
+  try {
+    const response = await http.delete(
+      ApiRoutes.PANEL_DELETE_USERS_PAYMENT_DETAILS_URL,
+
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        data: user,
+      }
+    );
+    console.log(response.message, "this response DeleteUserPayment");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useDeleteUserPayment = () => {
+  return useMutation({
+    mutationKey: ["DeleteUserPayment"],
+    mutationFn: (data) => {
+      console.log("this is user DeleteUserPayment =", data);
+      return DeleteUserPayment(data);
+    },
+  });
+};
+
+//Course Groups
+
+const GetAllCoursesGroups = async ({
+  currentPage,
+  rowsPerPage,
+  debouncedSearchQuery,
+}) => {
+  const AllParams = {
+    PageNumber: currentPage ? currentPage : 1,
+    RowsOfPage: rowsPerPage ? rowsPerPage : 10,
+    Query: debouncedSearchQuery ? debouncedSearchQuery : undefined,
+    // Query: searchTerm ? searchTerm : undefined,
+  };
+  try {
+    const response = await http.get(
+      ApiRoutes.PANEL_GET_ALL_COURSE_GROUPS_ADMIN_URL,
+      {
+        params: AllParams,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllCoursesGroups in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllCoursesGroups = ({
+  currentPage,
+  rowsPerPage,
+  debouncedSearchQuery,
+}) => {
+  return useQuery({
+    queryKey: [
+      "GetAllCoursesGroups",
+      currentPage,
+      rowsPerPage,
+      debouncedSearchQuery,
+    ],
+    queryFn: () => {
+      return GetAllCoursesGroups({
+        currentPage,
+        rowsPerPage,
+        debouncedSearchQuery,
+      });
+    },
+  });
+};
+
+//Course Group Details
+
+const GetAllCourseGroupDetails = async (id) => {
+  try {
+    const response = await http.get(
+      `${ApiRoutes.PANEL_GET_DETAILS_COURSE_GROUP_URL}Id=${id}`
+    );
+    return response;
+  } catch (error) {
+    console.log(
+      "This error For Get GetAllCourseGroupDetails in handelUsers.js ",
+      error
+    );
+    return false;
+  }
+};
+export const useGetAllCourseGroupDetails = (id) => {
+  return useQuery({
+    queryKey: ["GetAllCourseGroupDetails", id],
+    queryFn: () => {
+      return GetAllCourseGroupDetails(id);
+    },
+  });
+};
+//Edit CourseGroupDetailsInModal
+
+const EditCourseGroup = async (user) => {
+  console.log("this is EditCourseGroup", user);
+  try {
+    const response = await http.put(
+      ApiRoutes.PANEL_EDIT_COURSE_GROUP_URL,
+      user,
+
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        // data: user,
+      }
+    );
+    console.log(response.message, "this response EditCourseGroup");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useEditCourseGroup = () => {
+  return useMutation({
+    mutationKey: ["EditCourseGroup"],
+    mutationFn: (data) => {
+      console.log("this is user EditCourseGroup =", data);
+      return EditCourseGroup(data);
+    },
+  });
+};
+
+//Delete Course Group
+
+// delete payment
+
+const DeleteCourseGroup = async (user) => {
+  console.log("this is DeleteCourseGroup", user);
+  try {
+    const response = await http.delete(
+      ApiRoutes.PANEL_DELETE_COURSE_GROUP_URL,
+
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        data: user,
+      }
+    );
+    console.log(response.message, "this response DeleteCourseGroup");
+    return response;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const useDeleteCourseGroup = () => {
+  return useMutation({
+    mutationKey: ["DeleteCourseGroup"],
+    mutationFn: (data) => {
+      console.log("this is user DeleteCourseGroup =", data);
+      return DeleteCourseGroup(data);
     },
   });
 };

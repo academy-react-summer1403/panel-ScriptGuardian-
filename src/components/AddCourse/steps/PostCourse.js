@@ -9,7 +9,11 @@ import { ArrowLeft, ArrowRight } from "react-feather";
 import { Label, Row, Col, Input, Form, Button } from "reactstrap";
 import { useCreateCourseStepTwo } from "../../../core/services/api/Admin/handelAddCourse";
 import { toast } from "react-toastify";
-import { validationSchemaForAddNewCourses } from "../../../core/services/validation/AdminPanel";
+import {
+  validationForAddNewCourse,
+  validationSchemaForAddNewCourses,
+  validationSchemaForAddNewUser,
+} from "../../../core/services/validation/AdminPanel";
 
 const PostCourse = ({
   stepper,
@@ -33,8 +37,8 @@ const PostCourse = ({
     initialValues: {
       Title: currentValue?.Title, //1
       Describe: currentValue?.Describe, //2
-      MiniDescribe: currentValue?.MiniDescribe, //3
-      MiniDescribe: currentValue?.MiniDescribe, //4
+      MiniDescribe: currentValue?.miniDescribe, //3
+      // MiniDescribe: currentValue?.MiniDescribe, //4
       Capacity: currentValue?.Capacity, //5
       CourseTypeId: currentValue?.currentCourseType?.value, //6
       SessionNumber: currentValue?.SessionNumber, //7
@@ -50,11 +54,11 @@ const PostCourse = ({
       GoogleSchema: currentValue?.GoogleSchema, //14
       GoogleTitle: currentValue?.GoogleTitle, //14
       CoursePrerequisiteId: currentValue?.CoursePrerequisiteId,
-      ShortLink: currentValue?.ShortLink,
+      ShortLink: currentValue?.shortLink,
       TumbImageAddress: currentValue?.ImageAddress,
       ImageAddress: currentValue?.ImageAddress,
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationForAddNewCourse,
     enableReinitialize: true,
     onSubmit: (values) => {
       const formData = new FormData();
@@ -85,7 +89,7 @@ const PostCourse = ({
         <Row>
           <Col md="6" className="mb-1">
             <Label className="form-label" for={`first-name-${type}`}>
-              عنوان گوگل {currentValue?.Title}
+              عنوان گوگل
             </Label>
             <Input
               type="text"
@@ -95,6 +99,9 @@ const PostCourse = ({
               value={currentValue.GoogleTitle}
               onChange={(e) => handleChange("GoogleTitle", e.target.value)}
             />
+            {formik.touched.GoogleTitle && formik.errors.GoogleTitle && (
+              <div className="text-danger">{formik.errors.GoogleTitle}</div>
+            )}
           </Col>
           <Col md="6" className="mb-1">
             <Label className="form-label" for={`first-name-${type}`}>
@@ -108,6 +115,9 @@ const PostCourse = ({
               value={currentValue.GoogleSchema}
               onChange={(e) => handleChange("GoogleSchema", e.target.value)}
             />
+            {formik.touched.GoogleSchema && formik.errors.GoogleSchema && (
+              <div className="text-danger">{formik.errors.GoogleSchema}</div>
+            )}
           </Col>
         </Row>
         <Row>
@@ -123,6 +133,9 @@ const PostCourse = ({
               value={currentValue.shortLink}
               onChange={(e) => handleChange("shortLink", e.target.value)}
             />
+            {formik.touched.ShortLink && formik.errors.ShortLink && (
+              <div className="text-danger">{formik.errors.ShortLink}</div>
+            )}
           </Col>
           <Col md="6" className="mb-1">
             <Label className="form-label" for={`first-name-${type}`}>
@@ -136,6 +149,9 @@ const PostCourse = ({
               value={currentValue.uniqeUrlString}
               onChange={(e) => handleChange("uniqeUrlString", e.target.value)}
             />
+            {formik.touched.UniqeUrlString && formik.errors.UniqeUrlString && (
+              <div className="text-danger">{formik.errors.UniqeUrlString}</div>
+            )}
           </Col>
         </Row>
 

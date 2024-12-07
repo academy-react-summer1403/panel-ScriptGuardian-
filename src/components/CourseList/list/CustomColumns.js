@@ -1,11 +1,15 @@
 import Avatar from "@components/avatar";
 import default_image from "../../../images/default_image.png";
 import NoProfile from "../../../images/profile.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import {
   Archive,
+  Check,
   Database,
   Edit2,
+  ExternalLink,
   MoreVertical,
   Settings,
   Slack,
@@ -213,44 +217,6 @@ export const CustomColumns = (toggleSidebar2) => [
 ];
 
 export const CustomColumnsForListCourse = (toggleSidebar2) => [
-  // {
-  //   name: " دوره عنوان",
-  //   sortable: true,
-  //   minWidth: "172px",
-  //   sortField: "title",
-  //   selector: (row) => row.title,
-  //   cell: (row) => {
-  //     return (
-  //       <div className="d-flex justify-content-left align-items-center">
-  //         <Avatar
-  //           className="me-1"
-  //           img={
-  //             row.pictureAddress &&
-  //             row.pictureAddress != null &&
-  //             row.pictureAddress !== "Not-set"
-  //               ? row.pictureAddress
-  //               : NoProfile
-  //           }
-  //           width="32"
-  //           height="32"
-  //         />
-  //         <div className="d-flex flex-column">
-  //           <Link
-  //             to={`/users/${row.id}`}
-  //             className="user_name text-truncate text-body"
-  //             // onClick={() => store.dispatch(getUser(row.id))}
-  //           >
-  //             <span className="fw-bolder">
-  //               {row.title} {row.lname}
-  //             </span>
-  //           </Link>
-  //           <small className="text-truncate text-muted mb-0">{row.gmail}</small>
-  //         </div>
-  //       </div>
-  //     );
-  //   },
-  // },
-
   {
     name: "عنوان دوره",
     minWidth: "250px",
@@ -263,7 +229,11 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
           ) : (
             <Avatar
               img={
-                row?.tumbImageAddress && row?.tumbImageAddress !== "Not-set"
+                row?.tumbImageAddress &&
+                row?.tumbImageAddress !== "Not-set" &&
+                row?.tumbImageAddress !== "null" &&
+                row?.tumbImageAddress !=
+                  "blob:http://localhost:3000/f296f0a6-8cb7-42f6-80d4-2d3ee5c2dcc5"
                   ? row?.tumbImageAddress
                   : default_image
               }
@@ -274,7 +244,9 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
               className="d-block fw-bold text-truncate"
               to={`/CourseListPage/${row.courseId}`}
             >
-              {row.title}
+              {row.title.length > 25
+                ? row.title.slice(0, 25) + "..."
+                : row.title}
             </NavLink>
           </div>
         </div>
@@ -308,7 +280,12 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
       return (
         <>
           {" "}
-          <h5 className="text-truncate text-muted mb-0">{row.cost}</h5>
+          <h5 className="text-truncate text-muted mb-0">
+            {" "}
+            {parseFloat(row?.cost).toFixed(2) % 1 === 0
+              ? parseInt(row?.cost)
+              : row?.cost}{" "}
+          </h5>
         </>
       );
     },
@@ -326,7 +303,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.isActive ? "light-primary" : "light-danger"}
+              color={row.isActive ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.isActive ? "فعال" : "غیرفعال"}
@@ -342,8 +319,10 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
 
     cell: (row) => {
       const queryClient = useQueryClient();
+      const navigate = useNavigate();
 
       const { mutate: ChangeActivity } = useActiveCourse();
+      const MySwal = withReactContent(Swal);
 
       const ActiveCourse = (id) => {
         ChangeActivity(
@@ -374,6 +353,63 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
           }
         );
       };
+
+      const handleSuspendedClick = (id) => {
+        return MySwal.fire({
+          title: "آیا مطمئنید که میخواهید دوره رو غیرفعال کنید",
+          text: "البته یک عمل قابل بازگشت است",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "بله",
+          cancelButtonText: "لغو",
+          customClass: {
+            confirmButton: "btn btn-primary",
+            cancelButton: "btn btn-outline-danger ms-1",
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            DeActiveCourse(id);
+            MySwal.fire({
+              icon: "success",
+              title: "موفقیت آمیز بود",
+              text: "دوره با موفقیت غیرفعال شد",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
+            });
+          }
+        });
+      };
+
+      const handleSuspendedClick2 = (id) => {
+        return MySwal.fire({
+          title: "آیا مطمئنید که میخواهید دوره رو فعال کنید",
+          text: "البته یک عمل قابل بازگشت است",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "بله",
+          cancelButtonText: "لغو",
+          customClass: {
+            confirmButton: "btn btn-primary",
+            cancelButton: "btn btn-outline-danger ms-1",
+          },
+          buttonsStyling: false,
+        }).then(function (result) {
+          if (result.value) {
+            ActiveCourse(id);
+            MySwal.fire({
+              icon: "success",
+              title: "موفقیت آمیز بود",
+              text: "دوره با موفقیت فعال شد",
+              customClass: {
+                confirmButton: "btn btn-success",
+              },
+            });
+          }
+        });
+      };
+
       return (
         <div className="column-action">
           <UncontrolledDropdown>
@@ -381,18 +417,11 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem tag="a" className="w-100">
-                <Archive size={14} className="me-50" />
-                <span className="align-middle" onClick={toggleSidebar2}>
-                  ویرایش دوره
-                  {/* //TODO */}
-                </span>
-              </DropdownItem>
               {row?.isActive ? (
                 <>
                   <DropdownItem
                     onClick={() => {
-                      DeActiveCourse(row?.courseId);
+                      handleSuspendedClick(row?.courseId);
                     }}
                     lassName="w-100"
                   >
@@ -405,18 +434,23 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
                   <DropdownItem
                     className="w-100"
                     onClick={() => {
-                      ActiveCourse(row?.courseId);
+                      handleSuspendedClick2(row?.courseId);
                     }}
                   >
-                    <Trash2 size={14} className="me-50" />
+                    <Check size={14} className="me-50" />
                     <span className="align-middle">فعال کردن دوره</span>
                   </DropdownItem>
                 </>
               )}
 
-              <DropdownItem size="sm">
-                <Archive size={14} className="me-50" />
-                <span className="align-middle">دسترسی</span>
+              <DropdownItem
+                className="w-100"
+                onClick={() => {
+                  navigate(`/CourseListPage/${row.courseId}`);
+                }}
+              >
+                <ExternalLink size={14} className="me-50" />
+                <span className="align-middle">جزییات دوره</span>
               </DropdownItem>
               {/* <UserAddRole
               // modal={modal}

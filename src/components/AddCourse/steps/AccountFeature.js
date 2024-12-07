@@ -13,6 +13,20 @@ import { current } from "@reduxjs/toolkit";
 import * as yup from "yup";
 
 const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
+  const [error, setError] = useState({});
+
+  const [selectedData, setSelectedData] = useState({
+    currentClassRoomDtos: { value: null, label: "انتخاب نشده" },
+    currentCourseLevelDtos: { value: null, label: "انتخاب نشده" },
+    currentCourseType: { value: null, label: "انتخاب نشده" },
+    currentStatusDtos: { value: null, label: "انتخاب نشده" },
+    currentTeachers: { value: null, label: "انتخاب نشده" },
+    currentTermDtos: { value: null, label: "انتخاب نشده" },
+  });
+  const isAnyValueNull = Object.values(selectedData).some(
+    (item) => item.value === null
+  );
+
   //1
   const courseTypeDtos =
     (data &&
@@ -21,6 +35,8 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
         label: item.typeName,
       }))) ||
     [];
+
+  courseTypeDtos.unshift({ value: null, label: "انتخاب نشده" });
   //2
   const courseLevelDtos =
     (data &&
@@ -29,6 +45,9 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
         label: item.levelName,
       }))) ||
     [];
+
+  courseLevelDtos.unshift({ value: null, label: "انتخاب نشده" });
+
   //3
   const statusDtos =
     (data &&
@@ -37,6 +56,8 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
         label: item.statusName,
       }))) ||
     [];
+
+  statusDtos.unshift({ value: null, label: "انتخاب نشده" });
   //4
   const classRoomDtos =
     (data &&
@@ -45,6 +66,8 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
         label: item.classRoomName,
       }))) ||
     [];
+
+  classRoomDtos.unshift({ value: null, label: "انتخاب نشده" });
   //5
   const teachers =
     (data &&
@@ -53,6 +76,8 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
         label: item.fullName,
       }))) ||
     [];
+
+  teachers.unshift({ value: null, label: "انتخاب نشده" });
   //6
   const termDtos =
     (data &&
@@ -61,16 +86,16 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
         label: item.termName,
       }))) ||
     [];
-  //7
-  // const technologyDtos =
-  //   (data &&
-  //     data?.technologyDtos?.map((item) => ({
-  //       value: item.id,
-  //       label: item.techName,
-  //     }))) ||
-  //   [];
+
+  termDtos.unshift({ value: null, label: "انتخاب نشده" });
 
   const handleChange = (key, data) => {
+    validateSelection(key, data);
+
+    setSelectedData((prev) => ({
+      ...prev,
+      [key]: data,
+    }));
     setCurrentValue((prev) => ({
       ...prev,
       [key]: data,
@@ -79,16 +104,39 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
 
   //handel validation
 
-  const validationSchema = yup.object().shape({
-    currentCourseType: yup
-      .object()
-      .nullable()
-      .required("لطفاً نوع دوره را انتخاب کنید."),
-    currentCourseLevel: yup
-      .object()
-      .nullable()
-      .required("لطفاً سطح دوره را انتخاب کنید."),
-  });
+  const validateSelection = (key, data) => {
+    if (data.value == null) {
+      setError((prev) => ({
+        ...prev,
+        [key]: "  اجباری است",
+      }));
+    } else {
+      setError((prev) => ({
+        ...prev,
+        [key]: null,
+      }));
+    }
+  };
+  // console.log(error, "valuesssssssssssssseee");
+
+  const handelNextPage = () => {
+    if (!isAnyValueNull) {
+      stepper.next();
+    } else {
+      // setError((prev) => ({
+      //   ...prev,
+      //   [key]: "اجباری است",
+      // }));
+      Object.keys(selectedData).forEach((key) => {
+        if (selectedData[key].value === null) {
+          setError((prev) => ({
+            ...prev,
+            [key]: "اجباری است",
+          }));
+        }
+      });
+    }
+  };
   return (
     <Fragment>
       <div className="content-header">
@@ -111,6 +159,12 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
               defaultValue={courseTypeDtos[0]}
               onChange={(data) => handleChange("currentCourseType", data)}
             />
+
+            {error.currentCourseType && (
+              <div className="invalid-feedback d-block">
+                انتخاب نوع دوره {error.currentCourseType}
+              </div>
+            )}
           </Col>
           <Col md="6" className="mb-1">
             <Label className="form-label" for={`country-${type}`}>
@@ -126,6 +180,12 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
               defaultValue={courseLevelDtos[0]}
               onChange={(data) => handleChange("currentCourseLevelDtos", data)}
             />
+
+            {error.currentCourseLevelDtos && (
+              <div className="invalid-feedback d-block">
+                انتخاب سطح دوره {error.currentCourseLevelDtos}
+              </div>
+            )}
           </Col>
         </Row>
 
@@ -144,6 +204,12 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
               defaultValue={statusDtos[0]}
               onChange={(data) => handleChange("currentStatusDtos", data)}
             />
+
+            {error.currentStatusDtos && (
+              <div className="invalid-feedback d-block">
+                انتخاب وضعیت دوره {error.currentStatusDtos}
+              </div>
+            )}
           </Col>
           <Col md="6" className="mb-1">
             <Label className="form-label" for={`country-${type}`}>
@@ -159,6 +225,12 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
               defaultValue={classRoomDtos[0]}
               onChange={(data) => handleChange("currentClassRoomDtos", data)}
             />
+
+            {error.currentClassRoomDtos && (
+              <div className="invalid-feedback d-block">
+                انتخاب کلاس دوره {error.currentClassRoomDtos}
+              </div>
+            )}
           </Col>
         </Row>
 
@@ -177,6 +249,12 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
               defaultValue={teachers[0]}
               onChange={(data) => handleChange("currentTeachers", data)}
             />
+
+            {error.currentTeachers && (
+              <div className="invalid-feedback d-block">
+                انتخاب استاد دوره {error.currentTeachers}
+              </div>
+            )}
           </Col>
           <Col md="6" className="mb-1">
             <Label className="form-label" for={`country-${type}`}>
@@ -192,6 +270,12 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
               options={termDtos}
               defaultValue={termDtos[0]}
             />
+
+            {error.currentTermDtos && (
+              <div className="invalid-feedback d-block">
+                انتخاب ترم دوره {error.currentTermDtos}
+              </div>
+            )}
           </Col>
         </Row>
 
@@ -222,11 +306,7 @@ const AccountFeature = ({ stepper, type, data, setCurrentValue }) => {
             ></ArrowLeft>
             <span className="align-middle d-sm-inline-block d-none">قبلی</span>
           </Button>
-          <Button
-            color="primary"
-            className="btn-next"
-            onClick={() => stepper.next()}
-          >
+          <Button color="primary" className="btn-next" onClick={handelNextPage}>
             <span className="align-middle d-sm-inline-block d-none">بعدی</span>
             <ArrowRight
               size={14}

@@ -66,7 +66,7 @@ import {
 } from "./CustomColumns";
 import AddNewUserModal from "./AddNewUserModal";
 import ChangeUserModal from "./ChangeUser";
-
+import CustomSpinner from "../../../components/common/animation/CustomSpiner";
 // ** Table Header
 const CustomHeader = ({
   toggleSidebar,
@@ -75,7 +75,7 @@ const CustomHeader = ({
   handleFilter,
   searchTerm,
   handleChange,
-  active,
+  // active,
 }) => {
   // ** Converts table to CSV
   function convertArrayOfObjectsToCSV(array) {
@@ -125,7 +125,7 @@ const CustomHeader = ({
       <Row>
         <Col xl="6" className="d-flex align-items-center p-0">
           <div className="d-flex align-items-center w-100">
-            <label htmlFor="rows-per-page">Show</label>
+            <label htmlFor="rows-per-page">نمایش</label>
             <Input
               className="mx-50"
               type="select"
@@ -138,9 +138,9 @@ const CustomHeader = ({
               <option value="25">25</option>
               <option value="50">50</option>
             </Input>
-            <label htmlFor="rows-per-page">Entries</label>
+            {/* <label htmlFor="rows-per-page">Entries</label> */}
           </div>
-          <div className="d-flex align-items-center w-100">
+          {/* <div className="d-flex align-items-center w-100">
             <label htmlFor="rows-per-page">وضعیت:</label>
             <Input
               className="mx-50"
@@ -153,7 +153,7 @@ const CustomHeader = ({
               <option value="true">فعال</option>
               <option value="false">غیرفعال</option>
             </Input>
-          </div>
+          </div> */}
         </Col>
 
         <Col
@@ -170,6 +170,7 @@ const CustomHeader = ({
               type="text"
               value={searchTerm}
               onChange={(e) => handleFilter(e.target.value)}
+              placeholder="عنوان خبر مورد نظر خود را وارد کنید"
             />
           </div>
 
@@ -206,13 +207,13 @@ const CustomHeader = ({
               </DropdownMenu>
             </UncontrolledDropdown> */}
 
-            <Button
+            {/* <Button
               className="add-new-user"
               color="primary"
               onClick={toggleSidebar}
             >
               افزودن دوره جدید{" "}
-            </Button>
+            </Button> */}
           </div>
         </Col>
       </Row>
@@ -220,7 +221,7 @@ const CustomHeader = ({
   );
 };
 
-const UsersList = () => {
+const UsersList = ({ sortCol, sortType, active }) => {
   //API
 
   const store = useSelector((state) => state.users);
@@ -228,25 +229,37 @@ const UsersList = () => {
   // ** States
   const [sort, setSort] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(undefined);
+  //Search
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedSearchQuery(searchTerm);
+    }, 1000);
 
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState("id");
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarOpen2, setSidebarOpen2] = useState(false);
 
-  const [active, setActive] = useState(true);
+  // const [active, setActive] = useState(true);
 
-  const handleChange = (e) => {
-    setActive(e.target.value === "true");
-  };
+  // const handleChange = (e) => {
+  //   setActive(e.target.value === "true");
+  // };
 
   //Page
   const { data } = useGetAllNewsList({
     currentPage,
     rowsPerPage,
-    searchTerm,
+    debouncedSearchQuery,
+    // searchTerm,
     active,
+
+    SortingCol: sortCol,
+    SortType: sortType,
   });
   const listUser = data?.news;
   // const listUser = data?.comments?.slice().reverse();
@@ -333,9 +346,24 @@ const UsersList = () => {
                 handleFilter={handleFilter}
                 handlePerPage={handlePerPage}
                 toggleSidebar={toggleSidebar}
-                handleChange={handleChange}
-                active={active}
+                // handleChange={handleChange}
+                // active={active}
               />
+            }
+            noDataComponent={
+              <>
+                {!listUser ? (
+                  <CustomSpinner
+                    style={"text-primary"}
+                    style2={{ marginTop: "100px", marginBottom: "100px" }}
+                    color={""}
+                  />
+                ) : (
+                  <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                    خبر ای وجود ندارد
+                  </h2>
+                )}
+              </>
             }
           />
         </div>

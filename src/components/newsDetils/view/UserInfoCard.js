@@ -52,6 +52,7 @@ import {
   useActiveCourse,
   useActiveNews,
 } from "../../../core/services/api/Admin/handelreserve";
+import { convertIsoToJalali } from "../../../core/utils/dateUtils";
 
 const UserInfoCard = ({ data, ID }) => {
   // ** State
@@ -150,6 +151,63 @@ const UserInfoCard = ({ data, ID }) => {
       }
     );
   };
+
+  const handleSuspendedClick = () => {
+    return MySwal.fire({
+      title: "آیا مطمئنید که میخواهید خبر را غیرفعال کنید",
+      text: "البته یک عمل قابل بازگشت است",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "بله",
+      cancelButtonText: "لغو",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-outline-danger ms-1",
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        DeActiveCourse();
+        MySwal.fire({
+          icon: "success",
+          title: "موفقیت آمیز بود",
+          text: "خبر با موفقیت غیرفعال شد",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      }
+    });
+  };
+
+  const handleSuspendedClick2 = () => {
+    return MySwal.fire({
+      title: "آیا مطمئنید که میخواهید خبر رو فعال کنید",
+      text: "البته یک عمل قابل بازگشت است",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "بله",
+      cancelButtonText: "لغو",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-outline-danger ms-1",
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        ActiveCourse();
+        MySwal.fire({
+          icon: "success",
+          title: "موفقیت آمیز بود",
+          text: "خبر با موفقیت فعال شد",
+          customClass: {
+            confirmButton: "btn btn-success",
+          },
+        });
+      }
+    });
+  };
+
   return (
     <Fragment>
       <Card>
@@ -219,16 +277,31 @@ const UserInfoCard = ({ data, ID }) => {
               </li>
               <li className="mb-75">
                 <span className="fw-bolder me-25"> وضعیت:</span>
-                <span
-                  className={`${data?.active ? "text-success" : "text-danger"}`}
-                >
+                <Badge color={`${data?.active ? "success" : "danger"}`}>
                   {data?.active ? "فعال" : "غیرفعال"}
-                </span>
+                </Badge>
               </li>
               <li className="mb-75">
                 <span className="fw-bolder me-25"> نام گروه:</span>
                 <span>
                   {data?.newsCatregoryName ? data?.newsCatregoryName : ""}{" "}
+                </span>
+              </li>
+
+              <li className="mb-75">
+                <span className="fw-bolder me-25"> تاریخ ساخت خبر:</span>
+                <span>
+                  {data?.insertDate ? convertIsoToJalali(data?.insertDate) : ""}{" "}
+                </span>
+              </li>
+
+              <li className="mb-75">
+                <span className="fw-bolder me-25">
+                  {" "}
+                  تاریخ اخرین ویرایش خبر :
+                </span>
+                <span>
+                  {data?.updateDate ? convertIsoToJalali(data?.updateDate) : ""}{" "}
                 </span>
               </li>
               <li className="mb-75">
@@ -237,9 +310,9 @@ const UserInfoCard = ({ data, ID }) => {
                   style={{ whiteSpace: "nowrap" }}
                 >
                   {" "}
-                  توضیحات خبر:
+                  توضیحات کوتاه خبر:
                 </span>
-                <span>{data?.describe ? data?.describe : ""} </span>
+                <span>{data?.miniDescribe ? data?.miniDescribe : ""} </span>
               </li>
             </ul>
           </div>
@@ -255,7 +328,7 @@ const UserInfoCard = ({ data, ID }) => {
                 outline
                 // onClick={handleSuspendedClick}
                 onClick={() => {
-                  DeActiveCourse();
+                  handleSuspendedClick();
                 }}
               >
                 غیرفعال کردن
@@ -267,7 +340,7 @@ const UserInfoCard = ({ data, ID }) => {
                 outline
                 // onClick={handleSuspendedClick}
                 onClick={() => {
-                  ActiveCourse();
+                  handleSuspendedClick2();
                 }}
               >
                 فعال کردن

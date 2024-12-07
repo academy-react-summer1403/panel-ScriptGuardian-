@@ -64,6 +64,7 @@ import {
 } from "./CustomColumns";
 import AddNewUserModal from "./AddNewUserModal";
 import ChangeUserModal from "./ChangeUser";
+import CustomSpinner from "../../common/animation/CustomSpiner";
 
 // ** Table Header
 const CustomHeader = ({
@@ -121,7 +122,7 @@ const CustomHeader = ({
       <Row>
         <Col xl="6" className="d-flex align-items-center p-0">
           <div className="d-flex align-items-center w-100">
-            <label htmlFor="rows-per-page">Show</label>
+            <label htmlFor="rows-per-page">نمایش</label>
             <Input
               className="mx-50"
               type="select"
@@ -134,7 +135,7 @@ const CustomHeader = ({
               <option value="25">25</option>
               <option value="50">50</option>
             </Input>
-            <label htmlFor="rows-per-page">Entries</label>
+            {/* <label htmlFor="rows-per-page">Entries</label> */}
           </div>
         </Col>
         <Col
@@ -151,6 +152,7 @@ const CustomHeader = ({
               type="text"
               value={searchTerm}
               onChange={(e) => handleFilter(e.target.value)}
+              placeholder="عنوان دوره  را وارد کنید"
             />
           </div>
 
@@ -187,13 +189,13 @@ const CustomHeader = ({
               </DropdownMenu>
             </UncontrolledDropdown> */}
 
-            <Button
+            {/* <Button
               className="add-new-user"
               color="primary"
               onClick={toggleSidebar}
             >
               افزودن دوره جدید{" "}
-            </Button>
+            </Button> */}
           </div>
         </Col>
       </Row>
@@ -209,6 +211,15 @@ const UsersList = () => {
   // ** States
   const [sort, setSort] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(undefined);
+  //Search
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedSearchQuery(searchTerm);
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState("id");
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -219,7 +230,8 @@ const UsersList = () => {
   const { data } = useGetAllCommentsList({
     currentPage,
     rowsPerPage,
-    searchTerm,
+    debouncedSearchQuery,
+    // searchTerm,
   });
   const listUser = data?.comments;
   // const listUser = data?.comments?.slice().reverse();
@@ -283,7 +295,7 @@ const UsersList = () => {
 
   return (
     <Fragment>
-      <Card className="overflow-hidden">
+      <Card className="overflow-">
         <div className="react-dataTable">
           <DataTable
             noHeader
@@ -295,7 +307,7 @@ const UsersList = () => {
             columns={CustomColumnsForListComments(toggleSidebar2)}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
-            className="react-dataTable"
+            className="react-dataTable overflow-visible"
             paginationComponent={CustomPagination}
             data={listUser}
             subHeaderComponent={
@@ -307,6 +319,21 @@ const UsersList = () => {
                 handlePerPage={handlePerPage}
                 toggleSidebar={toggleSidebar}
               />
+            }
+            noDataComponent={
+              <>
+                {!listUser ? (
+                  <CustomSpinner
+                    style={"text-primary"}
+                    style2={{ marginTop: "100px", marginBottom: "100px" }}
+                    color={""}
+                  />
+                ) : (
+                  <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                    کامنتی ای وجود ندارد
+                  </h2>
+                )}
+              </>
             }
           />
         </div>

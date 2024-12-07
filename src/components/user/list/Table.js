@@ -56,6 +56,7 @@ import NoProfile from "../../../images/profile.png";
 import { CustomColumns } from "./CustomColumns";
 import AddNewUserModal from "./AddNewUserModal";
 import ChangeUserModal from "./ChangeUser";
+import CustomSpinner from "../../common/animation/CustomSpiner";
 
 // ** Table Header
 const CustomHeader = ({
@@ -113,7 +114,7 @@ const CustomHeader = ({
       <Row>
         <Col xl="6" className="d-flex align-items-center p-0">
           <div className="d-flex align-items-center w-100">
-            <label htmlFor="rows-per-page">Show</label>
+            <label htmlFor="rows-per-page">نمایش</label>
             <Input
               className="mx-50"
               type="select"
@@ -126,7 +127,7 @@ const CustomHeader = ({
               <option value="25">25</option>
               <option value="50">50</option>
             </Input>
-            <label htmlFor="rows-per-page">Entries</label>
+            {/* <label htmlFor="rows-per-page">Entries</label> */}
           </div>
         </Col>
         <Col
@@ -143,42 +144,11 @@ const CustomHeader = ({
               type="text"
               value={searchTerm}
               onChange={(e) => handleFilter(e.target.value)}
+              placeholder="نام کاربر مورد نظر را وارد کنید"
             />
           </div>
 
           <div className="d-flex align-items-center table-header-actions">
-            {/* <UncontrolledDropdown className="me-1">
-              <DropdownToggle color="secondary" caret outline>
-                <Share className="font-small-4 me-50" />
-                <span className="align-middle">Export</span>
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem className="w-100">
-                  <Printer className="font-small-4 me-50" />
-                  <span className="align-middle">Print</span>
-                </DropdownItem>
-                <DropdownItem
-                  className="w-100"
-                  onClick={() => downloadCSV(store.data)}
-                >
-                  <FileText className="font-small-4 me-50" />
-                  <span className="align-middle">CSV</span>
-                </DropdownItem>
-                <DropdownItem className="w-100">
-                  <Grid className="font-small-4 me-50" />
-                  <span className="align-middle">Excel</span>
-                </DropdownItem>
-                <DropdownItem className="w-100">
-                  <File className="font-small-4 me-50" />
-                  <span className="align-middle">PDF</span>
-                </DropdownItem>
-                <DropdownItem className="w-100">
-                  <Copy className="font-small-4 me-50" />
-                  <span className="align-middle">Copy</span>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown> */}
-
             <Button
               className="add-new-user"
               color="primary"
@@ -193,7 +163,7 @@ const CustomHeader = ({
   );
 };
 
-const UsersList = ({ currentStatus, currentRole }) => {
+const UsersList = ({ currentStatus, currentRole, data: roles }) => {
   //API
 
   const store = useSelector((state) => state.users);
@@ -201,6 +171,16 @@ const UsersList = ({ currentStatus, currentRole }) => {
   // ** States
   const [sort, setSort] = useState("desc");
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(undefined);
+  //Search
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedSearchQuery(searchTerm);
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState("id");
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -208,10 +188,11 @@ const UsersList = ({ currentStatus, currentRole }) => {
   const [sidebarOpen2, setSidebarOpen2] = useState(false);
 
   //Page
-  const { data } = useGetAllUsers({
+  const { data, isPending } = useGetAllUsers({
     currentPage,
     rowsPerPage,
-    searchTerm,
+    // searchTerm,
+    debouncedSearchQuery,
     IsActiveUser: currentStatus.value,
     roleId: currentRole.value,
   });
@@ -284,7 +265,7 @@ const UsersList = ({ currentStatus, currentRole }) => {
             pagination
             responsive
             paginationServer
-            columns={CustomColumns(toggleSidebar2)}
+            columns={CustomColumns(toggleSidebar2, roles)}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
             className="react-dataTable"
@@ -299,6 +280,21 @@ const UsersList = ({ currentStatus, currentRole }) => {
                 handlePerPage={handlePerPage}
                 toggleSidebar={toggleSidebar}
               />
+            }
+            noDataComponent={
+              <>
+                {!listUser ? (
+                  <CustomSpinner
+                    style={"text-primary"}
+                    style2={{ marginTop: "100px", marginBottom: "100px" }}
+                    color={""}
+                  />
+                ) : (
+                  <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                    کاربری ای وجود ندارد
+                  </h2>
+                )}
+              </>
             }
           />
         </div>

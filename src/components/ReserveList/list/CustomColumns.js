@@ -4,8 +4,10 @@ import NoProfile from "../../../images/profile.png";
 import { Link, NavLink } from "react-router-dom";
 import {
   Archive,
+  Check,
   Database,
   Edit2,
+  ExternalLink,
   MoreVertical,
   Settings,
   Slack,
@@ -26,7 +28,7 @@ import {
   useGetAllCourseDetailsAdmin,
   useGetAllCourseDetailsAdminForReserve,
 } from "../../../core/services/api/Admin/handelUsers";
-
+import { convertIsoToJalali } from "../../../core/utils/dateUtils";
 export const CustomColumns = (toggleSidebar2) => [
   {
     name: "نام کاربر",
@@ -426,7 +428,9 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
               className="d-block fw-bold text-truncate"
               to={`/CourseListPage/${row.courseId}`}
             >
-              {row.courseName}
+              {row.courseName.length > 25
+                ? row.courseName?.slice(0, 25) + "..."
+                : row.courseName}
             </NavLink>
           </div>
         </div>
@@ -459,11 +463,14 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
     minWidth: "172px",
     sortField: "userRoles",
     selector: (row) => row.reserverDate,
+
     cell: (row) => {
       return (
         <>
           {" "}
-          <h5 className="text-truncate text-muted mb-0">{row.reserverDate}</h5>
+          <h5 className="text-truncate text-muted mb-0">
+            {row?.reserverDate && convertIsoToJalali(row.reserverDate)}
+          </h5>
         </>
       );
     },
@@ -481,10 +488,10 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.accept ? "light-primary" : "light-danger"}
+              color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
-              {row.accept ? "پذیرفته شده" : "نپذیرفته شده"}
+              {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
             </Badge>
           </h5>
         </>
@@ -524,7 +531,7 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
                     className="w-100"
                     onClick={toggleAcceptModal}
                   >
-                    <Archive size={14} className="me-50" />
+                    <Check size={14} className="me-50" />
                     <span className="align-middle"> موافقت </span>
                   </DropdownItem>
                 )}
@@ -534,11 +541,11 @@ export const CustomColumnsForListReserve = (toggleSidebar2) => [
                   href={`/CourseListPage/${row.courseId}`}
                   className="w-100"
                 >
-                  <Trash2 size={14} className="me-50" />
+                  <ExternalLink size={14} className="me-50" />
                   <span className="align-middle"> جزییات دوره</span>
                 </DropdownItem>
                 <DropdownItem size="sm" href={`/UsersPage/${row.studentId}`}>
-                  <UserMinus size={14} className="me-50" />
+                  <User size={14} className="me-50" />
                   <span className="align-middle">جزییات کاربر</span>
                 </DropdownItem>
               </DropdownMenu>

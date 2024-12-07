@@ -46,9 +46,32 @@ const Register = lazy(() => import("../../pages/Register"));
 const NewsDetailsPage = lazy(() => import("../../pages/NewsDetailsPage"));
 const ForgotPassword = lazy(() => import("../../pages/ForgotPassword"));
 const CourseReservedPage = lazy(() => import("../../pages/CourseReservedPage"));
+const ClassRoomPage = lazy(() => import("../../pages/ClassRoomPage"));
+const PaymentListPage = lazy(() => import("../../pages/PaymentListPage"));
+const CourseLevelPage = lazy(() => import("../../pages/CourseLevelPage"));
+const DepartmentPage = lazy(() => import("../../pages/DepartmentPage"));
+const JobHistoryPage = lazy(() => import("../../pages/JobHistoryPage"));
+const TermPage = lazy(() => import("../../pages/TermPage.js"));
+const CourseGroupPage = lazy(() => import("../../pages/CourseGroupPage"));
+const CourseAssistancePage = lazy(() =>
+  import("../../pages/CourseAssistancePage")
+);
+const AssistanceWorkPage = lazy(() => import("../../pages/AssistanceWorkPage"));
+const SkajolPage = lazy(() => import("../../pages/SkajolPage"));
+const AssistanceWorkDetailsPage = lazy(() =>
+  import("../../pages/AssistanceWorkDetailsPage")
+);
+const StatusListPage = lazy(() => import("../../pages/StatusListPage"));
+const BuildingPage = lazy(() => import("../../pages/BuildingPage"));
+const BuildingDetailsPage = lazy(() =>
+  import("../../pages/BuildingDetailsPage")
+);
+const CourseGroupDetailsPage = lazy(() =>
+  import("../../pages/CourseGroupDetailsPage")
+);
 const Error = lazy(() => import("../../pages/Error"));
 const Sample = lazy(() => import("../../pages/Sample"));
-
+const TechnologyListPage = lazy(() => import("../../pages/TechnologyListPage"));
 // ** Merge Routes
 const Routes = [
   {
@@ -69,6 +92,10 @@ const Routes = [
     element: <UsersPage />,
   },
   {
+    path: "/SkajolPage",
+    element: <SkajolPage />,
+  },
+  {
     path: "/UsersPage/:id",
     element: <UserDetailsPage />,
   },
@@ -81,8 +108,42 @@ const Routes = [
     element: <CourseTeacherListPage />,
   },
   {
+    path: "/PaymentListPage",
+    element: <PaymentListPage />,
+  },
+  {
+    path: "/CourseGroupPage",
+    element: <CourseGroupPage />,
+  },
+  {
+    path: "/CourseGroupPage/:id",
+    element: <CourseGroupDetailsPage />,
+  },
+  {
     path: "/CourseListPage/:id",
     element: <CourseDetailPage />,
+  },
+  {
+    path: "/AssistanceWorkPage",
+    element: <AssistanceWorkPage />,
+  },
+  {
+    path: "/AssistanceWorkPage/:id",
+    element: <AssistanceWorkDetailsPage />,
+  },
+
+  {
+    path: "/BuildingPage",
+    element: <BuildingPage />,
+  },
+
+  {
+    path: "/BuildingPage/:id",
+    element: <BuildingDetailsPage />,
+  },
+  {
+    path: "/JobHistoryPage",
+    element: <JobHistoryPage />,
   },
   {
     path: "/createCourse",
@@ -93,8 +154,28 @@ const Routes = [
     element: <CourseReservedPage />,
   },
   {
+    path: "/ClassRoomPage",
+    element: <ClassRoomPage />,
+  },
+  {
+    path: "/CourseLevelPage",
+    element: <CourseLevelPage />,
+  },
+  {
+    path: "/CourseAssistancePage",
+    element: <CourseAssistancePage />,
+  },
+  {
+    path: "/TechnologyListPage",
+    element: <TechnologyListPage />,
+  },
+  {
     path: "/CommentsListPage",
     element: <CommentListPage />,
+  },
+  {
+    path: "/StatusListPage",
+    element: <StatusListPage />,
   },
   {
     path: "/AddNewsCateGoryPage",
@@ -109,8 +190,16 @@ const Routes = [
     element: <NewsListPage />,
   },
   {
+    path: "/DepartmentPage",
+    element: <DepartmentPage />,
+  },
+  {
     path: "/AddNewsPage",
     element: <AddNewsPage />,
+  },
+  {
+    path: "/TermPage",
+    element: <TermPage />,
   },
   {
     path: "/login",

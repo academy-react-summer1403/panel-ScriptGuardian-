@@ -19,10 +19,10 @@ import {
 
 // ** Third Party Components
 import Swal from "sweetalert2";
-import Select from "react-select";
-import { Check, Briefcase, X } from "react-feather";
-import { useForm, Controller } from "react-hook-form";
 import withReactContent from "sweetalert2-react-content";
+import Select from "react-select";
+import { Check, Briefcase, X, Book, BookOpen } from "react-feather";
+import { useForm, Controller } from "react-hook-form";
 
 // ** Custom Components
 import Avatar from "@components/avatar";
@@ -32,34 +32,11 @@ import Avatar from "@components/avatar";
 // ** Styles
 import "@styles/react/libs/react-select/_react-select.scss";
 import ModalCustom from "./Modal/Modal";
-
-const roleColors = {
-  editor: "light-info",
-  admin: "light-danger",
-  author: "light-warning",
-  maintainer: "light-success",
-  subscriber: "light-primary",
-};
-
-const statusColors = {
-  active: "light-success",
-  pending: "light-warning",
-  inactive: "light-secondary",
-};
-
-const statusOptions = [
-  { value: "active", label: "Active" },
-  { value: "inactive", label: "Inactive" },
-  { value: "suspended", label: "Suspended" },
-];
-
-const languageOptions = [
-  { value: "english", label: "English" },
-  { value: "spanish", label: "Spanish" },
-  { value: "french", label: "French" },
-  { value: "german", label: "German" },
-  { value: "dutch", label: "Dutch" },
-];
+import { toast } from "react-toastify";
+import { useFormik } from "formik";
+import { useUpdateUser } from "../../../core/services/api/Admin/handelChangeProfileUser";
+import { useQueryClient } from "@tanstack/react-query";
+import { convertIsoToJalali } from "../../../core/utils/dateUtils";
 
 const MySwal = withReactContent(Swal);
 // const UserInfoCard = ({ selectedUser }) => {
@@ -120,56 +97,89 @@ const UserInfoCard = ({ data }) => {
     }
   };
 
-  // const renderUserImg = (data) => {
-  //   return (
-  //     <Avatar
-  //       initials
-  //       color={"light-primary"}
-  //       className="rounded mt-3 mb-2"
-  //       content={data?.fName ? data?.fName : ""}
-  //       contentStyles={{
-  //         borderRadius: 0,
-  //         fontSize: "calc(48px)",
-  //         width: "100%",
-  //         height: "100%",
-  //       }}
-  //       style={{
-  //         height: "110px",
-  //         width: "110px",
-  //       }}
-  //     />
-  //   );
-  // };
+  //API
+  const queryClient = useQueryClient();
 
-  const onSubmit = (data) => {
-    if (Object.values(data).every((field) => field.length > 0)) {
-      setShow(false);
-    } else {
-      for (const key in data) {
-        if (dat && data[key].length === 0) {
-          setError(key, {
-            type: "manual",
-          });
-        }
-      }
-    }
-  };
+  const { mutate: UpdateProfile } = useUpdateUser();
 
-  const handleReset = () => {
-    reset({
-      username: "amir",
-      lastName: "hosseni",
-      firstName: "amir",
-    });
-  };
+  const formik = useFormik({
+    initialValues: {
+      id: data?.id ? data?.id : "",
+      fName: data?.fName ? data?.fName : "",
+      lName: data?.lName ? data?.lName : "",
+      userName: data?.userName ? data?.userName : "",
+      gmail: data?.gmail ? data?.gmail : "",
+      phoneNumber: data?.phoneNumber ? data?.phoneNumber : "",
+      active: data?.active,
+      isDelete: data?.isDelete,
+      isTecher: data?.isTecher,
+      isStudent: data?.isStudent,
+      recoveryEmail: data?.recoveryEmail ? data?.recoveryEmail : "",
+      twoStepAuth: data?.twoStepAuth,
+      userAbout: data?.userAbout ? data?.userAbout : "",
+      currentPictureAddress: data?.currentPictureAddress
+        ? data?.currentPictureAddress
+        : "",
+      linkdinProfile: data?.linkdinProfile ? data?.linkdinProfile : "",
+      telegramLink: data?.telegramLink ? data?.telegramLink : "",
+      receiveMessageEvent: data?.receiveMessageEvent,
+      homeAdderess: data?.homeAdderess ? data?.homeAdderess : "",
+      nationalCode: data?.nationalCode ? data?.nationalCode : "",
+      gender: data?.gender,
+      latitude: data?.latitude ? data?.latitude : "51.3890",
+      longitude: data?.latitude ? data?.latitude : "35.6892",
+      insertDate: data?.insertDate ? data?.insertDate : "",
+      birthDay: data?.birthDay ? data?.birthDay : "",
+      roles:
+        data?.roles?.map((role) => ({
+          id: role.id || "",
+          roleName: role.roleName || "",
+          roleParentName: role.roleParentName || "",
+        })) || [],
+      courses:
+        data?.courses?.map((course) => ({
+          title: course.title || "",
+          describe: course.describe || "",
+          tumbImageAddress: course.tumbImageAddress || "",
+          lastUpdate: course.lastUpdate || "",
+          courseId: course.courseId || "",
+        })) || [],
+      coursesReseves:
+        data?.coursesReseves?.map((reserve) => ({
+          reserveId: reserve.reserveId || "",
+          courseId: reserve.courseId || "",
+          courseName: reserve.courseName || "",
+          studentId: reserve.studentId || "",
+          studentName: reserve.studentName || "",
+          reserverDate: reserve.reserverDate || "",
+          accept: reserve.accept,
+        })) || [],
+      userProfileId: data?.userProfileId ? data?.userProfileId : undefined,
+    },
+    enableReinitialize: true,
+    // validationSchema: validationSchema,
+    onSubmit: (values) => {
+      UpdateProfile(values, {
+        onSuccess: (data) => {
+          if (data.success == true) {
+            // toast.success("ویرایش با موفقیت انجام شد");
+            queryClient.invalidateQueries("GetStudentProfile");
+            queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
+            queryClient.invalidateQueries("GetAllUsers");
+          }
+        },
+      });
+    },
+  });
 
   const handleSuspendedClick = () => {
     return MySwal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert user!",
+      title: "آیا مطمئنید که میخواهید کاربر رو غیرفعال کنید",
+      text: "البته یک عمل قابل بازگشت است",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, Suspend user!",
+      confirmButtonText: "بله",
+      cancelButtonText: "لغو",
       customClass: {
         confirmButton: "btn btn-primary",
         cancelButton: "btn btn-outline-danger ms-1",
@@ -177,19 +187,41 @@ const UserInfoCard = ({ data }) => {
       buttonsStyling: false,
     }).then(function (result) {
       if (result.value) {
+        formik.setFieldValue("active", false);
+        formik.submitForm();
         MySwal.fire({
           icon: "success",
-          title: "Suspended!",
-          text: "User has been suspended.",
+          title: "موفقیت آمیز بود",
+          text: "کاربر با موفقیت غیرفعال شد",
           customClass: {
             confirmButton: "btn btn-success",
           },
         });
-      } else if (result.dismiss === MySwal.DismissReason.cancel) {
+      }
+    });
+  };
+
+  const handleSuspendedClick2 = () => {
+    return MySwal.fire({
+      title: "آیا مطمئنید که میخواهید کاربر رو فعال کنید",
+      text: "البته یک عمل قابل بازگشت است",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "بله",
+      cancelButtonText: "لغو",
+      customClass: {
+        confirmButton: "btn btn-primary",
+        cancelButton: "btn btn-outline-danger ms-1",
+      },
+      buttonsStyling: false,
+    }).then(function (result) {
+      if (result.value) {
+        formik.setFieldValue("active", true);
+        formik.submitForm();
         MySwal.fire({
-          title: "Cancelled",
-          text: "Cancelled Suspension :)",
-          icon: "error",
+          icon: "success",
+          title: "موفقیت آمیز بود",
+          text: "کاربر با موفقیت فعال شد",
           customClass: {
             confirmButton: "btn btn-success",
           },
@@ -232,6 +264,64 @@ const UserInfoCard = ({ data }) => {
                   {/* <Badge color={"blue"} className="text-capitalize">
                     رولللل
                   </Badge> */}
+
+                  <div
+                    className=""
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      flexWrap: "wrap",
+                      width: "100%",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {Array.isArray(data?.roles) && data.roles.length > 1 ? (
+                      data.roles.map((role) => {
+                        const colors = {
+                          Administrator: "danger",
+                          Referee: "info",
+                          TournamentAdmin: "primary",
+                          Support: "secondary",
+                          "Employee.Admin": "warning",
+                          Student: "success",
+                          Teacher: "warning",
+                          TournamentMentor: "info",
+                          "Employee.Writer": "primary",
+                        };
+
+                        const translations = {
+                          Administrator: "مدیر",
+                          Referee: "داور",
+                          TournamentAdmin: "ادمین مسابقات",
+                          Support: "پشتیبان",
+                          "Employee.Admin": "کارمند مدیریت",
+                          Student: "دانش‌آموز",
+                          Teacher: "معلم",
+                          TournamentMentor: "منتور مسابقات",
+                          "Employee.Writer": "نویسنده ",
+                        };
+
+                        return (
+                          <Badge
+                            style={{ width: "47%", padding: "5px 12px" }}
+                            color={colors[role?.roleName] || "success"}
+                            key={role?.roleName}
+                          >
+                            {translations[role?.roleName] ||
+                              role?.roleName ||
+                              ""}
+                          </Badge>
+                        );
+                      })
+                    ) : (
+                      <Badge
+                        color="success"
+                        style={{ width: "100%", padding: "" }}
+                      >
+                        دانش‌آموز
+                      </Badge>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -239,7 +329,7 @@ const UserInfoCard = ({ data }) => {
           <div className="d-flex justify-content-around my-2 pt-75">
             <div className="d-flex align-items-start me-2">
               <Badge color="light-primary" className="rounded p-75">
-                <Check className="font-medium-2" />
+                <Book className="font-medium-2" />
               </Badge>
               <div className="ms-75">
                 <h4 className="mb-0">{data && data?.courses.length}</h4>
@@ -248,7 +338,7 @@ const UserInfoCard = ({ data }) => {
             </div>
             <div className="d-flex align-items-start">
               <Badge color="light-primary" className="rounded p-75">
-                <Briefcase className="font-medium-2" />
+                <BookOpen className="font-medium-2" />
               </Badge>
               <div className="ms-75">
                 <h4 className="mb-0">{data && data?.coursesReseves.length}</h4>
@@ -279,12 +369,12 @@ const UserInfoCard = ({ data }) => {
                 <span className="fw-bolder me-25">وضعیت:</span>
 
                 {data?.active ? (
-                  <span className="text-success">فعال</span>
+                  <Badge color={`success`}>فعال</Badge>
                 ) : (
-                  <span className="text-danger"> غیرفعال</span>
+                  <Badge color={`danger`}> غیرفعال</Badge>
                 )}
               </li>
-              <li className="mb-75">
+              {/* <li className="mb-75">
                 <span
                   className="fw-bolder me-25"
                   style={{ whiteSpace: "nowrap" }}
@@ -305,11 +395,27 @@ const UserInfoCard = ({ data }) => {
                 ) : (
                   <span>student</span>
                 )}
+              </li> */}
+
+              <li className="mb-75">
+                <span className="fw-bolder me-25"> تاریخ تولد :</span>
+                <strong>
+                  {data?.birthDay ? convertIsoToJalali(data?.birthDay) : ""}{" "}
+                </strong>
               </li>
 
               <li className="mb-75">
-                <span className="fw-bolder me-25"> آدرس :</span>
-                <span>{data?.homeAdderess ? data?.homeAdderess : ""} </span>
+                <span className="fw-bolder me-25"> کد ملی :</span>
+                <span>{data?.nationalCode ? data?.nationalCode : ""} </span>
+              </li>
+
+              <li className="mb-75">
+                <span className="fw-bolder me-25"> درصد تکمیل پروفایل :</span>
+                <strong>
+                  {data?.profileCompletionPercentage
+                    ? data?.profileCompletionPercentage
+                    : ""}{" "}
+                </strong>
               </li>
             </ul>
           </div>
@@ -317,14 +423,26 @@ const UserInfoCard = ({ data }) => {
             <Button color="primary" onClick={() => setShow(true)}>
               ویرایش
             </Button>
-            {/* <Button
-              className="ms-1"
-              color="danger"
-              outline
-              onClick={handleSuspendedClick}
-            >
-              Suspended
-            </Button> */}
+
+            {data?.active ? (
+              <Button
+                className="ms-1"
+                color="danger"
+                outline
+                onClick={handleSuspendedClick}
+              >
+                غیرفعال کردن
+              </Button>
+            ) : (
+              <Button
+                className="ms-1"
+                color="success"
+                outline
+                onClick={handleSuspendedClick2}
+              >
+                فعال کردن{" "}
+              </Button>
+            )}
           </div>
         </CardBody>
       </Card>

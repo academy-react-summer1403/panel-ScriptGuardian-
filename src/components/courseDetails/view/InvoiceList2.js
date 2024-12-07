@@ -34,13 +34,14 @@ import { useDispatch, useSelector } from "react-redux";
 // ** Styles
 import "@styles/react/apps/app-invoice.scss";
 import "@styles/react/libs/tables/react-dataTable-component.scss";
+import CustomSpinner from "../../common/animation/CustomSpiner";
 
-const InvoiceList2 = ({ data }) => {
-
+const InvoiceList2 = ({ data, id }) => {
   const handleSort = (column, sortDirection) => {
     setSort(sortDirection);
     setSortColumn(column.sortField);
   };
+  const filteredData = data?.filter((item) => item.courseId === id);
 
   return (
     <div className="invoice-list-wrapper">
@@ -52,10 +53,25 @@ const InvoiceList2 = ({ data }) => {
             columns={columns3ForComment}
             responsive={true}
             onSort={handleSort}
-            data={data}
+            data={filteredData}
             sortIcon={<ChevronDown />}
-            className="react-dataTable"
+            className="react-dataTable overflow-visible overflow-x-visible"
             defaultSortField="invoiceId"
+            noDataComponent={
+              <>
+                {!filteredData ? (
+                  <CustomSpinner
+                    style={"text-primary"}
+                    style2={{ marginTop: "100px", marginBottom: "100px" }}
+                    color={""}
+                  />
+                ) : (
+                  <h2 style={{ marginTop: "100px", marginBottom: "100px" }}>
+                    نظری وجود ندارد{" "}
+                  </h2>
+                )}
+              </>
+            }
           />
         </div>
       </Card>

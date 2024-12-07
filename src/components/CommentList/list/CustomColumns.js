@@ -11,6 +11,7 @@ import {
   Database,
   Edit2,
   Eye,
+  MessageCircle,
   MoreVertical,
   Settings,
   Slack,
@@ -488,7 +489,7 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.accept ? "light-primary" : "light-danger"}
+              color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.accept ? "پذیرفته شده" : "نپذیرفته"}
@@ -521,18 +522,28 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
         <>
           {" "}
           <h5 className="text-truncate text-muted mb-0">
-            <Badge
-              pill
-              className="me-1 "
+            <div
               onClick={() => {
                 if (row.replyCount != "0") {
                   ClickModal();
                 }
               }}
+              style={{ cursor: "pointer" }}
             >
-              {row.replyCount != "0" ? <Eye className="mr-1" /> : ""}
-              <span> {row?.replyCount}</span>
-            </Badge>
+              {row.replyCount != "0" ? (
+                <Eye
+                  className="mr-1"
+                  size={16}
+                  style={{ cursor: "pointer", color: "#007bff" }}
+                />
+              ) : (
+                ""
+              )}
+              <span style={{ cursor: "pointer", color: "#007bff" }}>
+                {" "}
+                {row?.replyCount}
+              </span>
+            </div>
           </h5>
           <MyCustomModal
             setShow={setShow}
@@ -577,12 +588,22 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
       };
 
       const handelDelete = (id) => {
-        DeleteComment(id, {
-          onSuccess: () => {
-            queryClient.invalidateQueries("GetAllCommentsList");
-            toast.success("با موفقیت  کامنت حذف شد");
-          },
-        });
+        if (row.replyCount !== 0) {
+          toast.error(
+            " کامنت زیر نظر دارد برای پاکسازی کامنت ابتدا زیر نظرات کامنت را پاک کنید"
+          );
+        } else {
+          DeleteComment(id, {
+            onSuccess: (data) => {
+              if (data.success == true) {
+                queryClient.invalidateQueries("GetAllCommentsList");
+                toast.success("با موفقیت  کامنت حذف شد");
+              } else {
+                toast.error("خطا در حذف کامنت");
+              }
+            },
+          });
+        }
       };
 
       const [show, setShow] = useState(false);
@@ -633,7 +654,7 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
               </DropdownItem>
 
               <DropdownItem size="sm" onClick={toggelShow}>
-                <CornerDownLeft size={14} className="me-50" />
+                <MessageCircle size={14} className="me-50" />
                 <span className="align-middle">پاسخ دادن به نظر </span>
               </DropdownItem>
             </DropdownMenu>

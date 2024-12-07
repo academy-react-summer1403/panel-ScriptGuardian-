@@ -1,6 +1,6 @@
 // ** React Imports
 import { Fragment, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 // ** Custom Components
 import Avatar from "@components/avatar";
@@ -33,7 +33,9 @@ import {
   Archive,
   Trash2,
   Check,
+  MessageCircle,
   X,
+  Camera,
 } from "react-feather";
 
 import default_image from "../../../images/default_image.png";
@@ -44,8 +46,17 @@ import Modal2ForAcceptReserve from "./Modal/Modal2ForAcceptReserve";
 import {
   useAcceptCommentCourse,
   useDeleteCommentCourse,
+  useDeleteCourseGroup,
   useDontAcceptCommentCourse,
+  useGetUsersPaymentDetails,
 } from "../../../core/services/api/Admin/handelUsers";
+import { convertIsoToJalali } from "../../../core/utils/dateUtils";
+import PaymentShowScreenModalInCourse from "./Modal/PaymentShowScreenModalInCourse";
+import PaymentDetailsModalInCourseDetails from "./Modal/PaymentDetailsModalInCourseDetails";
+import ReplayCustomModalTwoForCOmmentCOurseDetails from "./Modal/ReplayCustomModalTwoForCOmmentCOurseDetails";
+import { useReplayCommentCoursesInCommentList } from "../../../core/services/api/Admin/handelComment";
+import ReplayCommentCoursesInCommentList from "./Modal/ShowReplayModalInCourseDetails";
+import AddFishModalInCourse from "./Modal/AddFishModalInCourse";
 // ** Vars
 const invoiceStatusObj = {
   Sent: { color: "light-secondary", icon: Send },
@@ -162,19 +173,11 @@ export const columns2 = (CourseDetails) => [
     name: "نام دانشجو",
     sortable: true,
     sortField: "id",
-    minWidth: "170px",
+    minWidth: "230px",
     selector: (row) => row.studentName,
     cell: (row) => {
       return (
         <div className="d-flex align-items-center">
-          <Avatar
-            img={
-              row?.tumbImageAddress && row?.tumbImageAddress !== "Not-set"
-                ? row?.tumbImageAddress
-                : default_image
-            }
-          />
-
           <div className="user-info text-truncate ms-1">
             <NavLink
               className="d-block fw-bold text-truncate"
@@ -189,9 +192,9 @@ export const columns2 = (CourseDetails) => [
   },
 
   {
-    minWidth: "200px",
+    minWidth: "100px",
     name: "تاریخ رزرو",
-    cell: (row) => row.reserverDate,
+    cell: (row) => row.reserverDate && convertIsoToJalali(row.reserverDate),
   },
   {
     name: "وضعیت پذیرش ",
@@ -206,7 +209,7 @@ export const columns2 = (CourseDetails) => [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.accept ? "light-primary" : "light-danger"}
+              color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
@@ -217,7 +220,7 @@ export const columns2 = (CourseDetails) => [
     },
   },
   {
-    name: "اقدامات",
+    name: "اقدامات ",
     minWidth: "100px",
 
     cell: (row) => {
@@ -227,19 +230,6 @@ export const columns2 = (CourseDetails) => [
         setIsOpenModal(!isOpenModal);
       };
 
-      // const { mutate: Accept } = useAcceptCourseReserve();
-      // const handelAccept = (value) => {
-      //   Accept(value.reserveId, value.courseId, value.studentId, {
-      //     onSuccess: (data) => {
-      //       if (data.success == true) {
-      //         toast.success("با موفقیت رزرو پذیرفته شد");
-      //         queryClient.invalidateQueries("GetAllUsersDetailsAdmin");
-      //       } else {
-      //         toast.error("    خطا در رزرو");
-      //       }
-      //     },
-      //   });
-      // };
       console.log("unicAAAAA", CourseDetails);
       return (
         <>
@@ -273,27 +263,19 @@ export const columns2 = (CourseDetails) => [
 export const columns3ForComment = [
   {
     name: "نام دانشجو",
-    sortable: true,
+    // sortable: true,
     sortField: "id",
-    minWidth: "170px",
+    minWidth: "140px",
     selector: (row) => row.studentName,
     cell: (row) => {
       return (
         <div className="d-flex align-items-center">
-          <Avatar
-            img={
-              row?.pictureAddress && row?.pictureAddress !== "Not-set"
-                ? row?.pictureAddress
-                : default_image
-            }
-          />
-
-          <div className="user-info text-truncate ms-1">
+          <div className="user-info text-truncate ">
             <NavLink
               className="d-block fw-bold text-truncate"
               to={`/UsersPage/${row.userId}`}
             >
-              {row.author}
+              {row.userFullName}
             </NavLink>
           </div>
         </div>
@@ -302,14 +284,20 @@ export const columns3ForComment = [
   },
 
   {
-    minWidth: "200px",
+    minWidth: "130px",
     name: "عنوان کامنت",
-    cell: (row) => <span>{row?.describe}</span>,
+    cell: (row) => (
+      <span title={row?.describe}>
+        {row?.describe?.length > 15
+          ? `${row.describe.slice(0, 15)}...`
+          : row?.describe}
+      </span>
+    ),
   },
   {
     name: "وضعیت پذیرش ",
     sortable: true,
-    minWidth: "150px",
+    minWidth: "120px",
     sortField: "userRoles",
     selector: (row) => row.isActive,
     cell: (row) => {
@@ -319,7 +307,7 @@ export const columns3ForComment = [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.accept ? "light-primary" : "light-danger"}
+              color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
@@ -331,11 +319,59 @@ export const columns3ForComment = [
   },
 
   {
+    name: "تعداد پاسخ ",
+    sortable: true,
+    minWidth: "42px",
+    sortField: "userRoles",
+    selector: (row) => row.accept,
+    cell: (row) => {
+      const [show, setShow] = useState(false);
+      const { data: ReplayList, refetch } =
+        useReplayCommentCoursesInCommentList({
+          courseId: row?.courseId,
+          CommentId: row.commentId,
+        });
+      const ClickModal = () => {
+        setShow(!show);
+        refetch();
+      };
+
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <div
+              onClick={() => {
+                if (row.replyCount != "0") {
+                  ClickModal();
+                }
+              }}
+              style={{ cursor: "pointer", color: "#007bff" }}
+            >
+              {row.replyCount != "0" ? (
+                <Eye className="mr-1" color="#007bff" size={16} />
+              ) : (
+                ""
+              )}
+              <span> {row?.replyCount}</span>
+            </div>
+          </h5>
+          <ReplayCommentCoursesInCommentList
+            setShow={setShow}
+            show={show}
+            data={ReplayList}
+            refetch={refetch}
+          />
+        </>
+      );
+    },
+  },
+
+  {
     name: "اقدامات",
-    minWidth: "100px",
+    minWidth: "70px",
 
     cell: (row) => {
-      //TODO
       const queryClient = useQueryClient();
 
       const { mutate: AcceptComment } = useAcceptCommentCourse();
@@ -347,7 +383,7 @@ export const columns3ForComment = [
         AcceptComment(id, {
           onSuccess: () => {
             queryClient.invalidateQueries("GetAllCommentsList");
-            toast.success("با موفقیت با کامنت موفقیت شد");
+            toast.success("با موفقیت  کامنت تایید شد");
           },
         });
       };
@@ -356,18 +392,29 @@ export const columns3ForComment = [
         NotAcceptComment(id, {
           onSuccess: () => {
             queryClient.invalidateQueries("GetAllCommentsList");
-            toast.success("با موفقیت با کامنت مخالفت شد");
+            toast.success("با موفقیت  کامنت رد شد");
           },
         });
       };
 
       const handelDelete = (id) => {
-        DeleteComment(id, {
-          onSuccess: () => {
-            queryClient.invalidateQueries("GetAllCommentsList");
-            toast.success("با موفقیت  کامنت حذف شد");
-          },
-        });
+        if (row.replyCount != 0) {
+          toast.error(
+            "کامنت مورد نظر زیر نظر دارد برای حذف کامنت ابتدا زیر نظر های کامنت را حذف کنید"
+          );
+        } else {
+          DeleteComment(id, {
+            onSuccess: () => {
+              queryClient.invalidateQueries("GetAllCommentsList");
+              toast.success("با موفقیت  کامنت حذف شد");
+            },
+          });
+        }
+      };
+      const [show, setShow] = useState(false);
+
+      const toggelShow = () => {
+        setShow(!show);
       };
       return (
         <div className="column-action">
@@ -375,44 +422,58 @@ export const columns3ForComment = [
             <DropdownToggle tag="div" className="btn btn-sm">
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
+
             <DropdownMenu>
-              <DropdownItem tag="a" className="w-100">
-                <Check color="green" size={16} />
-                <span
-                  className="align-middle"
-                  onClick={() => {
-                    console.log(row.id, "id for test1");
-                    handelAccept(row.id);
-                    console.log(row.id, "id for test2");
-                  }}
-                >
-                  تایید نظر{" "}
-                </span>
-              </DropdownItem>
-              <DropdownItem className="w-100">
-                <X color="red" size={14} />{" "}
-                <span
-                  className="align-middle"
-                  onClick={() => {
-                    handelDontAccept(row.id);
-                  }}
-                >
-                  رد نظر{" "}
-                </span>
-              </DropdownItem>
-              <DropdownItem size="sm">
+              {row?.accept ? (
+                <DropdownItem className="w-100">
+                  <X color="red" size={14} />{" "}
+                  <span
+                    className="align-middle"
+                    onClick={() => {
+                      handelDontAccept(row.commentId);
+                    }}
+                  >
+                    رد نظر{" "}
+                  </span>
+                </DropdownItem>
+              ) : (
+                <DropdownItem className="w-100">
+                  <Check color="green" size={16} />
+                  <span
+                    className="align-middle"
+                    onClick={() => {
+                      console.log(row.id, "id for test1");
+                      handelAccept(row.commentId);
+                      console.log(row.id, "id for test2");
+                    }}
+                  >
+                    تایید نظر{" "}
+                  </span>
+                </DropdownItem>
+              )}
+              <DropdownItem size="sm" className="w-100">
                 <Trash2 size={14} className="me-50" />
                 <span
                   className="align-middle"
                   onClick={() => {
-                    handelDelete(row.id);
+                    handelDelete(row.commentId);
                   }}
                 >
                   حذف نظر
                 </span>
               </DropdownItem>
+              <DropdownItem size="sm" onClick={toggelShow}>
+                <MessageCircle size={14} className="me-50" />
+                <span className="align-middle">پاسخ دادن به نظر </span>
+              </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
+          <ReplayCustomModalTwoForCOmmentCOurseDetails
+            setShow={setShow}
+            show={show}
+            commentId={row?.commentId}
+            courseId={row?.courseId}
+          />
         </div>
       );
     },
@@ -468,7 +529,7 @@ export const columns4ForPayMent = [
           <h5 className="text-truncate text-muted mb-0">
             <Badge
               pill
-              color={row.accept ? "light-primary" : "light-danger"}
+              color={row.accept ? "light-success" : "light-danger"}
               className="me-1"
             >
               {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
@@ -512,6 +573,516 @@ export const columns4ForPayMent = [
             </Button>
           )}
         </>
+      );
+    },
+  },
+];
+
+export const columns6ForWhosPayAndWhosNotPayed = [
+  {
+    name: "نام دانشجو",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.studentName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <div className="user-info text-truncate ms-1">
+            <div
+              className="d-block fw-bold text-truncate"
+              to={`/UsersPage/${row.userId}`}
+            >
+              {row.studentName}
+            </div>
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    minWidth: "200px",
+    name: "نام گروه",
+    cell: (row) => <span>{row?.groupName}</span>,
+  },
+  {
+    name: "وضعیت اتمام اقساط ",
+    sortable: true,
+    minWidth: "150px",
+    sortField: "userRoles",
+    selector: (row) => row.peymentDone,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.peymentDone ? "light-success" : "light-danger"}
+              className="me-1"
+            >
+              {row.peymentDone ? "به اتمام رسیده" : "تمام نشده"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+];
+
+export const columns5ForUserListInCourse = [
+  {
+    name: "نام دانشجو",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.studentName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <div className="user-info text-truncate ms-1">
+            <NavLink
+              className="d-block fw-bold text-truncate"
+              to={`/UsersPage/${row.studentId}`}
+            >
+              {row.studentName}
+            </NavLink>
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    minWidth: "200px",
+    name: "نمره دانشجو",
+    cell: (row) => <span>{row?.courseGrade ?? "ثبت نشده"}</span>,
+  },
+
+  {
+    name: "وضعیت پرداخت",
+    sortable: true,
+    minWidth: "50px",
+    sortField: "userRoles",
+    selector: (row) => row.peymentDone,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.peymentDone ? "light-success" : "light-danger"}
+              className="me-1"
+            >
+              {row.peymentDone ? "پرداخت شده" : "پرداخت نشده"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+
+  {
+    name: "اعلان",
+    sortable: true,
+    minWidth: "50px",
+    sortField: "userRoles",
+    selector: (row) => row.isActive,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.notification ? "light-success" : "light-danger"}
+              className="me-1"
+            >
+              {row.notification ? "فعال" : "غیرفعال"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+
+  // {
+  //   name: "اقدامات",
+  //   minWidth: "100px",
+
+  //   cell: (row) => {
+  //     //TODO
+  //     const queryClient = useQueryClient();
+
+  //     const { mutate: AcceptComment } = useAcceptCommentCourse();
+  //     const { mutate: NotAcceptComment } = useDontAcceptCommentCourse();
+  //     const { mutate: DeleteComment } = useDeleteCommentCourse();
+
+  //     const handelAccept = (id) => {
+  //       console.log(id, "id for test");
+  //       AcceptComment(id, {
+  //         onSuccess: () => {
+  //           queryClient.invalidateQueries("GetAllCommentsList");
+  //           toast.success("با موفقیت با کامنت موفقیت شد");
+  //         },
+  //       });
+  //     };
+
+  //     const handelDontAccept = (id) => {
+  //       NotAcceptComment(id, {
+  //         onSuccess: () => {
+  //           queryClient.invalidateQueries("GetAllCommentsList");
+  //           toast.success("با موفقیت با کامنت مخالفت شد");
+  //         },
+  //       });
+  //     };
+
+  //     const handelDelete = (id) => {
+  //       DeleteComment(id, {
+  //         onSuccess: () => {
+  //           queryClient.invalidateQueries("GetAllCommentsList");
+  //           toast.success("با موفقیت  کامنت حذف شد");
+  //         },
+  //       });
+  //     };
+  //     return (
+  //       <div className="column-action">
+  //         <UncontrolledDropdown>
+  //           <DropdownToggle tag="div" className="btn btn-sm">
+  //             <MoreVertical size={14} className="cursor-pointer" />
+  //           </DropdownToggle>
+  //           <DropdownMenu>
+  //             <DropdownItem tag="a" className="w-100">
+  //               <Check color="green" size={16} />
+  //               <span
+  //                 className="align-middle"
+  //                 onClick={() => {
+  //                   console.log(row.id, "id for test1");
+  //                   handelAccept(row.id);
+  //                   console.log(row.id, "id for test2");
+  //                 }}
+  //               >
+  //                 تایید نظر{" "}
+  //               </span>
+  //             </DropdownItem>
+  //             <DropdownItem className="w-100">
+  //               <X color="red" size={14} />{" "}
+  //               <span
+  //                 className="align-middle"
+  //                 onClick={() => {
+  //                   handelDontAccept(row.id);
+  //                 }}
+  //               >
+  //                 رد نظر{" "}
+  //               </span>
+  //             </DropdownItem>
+  //             <DropdownItem size="sm">
+  //               <Trash2 size={14} className="me-50" />
+  //               <span
+  //                 className="align-middle"
+  //                 onClick={() => {
+  //                   handelDelete(row.id);
+  //                 }}
+  //               >
+  //                 حذف نظر
+  //               </span>
+  //             </DropdownItem>
+  //           </DropdownMenu>
+  //         </UncontrolledDropdown>
+  //       </div>
+  //     );
+  //   },
+  // },
+];
+
+export const PayColInCoursePage = [
+  {
+    name: "نام دانشجو",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.studentName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <NavLink
+            to={`/UsersPage/${row?.studentId}`}
+            className="user-info text-truncate ms-1"
+          >
+            {row?.studentName}
+          </NavLink>
+        </div>
+      );
+    },
+  },
+  {
+    name: "پرداخت شده",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.paid,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <div className="user-info text-truncate ms-1">
+            <strong>{row?.paid}</strong> تومان
+          </div>
+        </div>
+      );
+    },
+  },
+
+  {
+    minWidth: "50px",
+    name: "تاریخ پرداخت",
+    cell: (row) => row.peymentDate && convertIsoToJalali(row.peymentDate),
+  },
+  {
+    name: "تصویر پرداخت ",
+    sortable: true,
+    minWidth: "50px",
+    sortField: "userRoles",
+    selector: (row) => row.paymentInvoiceImage,
+    cell: (row) => {
+      // ** States
+      const [show, setShow] = useState(false);
+
+      const toogelModal = () => {
+        setShow(!show);
+      };
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            {row.paymentInvoiceImage ? (
+              <div className="cursor-pointer	" onClick={toogelModal}>
+                نمایش
+                <Eye size={13} />
+              </div>
+            ) : (
+              "ثبت نشده"
+            )}
+          </h5>
+          <PaymentShowScreenModalInCourse
+            isOpenModal={show}
+            toggleAcceptModal={toogelModal}
+            paymentInvoiceImage={row?.paymentInvoiceImage}
+            groupName={row?.groupName}
+          />
+        </>
+      );
+    },
+  },
+  {
+    name: "وضعیت پذیرش ",
+    sortable: true,
+    minWidth: "50px",
+    sortField: "userRoles",
+    selector: (row) => row.accept,
+    cell: (row) => {
+      return (
+        <>
+          {" "}
+          <h5 className="text-truncate text-muted mb-0">
+            <Badge
+              pill
+              color={row.accept ? "light-success" : "light-danger"}
+              className="me-1"
+            >
+              {row.accept ? "پذیرفته شده" : "پذیرفته نشده"}
+            </Badge>
+          </h5>
+        </>
+      );
+    },
+  },
+  {
+    name: "اقدامات",
+    minWidth: "200px",
+
+    cell: (row) => {
+      const navigate = useNavigate();
+      const {
+        data: detailsPayment,
+        refetch,
+        isPending,
+      } = useGetUsersPaymentDetails(row?.id);
+      const [show, setShow] = useState(false);
+      const [screen, setScreen] = useState(false);
+
+      const toogelModal = () => {
+        setShow(false);
+      };
+      const handelClickDetailsPayment = () => {
+        refetch();
+        setShow(!show);
+      };
+      const handelClickModalScreen = () => {
+        setScreen(!screen);
+      };
+
+      const toogelScreen = () => {
+        setScreen(false);
+      };
+
+      console.log(detailsPayment, "detailsPayment");
+      return (
+        <div className="column-action">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="div" className="btn btn-sm">
+              <MoreVertical size={14} className="cursor-pointer" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem className="w-100">
+                <Archive size={14} className="me-50" />
+                <span
+                  className="align-middle"
+                  onClick={() => {
+                    navigate(`/CourseListPage/${row?.courseId}`);
+                  }}
+                >
+                  جزئیات دوره
+                </span>
+              </DropdownItem>
+
+              <DropdownItem
+                className="w-100"
+                onClick={handelClickDetailsPayment}
+              >
+                <Archive size={14} className="me-50" />
+                <span className="align-middle">جزئیات پرداخت </span>
+              </DropdownItem>
+
+              {row && row?.paymentInvoiceImage ? null : (
+                <DropdownItem
+                  className="w-100"
+                  onClick={handelClickModalScreen}
+                >
+                  <Camera size={14} className="me-50" />
+                  <span className="align-middle"> آپلود فیش</span>
+                </DropdownItem>
+              )}
+            </DropdownMenu>
+          </UncontrolledDropdown>
+
+          <PaymentDetailsModalInCourseDetails
+            isOpenModal={show}
+            toggleAcceptModal={toogelModal}
+            detailsPayment={detailsPayment}
+            isPending={isPending}
+          />
+
+          <AddFishModalInCourse
+            isOpenModal={screen}
+            toggleAcceptModal={toogelScreen}
+            id={row?.id}
+            // detailsPayment={detailsPayment}
+            // isPending={isPending}
+          />
+        </div>
+      );
+    },
+  },
+];
+
+export const GroupOfCourseDetailsList = [
+  {
+    name: "نام گروه",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.groupName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <NavLink
+            to={`/CourseGroupPage/${row?.groupId}`}
+            className="user-info text-truncate ms-1"
+          >
+            {row?.groupName}
+          </NavLink>
+        </div>
+      );
+    },
+  },
+  {
+    name: "نام استاد",
+    sortable: true,
+    sortField: "id",
+    minWidth: "170px",
+    selector: (row) => row.teacherName,
+    cell: (row) => {
+      return (
+        <div className="d-flex align-items-center">
+          <NavLink
+            to={`/UsersPage/${row?.teacherId}`}
+            className="user-info text-truncate ms-1"
+          >
+            <strong>{row?.teacherName}</strong>
+          </NavLink>
+        </div>
+      );
+    },
+  },
+
+  {
+    minWidth: "50px",
+    name: "ظرفیت دوره",
+    cell: (row) => row.courseCapacity,
+  },
+
+  {
+    minWidth: "50px",
+    name: "ظرفیت گروه",
+    cell: (row) => row.groupCapacity,
+  },
+
+  {
+    name: "اقدامات",
+    minWidth: "200px",
+
+    cell: (row) => {
+      const navigate = useNavigate();
+      const queryClient = useQueryClient();
+
+      const { mutate: Delete } = useDeleteCourseGroup();
+
+      const handelDelete = (id) => {
+        const newData = new FormData();
+        newData.append("Id", id);
+        Delete(newData, {
+          onSuccess: (data) => {
+            if (data.success) {
+              queryClient.invalidateQueries("GetGroupCourse");
+              toast.success("حذف  با موفقیت انجام شد");
+              toast.success(data.message);
+            } else {
+              toast.error("این گروه به دلیل استفاده غیر قابل حذف است");
+            }
+          },
+        });
+      };
+      return (
+        <div className="column-action">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="div" className="btn btn-sm">
+              <MoreVertical size={14} className="cursor-pointer" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                className="w-100"
+                onClick={() => {
+                  handelDelete(row?.groupId);
+                }}
+              >
+                <Trash2 size={14} className="me-50" />
+                حذف گروه
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </div>
       );
     },
   },

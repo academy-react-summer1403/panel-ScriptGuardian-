@@ -1,9 +1,12 @@
 import ReserveList from "../components/ReserveList/list/ReserveList";
 
+
 const CourseReservedPage = () => {
-  return <>
-  <ReserveList/>
-  </>;
+  return (
+    <>
+      <ReserveList />
+    </>
+  );
 };
 
 export default CourseReservedPage;
