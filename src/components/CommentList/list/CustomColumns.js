@@ -422,7 +422,7 @@ export const CustomColumnsForListCourse = (toggleSidebar2) => [
 export const CustomColumnsForListComments = (toggleSidebar2) => [
   {
     name: "عنوان نظر",
-    minWidth: "250px",
+    minWidth: "150px",
     sortable: (row) => row.commentTitle,
     cell: (row) => {
       return (
@@ -503,7 +503,7 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
   {
     name: "تعداد پاسخ ",
     sortable: true,
-    minWidth: "72px",
+    minWidth: "32px",
     sortField: "userRoles",
     selector: (row) => row.accept,
     cell: (row) => {
@@ -612,7 +612,7 @@ export const CustomColumnsForListComments = (toggleSidebar2) => [
         setShow(!show);
       };
       return (
-        <div className="column-action">
+        <div className="column-action ">
           <UncontrolledDropdown>
             <DropdownToggle tag="div" className="btn btn-sm">
               <MoreVertical size={14} className="cursor-pointer" />

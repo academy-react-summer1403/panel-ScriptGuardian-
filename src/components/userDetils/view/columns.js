@@ -156,7 +156,7 @@ export const columns = [
       return (
         <>
           {row.accept ? (
-            <p className="text-success">پذیرفته شده</p>
+            <p className="text-success mt-1">پذیرفته شده</p>
           ) : (
             <Button
               onClick={() => {
