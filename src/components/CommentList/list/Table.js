@@ -295,7 +295,7 @@ const UsersList = () => {
 
   return (
     <Fragment>
-      <Card className="overflow-">
+      <Card className="">
         <div className="react-dataTable">
           <DataTable
             noHeader
@@ -307,7 +307,7 @@ const UsersList = () => {
             columns={CustomColumnsForListComments(toggleSidebar2)}
             onSort={handleSort}
             sortIcon={<ChevronDown />}
-            className="react-dataTable overflow-visible"
+            className="react-dataTable overflow-"
             paginationComponent={CustomPagination}
             data={listUser}
             subHeaderComponent={
